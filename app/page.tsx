@@ -7,6 +7,7 @@ import { SignupForm } from "@/components/SignupForm";
 import { Logo } from "@/components/Logo";
 import { Icon } from "@/components/Icons";
 import { Flag } from "@/components/Flags";
+import { ProductImage } from "@/components/ProductImage";
 import { COUNTRIES } from "@/lib/products";
 
 export default function Page() {
@@ -151,7 +152,6 @@ function PopularByCountry() {
   const { t } = useLocale();
   const [active, setActive] = useState(0);
   const country = COUNTRIES[active];
-  const tints = ["bg-sun-100", "bg-mint-100", "bg-coral-50", "bg-grape-100", "bg-sun-100"];
 
   return (
     <section id="popular" className="scroll-mt-20 border-t border-ink/10 bg-white/60 py-16">
@@ -183,13 +183,13 @@ function PopularByCountry() {
 
         {/* Product cards */}
         <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-          {country.products.map((p, idx) => (
+          {country.products.map((p) => (
             <div
               key={p.name}
               className="flex flex-col items-center gap-3 rounded-2xl border-2 border-ink/10 bg-white p-5 text-center transition hover:-translate-y-1 hover:shadow-soft"
             >
-              <span className={`grid h-20 w-20 place-items-center rounded-2xl ${tints[idx % tints.length]}`}>
-                <Icon name={p.pack} className="h-12 w-12" />
+              <span className="grid h-20 w-20 place-items-center overflow-hidden rounded-2xl border border-ink/10 bg-cream">
+                <ProductImage product={p} />
               </span>
               <span className="text-sm font-bold leading-tight text-ink">{p.name}</span>
               <span className="rounded-full bg-cream px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-ink-soft">

@@ -53,11 +53,11 @@ export const translations: Record<Locale, Dict> = {
   en: {
     nav: { product: "Products", cta: "Get early access" },
     hero: {
-      badge: "🌎 Online store · Opening soon in Austria",
-      title1: "Latin America,",
-      title2: "at your door.",
+      badge: "🌎 Latin American products in Europe",
+      title1: "What does your",
+      title2: "country miss most?",
       subtitle:
-        "We're an online store about to open in Austria, bringing your favorite packaged Latin American brands — shelf-stable and shippable — straight to your door.",
+        "We're a Latin American grocery store in Europe. Tell us the packaged brand or treat you miss most from home — and help us bring it to your door.",
       chips: ["Authentic brands", "Non-perishable", "To your door"],
       emailPlaceholder: "your@email.com",
       cta: "Notify me",
@@ -76,7 +76,7 @@ export const translations: Record<Locale, Dict> = {
       ],
     },
     popular: {
-      title: "Most loved by country",
+      title: "What each country misses most",
       subtitle: "A taste of what's coming — the packaged classics each community misses most.",
       hint: "Pick a country",
       countries: { pe: "Peru", co: "Colombia", br: "Brazil", ar: "Argentina", mx: "Mexico", ve: "Venezuela" },
@@ -97,16 +97,16 @@ export const translations: Record<Locale, Dict> = {
       errorGeneric: "Something went wrong. Try again.",
       sending: "Joining…",
     },
-    footer: { tagline: "Latin America, at your door — in Austria.", rights: "All rights reserved.", madeWith: "Made with cariño" },
+    footer: { tagline: "Latin flavors from home, across Europe.", rights: "All rights reserved.", madeWith: "Made with cariño" },
   },
   es: {
     nav: { product: "Productos", cta: "Acceso anticipado" },
     hero: {
-      badge: "🌎 Tienda online · Próxima apertura en Austria",
-      title1: "Latinoamérica,",
-      title2: "en tu puerta.",
+      badge: "🌎 Productos latinos en Europa",
+      title1: "¿Qué es lo que más",
+      title2: "extraña tu país?",
       subtitle:
-        "Somos una tienda online a punto de abrir en Austria. Traemos tus marcas latinas favoritas —productos envasados y no perecibles— a la puerta de tu casa.",
+        "Somos una tienda de productos latinos en Europa. Cuéntanos qué marca o antojo envasado extrañas más de casa — y ayúdanos a traerlo a tu puerta.",
       chips: ["Marcas auténticas", "No perecibles", "A tu puerta"],
       emailPlaceholder: "tu@correo.com",
       cta: "Avísenme",
@@ -125,7 +125,7 @@ export const translations: Record<Locale, Dict> = {
       ],
     },
     popular: {
-      title: "Lo más querido por país",
+      title: "Lo que más extraña cada país",
       subtitle: "Un adelanto de lo que viene — los clásicos envasados que cada comunidad más extraña.",
       hint: "Elige un país",
       countries: { pe: "Perú", co: "Colombia", br: "Brasil", ar: "Argentina", mx: "México", ve: "Venezuela" },
@@ -146,16 +146,16 @@ export const translations: Record<Locale, Dict> = {
       errorGeneric: "Algo salió mal. Inténtalo de nuevo.",
       sending: "Uniéndote…",
     },
-    footer: { tagline: "Latinoamérica, en tu puerta — en Austria.", rights: "Todos los derechos reservados.", madeWith: "Hecho con cariño" },
+    footer: { tagline: "El sabor de casa, en toda Europa.", rights: "Todos los derechos reservados.", madeWith: "Hecho con cariño" },
   },
   de: {
     nav: { product: "Produkte", cta: "Früher Zugang" },
     hero: {
-      badge: "🌎 Online-Shop · Bald in Österreich",
-      title1: "Lateinamerika,",
-      title2: "vor deine Tür.",
+      badge: "🌎 Lateinamerikanische Produkte in Europa",
+      title1: "Was vermisst dein",
+      title2: "Land am meisten?",
       subtitle:
-        "Wir sind ein Online-Shop, der bald in Österreich öffnet, und bringen deine liebsten lateinamerikanischen Markenprodukte — haltbar und versandfertig — direkt vor deine Tür.",
+        "Wir sind ein Shop für lateinamerikanische Produkte in Europa. Sag uns, welche haltbare Marke oder Leckerei du am meisten von zu Hause vermisst — und hilf uns, sie vor deine Tür zu bringen.",
       chips: ["Echte Marken", "Haltbar", "Vor deine Tür"],
       emailPlaceholder: "deine@email.com",
       cta: "Benachrichtigen",
@@ -174,7 +174,7 @@ export const translations: Record<Locale, Dict> = {
       ],
     },
     popular: {
-      title: "Am meisten geliebt – nach Land",
+      title: "Was jedes Land am meisten vermisst",
       subtitle: "Ein Vorgeschmack — die haltbaren Klassiker, die jede Community am meisten vermisst.",
       hint: "Land wählen",
       countries: { pe: "Peru", co: "Kolumbien", br: "Brasilien", ar: "Argentinien", mx: "Mexiko", ve: "Venezuela" },
@@ -195,6 +195,6 @@ export const translations: Record<Locale, Dict> = {
       errorGeneric: "Etwas ist schiefgelaufen. Versuch es erneut.",
       sending: "Wird gesendet…",
     },
-    footer: { tagline: "Lateinamerika, vor deiner Tür — in Österreich.", rights: "Alle Rechte vorbehalten.", madeWith: "Mit cariño gemacht" },
+    footer: { tagline: "Heimatgeschmack aus Lateinamerika, in ganz Europa.", rights: "Alle Rechte vorbehalten.", madeWith: "Mit cariño gemacht" },
   },
 };
