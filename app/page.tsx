@@ -6,6 +6,7 @@ import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { SignupForm } from "@/components/SignupForm";
 import { Logo } from "@/components/Logo";
 import { Icon } from "@/components/Icons";
+import { Flag } from "@/components/Flags";
 import { COUNTRIES } from "@/lib/products";
 
 export default function Page() {
@@ -14,7 +15,6 @@ export default function Page() {
       <Nav />
       <Hero />
       <Marquee />
-      <Categories />
       <PopularByCountry />
       <Footer />
     </main>
@@ -32,7 +32,7 @@ function Nav() {
         </a>
         <div className="flex items-center gap-3">
           <a
-            href="#products"
+            href="#popular"
             className="hidden text-sm font-semibold text-ink-soft transition hover:text-ink sm:inline-block"
           >
             {t.nav.product}
@@ -128,43 +128,21 @@ function HeroArt() {
 /* ───────────────────────── Marquee ───────────────────────── */
 function Marquee() {
   const { t } = useLocale();
-  const items = [...t.marquee, ...t.marquee];
+  const items = [...COUNTRIES, ...COUNTRIES];
   return (
     <div className="border-y-2 border-ink bg-ink py-4">
-      <div className="flex w-max animate-marquee gap-10 whitespace-nowrap px-5">
-        {items.map((word, i) => (
+      <div className="flex w-max animate-marquee items-center gap-10 whitespace-nowrap px-5">
+        {items.map((c, i) => (
           <span key={i} className="flex items-center gap-10 text-lg font-bold uppercase tracking-wide text-sun">
-            {word}
+            <span className="flex items-center gap-2.5">
+              <Flag code={c.key} className="h-5 w-[30px] rounded shadow-sm" />
+              {t.popular.countries[c.key]}
+            </span>
             <span className="text-mint" aria-hidden>✦</span>
           </span>
         ))}
       </div>
     </div>
-  );
-}
-
-/* ───────────────────────── Categories ───────────────────────── */
-function Categories() {
-  const { t } = useLocale();
-  return (
-    <section id="products" className="mx-auto max-w-6xl px-5 py-16">
-      <h2 className="text-center font-display text-3xl font-bold text-ink sm:text-4xl">
-        {t.categories.title}
-      </h2>
-      <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-        {t.categories.items.map((item, i) => (
-          <div
-            key={i}
-            className="group flex flex-col items-center gap-3 rounded-2xl border-2 border-ink/10 bg-white p-5 text-center transition hover:-translate-y-1 hover:border-coral/40 hover:shadow-soft"
-          >
-            <span className="grid h-16 w-16 place-items-center transition group-hover:scale-110">
-              <Icon name={item.icon} className="h-12 w-12" />
-            </span>
-            <span className="text-sm font-bold text-ink">{item.label}</span>
-          </div>
-        ))}
-      </div>
-    </section>
   );
 }
 
@@ -176,7 +154,7 @@ function PopularByCountry() {
   const tints = ["bg-sun-100", "bg-mint-100", "bg-coral-50", "bg-grape-100", "bg-sun-100"];
 
   return (
-    <section className="border-t border-ink/10 bg-white/60 py-16">
+    <section id="popular" className="scroll-mt-20 border-t border-ink/10 bg-white/60 py-16">
       <div className="mx-auto max-w-6xl px-5">
         <h2 className="text-center font-display text-3xl font-bold text-ink sm:text-4xl">
           {t.popular.title}
@@ -197,7 +175,7 @@ function PopularByCountry() {
                   : "border-2 border-ink/10 bg-white text-ink hover:border-coral/40"
               }`}
             >
-              <span className="text-base" aria-hidden>{c.flag}</span>
+              <Flag code={c.key} className="h-4 w-6 rounded-[3px]" />
               {t.popular.countries[c.key]}
             </button>
           ))}
