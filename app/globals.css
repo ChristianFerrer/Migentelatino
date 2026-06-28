@@ -30,6 +30,6 @@ body {
 
 /* Subtle confetti dots background */
 .dotted {
-  background-image: radial-gradient(rgba(124, 92, 255, 0.12) 1.5px, transparent 1.5px);
+  background-image: radial-gradient(rgba(20, 166, 160, 0.14) 1.5px, transparent 1.5px);
   background-size: 22px 22px;
 }

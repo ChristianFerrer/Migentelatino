@@ -9,37 +9,42 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Mi Gente Latino — vibrant Latino palette
+        // Mi Gente Latino — "Tropical Fresco" palette.
+        // NOTE: token names are kept stable across themes so component
+        // classes don't change. Current mapping:
+        //   coral → Mango (CTA / warm)   sun → Lima (accent)
+        //   mint  → Turquesa (primary)   grape → Ocean (deep teal)
+        //   ink   → Navy (text)          cream → off-white background
         coral: {
-          DEFAULT: "#FF6B5C",
-          50: "#FFF1EF",
-          100: "#FFE0DB",
-          400: "#FF8779",
-          500: "#FF6B5C",
-          600: "#F04E3D",
+          DEFAULT: "#FF7A33", // Mango
+          50: "#FFF1E8",
+          100: "#FFE0CC",
+          400: "#FF9456",
+          500: "#FF7A33",
+          600: "#ED6118",
         },
         sun: {
-          DEFAULT: "#FFC233",
-          100: "#FFF3D6",
-          400: "#FFCF5C",
-          500: "#FFC233",
+          DEFAULT: "#8DD13C", // Lima
+          100: "#EAF7D6",
+          400: "#A0DB5C",
+          500: "#8DD13C",
         },
         mint: {
-          DEFAULT: "#2EC4A6",
-          100: "#D7F5EE",
-          500: "#2EC4A6",
-          600: "#1FA98D",
+          DEFAULT: "#14A6A0", // Turquesa
+          100: "#D2F1EF",
+          500: "#14A6A0",
+          600: "#0E8882",
         },
         grape: {
-          DEFAULT: "#7C5CFF",
-          100: "#E9E2FF",
-          500: "#7C5CFF",
+          DEFAULT: "#0E7C8B", // Ocean (deep teal)
+          100: "#D0EBEF",
+          500: "#0E7C8B",
         },
         ink: {
-          DEFAULT: "#1F1B2E",
-          soft: "#4A4458",
+          DEFAULT: "#103A4A", // Navy
+          soft: "#3E5A66",
         },
-        cream: "#FFFBF5",
+        cream: "#F6FBFA", // Blanco hueso
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
@@ -50,7 +55,7 @@ const config: Config = {
       },
       boxShadow: {
         soft: "0 10px 40px -12px rgba(31, 27, 46, 0.18)",
-        glow: "0 14px 50px -10px rgba(255, 107, 92, 0.45)",
+        glow: "0 14px 50px -10px rgba(255, 122, 51, 0.45)",
       },
       keyframes: {
         "float-slow": {
