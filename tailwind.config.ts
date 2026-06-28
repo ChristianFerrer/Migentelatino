@@ -9,42 +9,42 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Mi Gente Latino — "Tropical Fresco" palette.
+        // Mi Gente Latino — "Fiesta Pop" palette (fun, vibrant, neo-brutalist).
         // NOTE: token names are kept stable across themes so component
         // classes don't change. Current mapping:
-        //   coral → Mango (CTA / warm)   sun → Lima (accent)
-        //   mint  → Turquesa (primary)   grape → Ocean (deep teal)
-        //   ink   → Navy (text)          cream → off-white background
+        //   coral → Orange (CTA / warm)     sun → Fluo Yellow (accent)
+        //   mint  → Electric Cyan           grape → Electric Violet
+        //   ink   → Near-black (text)       cream → Fuchsia (background)
         coral: {
-          DEFAULT: "#FF7A33", // Mango
-          50: "#FFF1E8",
-          100: "#FFE0CC",
-          400: "#FF9456",
-          500: "#FF7A33",
-          600: "#ED6118",
+          DEFAULT: "#FF6A00", // Orange
+          50: "#FFE6D2",
+          100: "#FFD3AD",
+          400: "#FF8A33",
+          500: "#FF6A00",
+          600: "#E85F00",
         },
         sun: {
-          DEFAULT: "#8DD13C", // Lima
-          100: "#EAF7D6",
-          400: "#A0DB5C",
-          500: "#8DD13C",
+          DEFAULT: "#EAFF00", // Fluo yellow
+          100: "#F4FF8A",
+          400: "#EFFF33",
+          500: "#EAFF00",
         },
         mint: {
-          DEFAULT: "#14A6A0", // Turquesa
-          100: "#D2F1EF",
-          500: "#14A6A0",
-          600: "#0E8882",
+          DEFAULT: "#14E0C8", // Electric cyan
+          100: "#B6F7EF",
+          500: "#14E0C8",
+          600: "#0FBFAA",
         },
         grape: {
-          DEFAULT: "#0E7C8B", // Ocean (deep teal)
-          100: "#D0EBEF",
-          500: "#0E7C8B",
+          DEFAULT: "#8B3DFF", // Electric violet
+          100: "#E2D2FF",
+          500: "#8B3DFF",
         },
         ink: {
-          DEFAULT: "#103A4A", // Navy
-          soft: "#3E5A66",
+          DEFAULT: "#141414", // Near-black
+          soft: "#3D3D3D",
         },
-        cream: "#F6FBFA", // Blanco hueso
+        cream: "#F4108C", // Fuchsia background
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
@@ -54,8 +54,11 @@ const config: Config = {
         "4xl": "2rem",
       },
       boxShadow: {
-        soft: "0 10px 40px -12px rgba(31, 27, 46, 0.18)",
-        glow: "0 14px 50px -10px rgba(255, 122, 51, 0.45)",
+        soft: "0 10px 40px -12px rgba(20, 20, 20, 0.25)",
+        glow: "0 14px 50px -10px rgba(255, 106, 0, 0.45)",
+        // Neo-brutalist hard offset shadows
+        brutal: "6px 6px 0 0 #141414",
+        brutalsm: "4px 4px 0 0 #141414",
       },
       keyframes: {
         "float-slow": {
