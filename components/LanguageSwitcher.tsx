@@ -22,7 +22,7 @@ export function LanguageSwitcher() {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-sm font-semibold text-white backdrop-blur transition hover:border-grape/50 hover:bg-white/15"
+        className="flex items-center gap-1.5 rounded-full border-2 border-ink/10 bg-white px-3 py-1.5 text-sm font-semibold text-ink transition hover:border-coral/40"
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label="Change language"
@@ -36,7 +36,7 @@ export function LanguageSwitcher() {
       {open && (
         <ul
           role="listbox"
-          className="absolute right-0 z-50 mt-2 w-40 overflow-hidden rounded-2xl border border-white/15 bg-surface p-1 shadow-soft"
+          className="absolute right-0 z-50 mt-2 w-40 overflow-hidden rounded-2xl border-2 border-ink/10 bg-white p-1 shadow-soft"
         >
           {LOCALES.map((l: Locale) => (
             <li key={l}>
@@ -49,7 +49,7 @@ export function LanguageSwitcher() {
                   setOpen(false);
                 }}
                 className={`flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition ${
-                  l === locale ? "bg-grape/20 text-white" : "text-lavender hover:bg-white/10 hover:text-white"
+                  l === locale ? "bg-coral-50 text-coral-600" : "text-ink hover:bg-cream"
                 }`}
               >
                 <span aria-hidden>{LOCALE_LABELS[l].flag}</span>

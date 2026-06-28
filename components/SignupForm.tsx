@@ -54,10 +54,10 @@ export function SignupForm({
   if (status === "success") {
     return (
       <div
-        className="flex items-center gap-3 rounded-2xl border border-mint/40 bg-mint/15 px-5 py-4 text-base font-bold text-mint shadow-glow"
+        className="flex items-center gap-3 rounded-2xl border border-mint/30 bg-mint-100 px-5 py-4 text-base font-bold text-mint-600 shadow-soft"
         role="status"
       >
-        <span className="cta-gradient grid h-7 w-7 shrink-0 place-items-center rounded-full font-extrabold text-ink">✓</span>
+        <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-mint font-extrabold text-white">✓</span>
         {message}
       </div>
     );
@@ -77,18 +77,18 @@ export function SignupForm({
           }}
           placeholder={placeholder ?? t.signup.emailPlaceholder}
           aria-label="Email"
-          className="w-full flex-1 rounded-full border border-white/20 bg-white/10 px-5 py-3.5 text-base font-medium text-white outline-none backdrop-blur transition placeholder:text-lavender/50 focus:border-mint/60 focus:bg-white/15"
+          className="w-full flex-1 rounded-full border-2 border-ink/10 bg-white px-5 py-3.5 text-base font-medium text-ink outline-none transition placeholder:text-ink-soft/50 focus:border-coral/50"
         />
         <button
           type="submit"
           disabled={status === "loading"}
-          className="cta-gradient shrink-0 rounded-full px-7 py-3.5 text-base font-extrabold text-ink shadow-glow transition hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0 disabled:opacity-70"
+          className="cta-gradient shrink-0 rounded-full px-7 py-3.5 text-base font-extrabold text-white shadow-glow transition hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0 disabled:opacity-70"
         >
           {status === "loading" ? t.signup.sending : cta ?? t.signup.cta}
         </button>
       </div>
       {status === "error" && (
-        <p className="mt-2 px-2 text-sm font-bold text-coral-400">{message}</p>
+        <p className="mt-2 px-2 text-sm font-bold text-coral-600">{message}</p>
       )}
     </form>
   );

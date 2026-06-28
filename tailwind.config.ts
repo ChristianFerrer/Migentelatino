@@ -9,46 +9,46 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Mi Gente Latino — "Noche Latina" palette (dark, vibrant, neon).
-        // Inspired by the reference brand: deep purple base, violet accents,
-        // signature lime→turquoise CTA, magenta→violet chips, cyan details.
-        //   coral → Magenta      sun → Lime
-        //   mint  → Turquoise    grape → Violet
-        //   ink   → Deep purples (bars/scrims)   cream → Purple background
+        // Mi Gente Latino — "Mercado" palette (light, warm, appetizing).
+        // Fresh-market feel: warm cream base, espresso text, a salsa CTA
+        // (amber→orange→coral) and fresh green/teal for produce vibes.
+        //   coral → Chili/Tomato   sun → Mango/Amber
+        //   mint  → Fresh Green    grape → Teal
+        //   ink   → Espresso text   cream → Warm cream background
         coral: {
-          DEFAULT: "#F0379E", // Magenta
-          50: "#FBD9EC",
-          100: "#FBC9E5",
-          400: "#F45CB0",
-          500: "#F0379E",
-          600: "#D81E86",
+          DEFAULT: "#F0473D", // Chili / tomato
+          50: "#FDE7E4",
+          100: "#FBD3CE",
+          400: "#F46A60",
+          500: "#F0473D",
+          600: "#DA3328",
         },
         sun: {
-          DEFAULT: "#CFF598", // Lime
-          100: "#E8FBC9",
-          400: "#DCF7B0",
-          500: "#CFF598",
+          DEFAULT: "#F7B733", // Mango / amber
+          100: "#FDEFCB",
+          400: "#F9C75C",
+          500: "#F7B733",
+          600: "#E69E12",
         },
         mint: {
-          DEFAULT: "#4FE3C9", // Turquoise
-          100: "#C9F7EE",
-          500: "#4FE3C9",
-          600: "#2DE0D0", // Cyan
+          DEFAULT: "#15A56A", // Fresh green
+          100: "#D2F1E2",
+          500: "#15A56A",
+          600: "#0E8A57",
         },
         grape: {
-          DEFAULT: "#B57BFF", // Violet
-          100: "#E2D2FF",
-          400: "#C79BFF",
-          500: "#A855F7",
-          600: "#8B3DFF",
+          DEFAULT: "#0FB0A4", // Teal
+          100: "#CFF1EE",
+          500: "#0FB0A4",
+          600: "#0A8F86",
         },
         ink: {
-          DEFAULT: "#160727", // Deep purple (bars)
-          soft: "#0F0420", // Darkest (scrims/footer)
+          DEFAULT: "#2B1A12", // Espresso (primary text)
+          soft: "#7C6A5E", // Warm gray (secondary text)
         },
-        surface: "#38146B", // Card surface
-        lavender: "#D9C7FF", // Secondary text
-        cream: "#2A0A48", // Page background (deep purple)
+        surface: "#FFFFFF", // Card surface
+        lavender: "#7C6A5E", // Secondary text fallback
+        cream: "#FFF6EA", // Page background (warm cream)
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
@@ -58,10 +58,10 @@ const config: Config = {
         "4xl": "2rem",
       },
       boxShadow: {
-        soft: "0 14px 50px -16px rgba(0, 0, 0, 0.6)",
-        // Neon glows for the dark theme
-        glow: "0 0 36px -6px rgba(79, 227, 201, 0.65)", // turquoise (CTA)
-        "glow-violet": "0 0 36px -6px rgba(181, 123, 255, 0.6)",
+        soft: "0 16px 44px -18px rgba(120, 60, 20, 0.30)",
+        // Warm CTA glow + fresh cool accent glow
+        glow: "0 14px 36px -10px rgba(240, 71, 61, 0.45)",
+        "glow-cool": "0 14px 34px -12px rgba(21, 165, 106, 0.40)",
       },
       keyframes: {
         "float-slow": {
