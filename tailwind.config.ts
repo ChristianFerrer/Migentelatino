@@ -9,42 +9,46 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Mi Gente Latino — "Fiesta Pop" palette (fun, vibrant, neo-brutalist).
-        // NOTE: token names are kept stable across themes so component
-        // classes don't change. Current mapping:
-        //   coral → Orange (CTA / warm)     sun → Fluo Yellow (accent)
-        //   mint  → Electric Cyan           grape → Electric Violet
-        //   ink   → Near-black (text)       cream → Fuchsia (background)
+        // Mi Gente Latino — "Noche Latina" palette (dark, vibrant, neon).
+        // Inspired by the reference brand: deep purple base, violet accents,
+        // signature lime→turquoise CTA, magenta→violet chips, cyan details.
+        //   coral → Magenta      sun → Lime
+        //   mint  → Turquoise    grape → Violet
+        //   ink   → Deep purples (bars/scrims)   cream → Purple background
         coral: {
-          DEFAULT: "#FF6A00", // Orange
-          50: "#FFE6D2",
-          100: "#FFD3AD",
-          400: "#FF8A33",
-          500: "#FF6A00",
-          600: "#E85F00",
+          DEFAULT: "#F0379E", // Magenta
+          50: "#FBD9EC",
+          100: "#FBC9E5",
+          400: "#F45CB0",
+          500: "#F0379E",
+          600: "#D81E86",
         },
         sun: {
-          DEFAULT: "#EAFF00", // Fluo yellow
-          100: "#F4FF8A",
-          400: "#EFFF33",
-          500: "#EAFF00",
+          DEFAULT: "#CFF598", // Lime
+          100: "#E8FBC9",
+          400: "#DCF7B0",
+          500: "#CFF598",
         },
         mint: {
-          DEFAULT: "#14E0C8", // Electric cyan
-          100: "#B6F7EF",
-          500: "#14E0C8",
-          600: "#0FBFAA",
+          DEFAULT: "#4FE3C9", // Turquoise
+          100: "#C9F7EE",
+          500: "#4FE3C9",
+          600: "#2DE0D0", // Cyan
         },
         grape: {
-          DEFAULT: "#8B3DFF", // Electric violet
+          DEFAULT: "#B57BFF", // Violet
           100: "#E2D2FF",
-          500: "#8B3DFF",
+          400: "#C79BFF",
+          500: "#A855F7",
+          600: "#8B3DFF",
         },
         ink: {
-          DEFAULT: "#141414", // Near-black
-          soft: "#3D3D3D",
+          DEFAULT: "#160727", // Deep purple (bars)
+          soft: "#0F0420", // Darkest (scrims/footer)
         },
-        cream: "#F4108C", // Fuchsia background
+        surface: "#38146B", // Card surface
+        lavender: "#D9C7FF", // Secondary text
+        cream: "#2A0A48", // Page background (deep purple)
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
@@ -54,11 +58,10 @@ const config: Config = {
         "4xl": "2rem",
       },
       boxShadow: {
-        soft: "0 10px 40px -12px rgba(20, 20, 20, 0.25)",
-        glow: "0 14px 50px -10px rgba(255, 106, 0, 0.45)",
-        // Neo-brutalist hard offset shadows
-        brutal: "6px 6px 0 0 #141414",
-        brutalsm: "4px 4px 0 0 #141414",
+        soft: "0 14px 50px -16px rgba(0, 0, 0, 0.6)",
+        // Neon glows for the dark theme
+        glow: "0 0 36px -6px rgba(79, 227, 201, 0.65)", // turquoise (CTA)
+        "glow-violet": "0 0 36px -6px rgba(181, 123, 255, 0.6)",
       },
       keyframes: {
         "float-slow": {
