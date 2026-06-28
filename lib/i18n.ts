@@ -32,10 +32,17 @@ type Dict = {
     packs: Record<PackType, string>;
   };
   signup: {
+    namePlaceholder: string;
     emailPlaceholder: string;
+    phonePlaceholder: string;
+    countryPlaceholder: string;
+    countryOther: string;
+    missedLabel: string;
+    missedPlaceholder: string;
     cta: string;
     success: string;
     errorEmail: string;
+    errorRequired: string;
     errorGeneric: string;
     sending: string;
   };
@@ -76,10 +83,17 @@ export const translations: Record<Locale, Dict> = {
       packs: { bottle: "Drink", can: "Canned", jar: "Jar", box: "Boxed", pouch: "Packet", coffee: "Coffee", cookies: "Cookies" },
     },
     signup: {
+      namePlaceholder: "Your name",
       emailPlaceholder: "your@email.com",
+      phonePlaceholder: "Phone number",
+      countryPlaceholder: "Country of origin",
+      countryOther: "Other",
+      missedLabel: "What's the product you miss the most?",
+      missedPlaceholder: "e.g. Inca Kola, Harina P.A.N., dulce de leche…",
       cta: "Notify me",
       success: "You're in! 🎉 We'll email you at launch.",
       errorEmail: "Please enter a valid email.",
+      errorRequired: "Please complete the required fields.",
       errorGeneric: "Something went wrong. Try again.",
       sending: "Joining…",
     },
@@ -118,10 +132,17 @@ export const translations: Record<Locale, Dict> = {
       packs: { bottle: "Bebida", can: "Lata", jar: "Tarro", box: "Caja", pouch: "Paquete", coffee: "Café", cookies: "Galletas" },
     },
     signup: {
+      namePlaceholder: "Tu nombre",
       emailPlaceholder: "tu@correo.com",
+      phonePlaceholder: "Número de teléfono",
+      countryPlaceholder: "País de origen",
+      countryOther: "Otro",
+      missedLabel: "¿Cuál es el producto que más extrañas?",
+      missedPlaceholder: "ej. Inca Kola, Harina P.A.N., dulce de leche…",
       cta: "Avísenme",
       success: "¡Estás dentro! 🎉 Te escribimos al lanzar.",
       errorEmail: "Ingresa un correo válido.",
+      errorRequired: "Por favor completa los campos obligatorios.",
       errorGeneric: "Algo salió mal. Inténtalo de nuevo.",
       sending: "Uniéndote…",
     },
@@ -160,10 +181,17 @@ export const translations: Record<Locale, Dict> = {
       packs: { bottle: "Getränk", can: "Dose", jar: "Glas", box: "Schachtel", pouch: "Packung", coffee: "Kaffee", cookies: "Kekse" },
     },
     signup: {
+      namePlaceholder: "Dein Name",
       emailPlaceholder: "deine@email.com",
+      phonePlaceholder: "Telefonnummer",
+      countryPlaceholder: "Herkunftsland",
+      countryOther: "Andere",
+      missedLabel: "Welches Produkt vermisst du am meisten?",
+      missedPlaceholder: "z. B. Inca Kola, Harina P.A.N., Dulce de Leche…",
       cta: "Benachrichtigen",
       success: "Du bist dabei! 🎉 Wir melden uns zum Start.",
       errorEmail: "Bitte gib eine gültige E-Mail ein.",
+      errorRequired: "Bitte fülle die Pflichtfelder aus.",
       errorGeneric: "Etwas ist schiefgelaufen. Versuch es erneut.",
       sending: "Wird gesendet…",
     },

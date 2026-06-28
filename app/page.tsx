@@ -84,8 +84,8 @@ function Hero() {
             ))}
           </div>
 
-          <div className="mt-7 max-w-md" id="join">
-            <SignupForm source="hero" placeholder={t.hero.emailPlaceholder} cta={t.hero.cta} />
+          <div className="mt-7 max-w-xl" id="join">
+            <SignupForm source="hero" cta={t.hero.cta} />
             <p className="mt-2.5 px-2 text-sm font-medium text-ink-soft/80">🔒 {t.hero.privacy}</p>
           </div>
         </div>
