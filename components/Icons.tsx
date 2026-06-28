@@ -17,7 +17,13 @@ type IconKey =
   | "globe"
   | "mail"
   | "cart"
-  | "box";
+  | "box"
+  | "bottle"
+  | "can"
+  | "jar"
+  | "pouch"
+  | "coffee"
+  | "cookies";
 
 const base = { viewBox: "0 0 48 48", fill: "none", xmlns: "http://www.w3.org/2000/svg" };
 
@@ -104,6 +110,53 @@ const icons: Record<IconKey, ReactElement> = {
     <>
       <path d="M24 8l14 7v18l-14 7-14-7V15l14-7Z" fill="#F7B733" />
       <path d="M10 15l14 7 14-7M24 22v20" stroke={K} strokeWidth="2.5" strokeLinejoin="round" fill="none" />
+    </>
+  ),
+  // ── Packaging illustrations (homogeneous, for product showcase) ──
+  bottle: (
+    <>
+      <rect x="20" y="6" width="8" height="6" rx="1.5" fill={K} />
+      <path d="M19 12h10c.5 3 3 4 3 8v18a4 4 0 0 1-4 4H20a4 4 0 0 1-4-4V20c0-4 2.5-5 3-8Z" fill="#F0473D" />
+      <rect x="16.5" y="24" width="15" height="9" rx="1.5" fill="#FFF6EA" />
+    </>
+  ),
+  can: (
+    <>
+      <rect x="15" y="10" width="18" height="28" rx="3" fill="#15A56A" />
+      <ellipse cx="24" cy="10" rx="9" ry="2.6" fill={K} opacity="0.85" />
+      <rect x="15" y="20" width="18" height="8" fill="#FFF6EA" opacity="0.9" />
+    </>
+  ),
+  jar: (
+    <>
+      <rect x="14" y="9" width="20" height="7" rx="2" fill={K} />
+      <rect x="15" y="16" width="18" height="24" rx="4" fill="#F7B733" />
+      <rect x="18" y="22" width="12" height="11" rx="1.5" fill="#FFF6EA" />
+    </>
+  ),
+  pouch: (
+    <>
+      <path d="M14 12h20l-1.5 26a3 3 0 0 1-3 2.8H18.5a3 3 0 0 1-3-2.8L14 12Z" fill="#0FB0A4" />
+      <rect x="13" y="9" width="22" height="4" rx="1.5" fill={K} />
+      <rect x="18" y="22" width="12" height="9" rx="1.5" fill="#FFF6EA" opacity="0.95" />
+    </>
+  ),
+  coffee: (
+    <>
+      <path d="M15 14h18l-1 24a3 3 0 0 1-3 2.8H19a3 3 0 0 1-3-2.8L15 14Z" fill="#F0473D" />
+      <path d="M14 10l4 4h12l4-4-4-2H18l-4 2Z" fill={K} />
+      <circle cx="24" cy="28" r="4.5" fill="#F7B733" />
+      <path d="M24 24.5v7" stroke={K} strokeWidth="1.6" />
+    </>
+  ),
+  cookies: (
+    <>
+      <rect x="11" y="16" width="26" height="16" rx="4" fill="#15A56A" />
+      <circle cx="20" cy="24" r="5" fill="#F7B733" />
+      <circle cx="18.5" cy="22.5" r="0.9" fill={K} />
+      <circle cx="21.5" cy="24.5" r="0.9" fill={K} />
+      <circle cx="19.5" cy="26" r="0.9" fill={K} />
+      <path d="M28 20h6M28 24h6M28 28h6" stroke="#FFF6EA" strokeWidth="1.8" strokeLinecap="round" />
     </>
   ),
 };

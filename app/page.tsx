@@ -1,10 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { useLocale } from "@/components/LocaleProvider";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { SignupForm } from "@/components/SignupForm";
 import { Logo } from "@/components/Logo";
 import { Icon } from "@/components/Icons";
+import { COUNTRIES } from "@/lib/products";
 
 export default function Page() {
   return (
@@ -13,6 +15,7 @@ export default function Page() {
       <Hero />
       <Marquee />
       <Categories />
+      <PopularByCountry />
       <Footer />
     </main>
   );
@@ -98,11 +101,11 @@ function Hero() {
 function HeroArt() {
   const tiles = [
     { icon: "grocery", c: "bg-mint", d: "0s" },
-    { icon: "drink", c: "bg-grape", d: "0.8s" },
-    { icon: "snack", c: "bg-coral", d: "1.6s" },
-    { icon: "spice", c: "bg-sun", d: "0.4s" },
-    { icon: "fresh", c: "bg-grape", d: "1.2s" },
-    { icon: "frozen", c: "bg-mint", d: "2s" },
+    { icon: "bottle", c: "bg-grape", d: "0.8s" },
+    { icon: "can", c: "bg-coral", d: "1.6s" },
+    { icon: "jar", c: "bg-sun", d: "0.4s" },
+    { icon: "coffee", c: "bg-grape", d: "1.2s" },
+    { icon: "cookies", c: "bg-mint", d: "2s" },
   ];
   return (
     <div className="mx-auto aspect-square w-full max-w-md rounded-[2rem] border-2 border-ink/10 bg-white p-4 shadow-soft">
@@ -160,6 +163,63 @@ function Categories() {
             <span className="text-sm font-bold text-ink">{item.label}</span>
           </div>
         ))}
+      </div>
+    </section>
+  );
+}
+
+/* ──────────────────── Popular products by country ──────────────────── */
+function PopularByCountry() {
+  const { t } = useLocale();
+  const [active, setActive] = useState(0);
+  const country = COUNTRIES[active];
+  const tints = ["bg-sun-100", "bg-mint-100", "bg-coral-50", "bg-grape-100", "bg-sun-100"];
+
+  return (
+    <section className="border-t border-ink/10 bg-white/60 py-16">
+      <div className="mx-auto max-w-6xl px-5">
+        <h2 className="text-center font-display text-3xl font-bold text-ink sm:text-4xl">
+          {t.popular.title}
+        </h2>
+        <p className="mx-auto mt-3 max-w-xl text-center text-ink-soft">{t.popular.subtitle}</p>
+
+        {/* Country tabs */}
+        <div role="tablist" aria-label={t.popular.hint} className="mt-8 flex flex-wrap justify-center gap-2">
+          {COUNTRIES.map((c, i) => (
+            <button
+              key={c.key}
+              role="tab"
+              aria-selected={active === i}
+              onClick={() => setActive(i)}
+              className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold transition ${
+                active === i
+                  ? "bg-ink text-white shadow-soft"
+                  : "border-2 border-ink/10 bg-white text-ink hover:border-coral/40"
+              }`}
+            >
+              <span className="text-base" aria-hidden>{c.flag}</span>
+              {t.popular.countries[c.key]}
+            </button>
+          ))}
+        </div>
+
+        {/* Product cards */}
+        <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+          {country.products.map((p, idx) => (
+            <div
+              key={p.name}
+              className="flex flex-col items-center gap-3 rounded-2xl border-2 border-ink/10 bg-white p-5 text-center transition hover:-translate-y-1 hover:shadow-soft"
+            >
+              <span className={`grid h-20 w-20 place-items-center rounded-2xl ${tints[idx % tints.length]}`}>
+                <Icon name={p.pack} className="h-12 w-12" />
+              </span>
+              <span className="text-sm font-bold leading-tight text-ink">{p.name}</span>
+              <span className="rounded-full bg-cream px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-ink-soft">
+                {t.popular.packs[p.pack]}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

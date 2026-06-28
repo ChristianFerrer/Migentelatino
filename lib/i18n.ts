@@ -1,3 +1,5 @@
+import type { CountryKey, PackType } from "./products";
+
 export type Locale = "en" | "es" | "de";
 
 export const LOCALES: Locale[] = ["en", "es", "de"];
@@ -22,6 +24,13 @@ type Dict = {
   };
   marquee: string[];
   categories: { title: string; items: { icon: string; label: string }[] };
+  popular: {
+    title: string;
+    subtitle: string;
+    hint: string;
+    countries: Record<CountryKey, string>;
+    packs: Record<PackType, string>;
+  };
   signup: {
     emailPlaceholder: string;
     cta: string;
@@ -41,8 +50,8 @@ export const translations: Record<Locale, Dict> = {
       title1: "Latin America,",
       title2: "at your door.",
       subtitle:
-        "We're an online store about to open in Austria, bringing authentic Latin American products straight to your door.",
-      chips: ["100% authentic", "To your door", "Launching soon"],
+        "We're an online store about to open in Austria, bringing your favorite packaged Latin American brands — shelf-stable and shippable — straight to your door.",
+      chips: ["Authentic brands", "Non-perishable", "To your door"],
       emailPlaceholder: "your@email.com",
       cta: "Notify me",
       privacy: "No spam. Unsubscribe anytime.",
@@ -51,13 +60,20 @@ export const translations: Record<Locale, Dict> = {
     categories: {
       title: "What we bring",
       items: [
-        { icon: "grocery", label: "Groceries" },
+        { icon: "grocery", label: "Pantry & Groceries" },
         { icon: "drink", label: "Drinks & Mate" },
         { icon: "snack", label: "Snacks & Sweets" },
         { icon: "spice", label: "Spices & Sauces" },
-        { icon: "fresh", label: "Fresh Produce" },
-        { icon: "frozen", label: "Frozen" },
+        { icon: "can", label: "Canned & Preserves" },
+        { icon: "coffee", label: "Coffee & Cocoa" },
       ],
+    },
+    popular: {
+      title: "Most loved by country",
+      subtitle: "A taste of what's coming — the packaged classics each community misses most.",
+      hint: "Pick a country",
+      countries: { pe: "Peru", co: "Colombia", br: "Brazil", ar: "Argentina", mx: "Mexico", ve: "Venezuela" },
+      packs: { bottle: "Drink", can: "Canned", jar: "Jar", box: "Boxed", pouch: "Packet", coffee: "Coffee", cookies: "Cookies" },
     },
     signup: {
       emailPlaceholder: "your@email.com",
@@ -76,8 +92,8 @@ export const translations: Record<Locale, Dict> = {
       title1: "Latinoamérica,",
       title2: "en tu puerta.",
       subtitle:
-        "Somos una tienda online a punto de abrir en Austria. Traemos productos de Latinoamérica a la puerta de tu casa.",
-      chips: ["100% auténtico", "A tu puerta", "Próxima apertura"],
+        "Somos una tienda online a punto de abrir en Austria. Traemos tus marcas latinas favoritas —productos envasados y no perecibles— a la puerta de tu casa.",
+      chips: ["Marcas auténticas", "No perecibles", "A tu puerta"],
       emailPlaceholder: "tu@correo.com",
       cta: "Avísenme",
       privacy: "Cero spam. Cancela cuando quieras.",
@@ -90,9 +106,16 @@ export const translations: Record<Locale, Dict> = {
         { icon: "drink", label: "Bebidas y mate" },
         { icon: "snack", label: "Snacks y dulces" },
         { icon: "spice", label: "Especias y salsas" },
-        { icon: "fresh", label: "Frescos" },
-        { icon: "frozen", label: "Congelados" },
+        { icon: "can", label: "Conservas" },
+        { icon: "coffee", label: "Café y cacao" },
       ],
+    },
+    popular: {
+      title: "Lo más querido por país",
+      subtitle: "Un adelanto de lo que viene — los clásicos envasados que cada comunidad más extraña.",
+      hint: "Elige un país",
+      countries: { pe: "Perú", co: "Colombia", br: "Brasil", ar: "Argentina", mx: "México", ve: "Venezuela" },
+      packs: { bottle: "Bebida", can: "Lata", jar: "Tarro", box: "Caja", pouch: "Paquete", coffee: "Café", cookies: "Galletas" },
     },
     signup: {
       emailPlaceholder: "tu@correo.com",
@@ -111,8 +134,8 @@ export const translations: Record<Locale, Dict> = {
       title1: "Lateinamerika,",
       title2: "vor deine Tür.",
       subtitle:
-        "Wir sind ein Online-Shop, der bald in Österreich öffnet, und bringen authentische Produkte aus Lateinamerika direkt vor deine Tür.",
-      chips: ["100% authentisch", "Vor deine Tür", "Bald verfügbar"],
+        "Wir sind ein Online-Shop, der bald in Österreich öffnet, und bringen deine liebsten lateinamerikanischen Markenprodukte — haltbar und versandfertig — direkt vor deine Tür.",
+      chips: ["Echte Marken", "Haltbar", "Vor deine Tür"],
       emailPlaceholder: "deine@email.com",
       cta: "Benachrichtigen",
       privacy: "Kein Spam. Jederzeit abbestellbar.",
@@ -121,13 +144,20 @@ export const translations: Record<Locale, Dict> = {
     categories: {
       title: "Was wir bringen",
       items: [
-        { icon: "grocery", label: "Lebensmittel" },
+        { icon: "grocery", label: "Vorrat & Lebensmittel" },
         { icon: "drink", label: "Getränke & Mate" },
         { icon: "snack", label: "Snacks & Süßes" },
         { icon: "spice", label: "Gewürze & Saucen" },
-        { icon: "fresh", label: "Frische Produkte" },
-        { icon: "frozen", label: "Tiefkühl" },
+        { icon: "can", label: "Konserven" },
+        { icon: "coffee", label: "Kaffee & Kakao" },
       ],
+    },
+    popular: {
+      title: "Am meisten geliebt – nach Land",
+      subtitle: "Ein Vorgeschmack — die haltbaren Klassiker, die jede Community am meisten vermisst.",
+      hint: "Land wählen",
+      countries: { pe: "Peru", co: "Kolumbien", br: "Brasilien", ar: "Argentinien", mx: "Mexiko", ve: "Venezuela" },
+      packs: { bottle: "Getränk", can: "Dose", jar: "Glas", box: "Schachtel", pouch: "Packung", coffee: "Kaffee", cookies: "Kekse" },
     },
     signup: {
       emailPlaceholder: "deine@email.com",
