@@ -84,13 +84,13 @@ function Hero() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-2xl px-6 pb-16 pt-6 text-center md:pb-20">
-        <p className="mx-auto max-w-md rounded-2xl bg-[#B83C04]/45 px-4 py-3 text-sm font-light leading-relaxed text-cream backdrop-blur-[3px] [text-shadow:0_1px_2px_rgba(60,20,0,0.55)] sm:text-base">
+        <p className="mx-auto max-w-md text-sm font-light leading-relaxed text-white [text-shadow:0_1px_4px_rgba(45,12,0,0.9)] sm:text-base">
           {t.hero.subtitle}
         </p>
 
         <div id="join" className="mx-auto mt-7 max-w-2xl">
           <SignupForm source="hero" cta={t.hero.cta} />
-          <p className="mt-3 inline-block rounded-full bg-[#B83C04]/45 px-3 py-1 text-sm font-medium text-cream backdrop-blur-[3px] [text-shadow:0_1px_2px_rgba(60,20,0,0.6)]">🔒 {t.hero.privacy}</p>
+          <p className="mt-3 text-sm font-medium text-white [text-shadow:0_1px_4px_rgba(45,12,0,0.9)]">🔒 {t.hero.privacy}</p>
         </div>
       </div>
 
