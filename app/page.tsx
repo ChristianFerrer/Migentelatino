@@ -26,22 +26,22 @@ export default function Page() {
 function Nav() {
   const { t } = useLocale();
   return (
-    <header className="sticky top-0 z-40 border-b border-ink/10 bg-cream/85 backdrop-blur">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
+    <header className="sticky top-0 z-40 border-b border-white/30 bg-white/50 backdrop-blur-xl">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3.5">
         <a href="#top" aria-label="Mi Gente Latino home">
           <Logo className="text-lg" />
         </a>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <a
             href="#popular"
-            className="hidden text-sm font-bold text-ink/80 transition hover:text-ink sm:inline-block"
+            className="hidden text-sm font-medium text-ink/70 transition hover:text-ink sm:inline-block"
           >
             {t.nav.product}
           </a>
           <LanguageSwitcher />
           <a
             href="#join"
-            className="hidden rounded-full border-2 border-ink/10 bg-grape px-4 py-2 text-sm font-bold text-white shadow-glow-cool transition hover:-translate-y-0.5 hover:bg-grape-600 sm:inline-block"
+            className="hidden rounded-full bg-ink px-5 py-2 text-sm font-semibold text-white transition hover:opacity-90 sm:inline-block"
           >
             {t.nav.cta}
           </a>
@@ -54,40 +54,38 @@ function Nav() {
 /* ───────────────────────── Hero ───────────────────────── */
 function Hero() {
   const { t } = useLocale();
-  const chipDots = ["bg-coral", "bg-mint", "bg-sun"];
+  const chipDots = ["bg-coral", "bg-sun", "bg-grape"];
   return (
-    <section id="top" className="dotted relative">
-      <div className="pointer-events-none absolute -left-24 top-0 h-72 w-72 rounded-full bg-sun/25 blur-3xl" aria-hidden />
-      <div className="pointer-events-none absolute right-0 top-40 h-72 w-72 rounded-full bg-mint/20 blur-3xl" aria-hidden />
-      <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-5 py-14 md:grid-cols-2 md:py-20">
+    <section id="top" className="relative">
+      <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-6 py-20 md:grid-cols-2 md:py-28">
         <div className="animate-fade-up">
-          <span className="chip-gradient inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-bold text-white shadow-glow-cool">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/20 px-4 py-1.5 text-sm font-medium text-white backdrop-blur">
             {t.hero.badge}
           </span>
-          <h1 className="mt-5 font-display text-5xl font-bold leading-[0.98] tracking-tight text-white drop-shadow-[0_2px_0_rgba(19,48,58,0.25)] sm:text-6xl lg:text-7xl">
+          <h1 className="mt-6 font-display text-5xl font-bold leading-[1.03] tracking-[-0.03em] text-white sm:text-6xl lg:text-7xl">
             {t.hero.title1}
             <br />
             <span className="bg-gradient-to-r from-sun via-coral to-grape bg-clip-text pb-1 text-transparent">
               {t.hero.title2}
             </span>
           </h1>
-          <p className="mt-5 max-w-md text-lg font-semibold text-ink">{t.hero.subtitle}</p>
+          <p className="mt-6 max-w-md text-lg font-normal leading-relaxed text-white/85">{t.hero.subtitle}</p>
 
-          <div className="mt-5 flex flex-wrap gap-2">
+          <div className="mt-6 flex flex-wrap gap-2">
             {t.hero.chips.map((chip, i) => (
               <span
                 key={chip}
-                className="inline-flex items-center gap-2 rounded-full border-2 border-ink/10 bg-white px-3.5 py-1.5 text-sm font-semibold text-ink"
+                className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/20 px-3.5 py-1.5 text-sm font-medium text-white backdrop-blur"
               >
-                <span className={`h-2.5 w-2.5 rounded-full ${chipDots[i % 3]}`} aria-hidden />
+                <span className={`h-2 w-2 rounded-full ${chipDots[i % 3]}`} aria-hidden />
                 {chip}
               </span>
             ))}
           </div>
 
-          <div className="mt-7 max-w-xl" id="join">
+          <div className="mt-8 max-w-xl" id="join">
             <SignupForm source="hero" cta={t.hero.cta} />
-            <p className="mt-2.5 px-2 text-sm font-semibold text-ink/80">🔒 {t.hero.privacy}</p>
+            <p className="mt-3 px-1 text-sm font-medium text-white/70">🔒 {t.hero.privacy}</p>
           </div>
         </div>
 
@@ -109,12 +107,12 @@ function HeroArt() {
     { icon: "cookies", c: "bg-mint", d: "2s" },
   ];
   return (
-    <div className="mx-auto aspect-square w-full max-w-md rounded-[2rem] border-2 border-ink/10 bg-white p-4 shadow-soft">
+    <div className="mx-auto aspect-square w-full max-w-md rounded-[2rem] border border-white/60 bg-white/75 p-4 shadow-soft backdrop-blur-xl">
       <div className="grid h-full grid-cols-2 gap-4">
         {tiles.map((tile, i) => (
-          <div key={i} className={`grid place-items-center rounded-2xl ${tile.c}`}>
+          <div key={i} className={`grid place-items-center rounded-3xl ${tile.c}`}>
             <span
-              className="grid h-16 w-16 place-items-center rounded-full bg-white shadow-soft animate-float-slow"
+              className="grid h-16 w-16 place-items-center rounded-2xl bg-white shadow-card animate-float-slow"
               style={{ animationDelay: tile.d }}
             >
               <Icon name={tile.icon} className="h-10 w-10" />
@@ -131,15 +129,15 @@ function Marquee() {
   const { t } = useLocale();
   const items = [...COUNTRIES, ...COUNTRIES];
   return (
-    <div className="border-y-2 border-ink bg-grape py-4">
+    <div className="bg-grape/90 py-3.5 backdrop-blur">
       <div className="flex w-max animate-marquee items-center gap-10 whitespace-nowrap px-5">
         {items.map((c, i) => (
-          <span key={i} className="flex items-center gap-10 text-lg font-bold uppercase tracking-wide text-sun">
+          <span key={i} className="flex items-center gap-10 text-base font-semibold tracking-wide text-white/95">
             <span className="flex items-center gap-2.5">
               <Flag code={c.key} className="h-5 w-[30px] rounded shadow-sm" />
               {t.popular.countries[c.key]}
             </span>
-            <span className="text-mint" aria-hidden>✦</span>
+            <span className="text-white/40" aria-hidden>•</span>
           </span>
         ))}
       </div>
@@ -154,47 +152,53 @@ function PopularByCountry() {
   const country = COUNTRIES[active];
 
   return (
-    <section id="popular" className="scroll-mt-20 border-t-2 border-ink/15 py-16">
-      <div className="mx-auto max-w-6xl px-5">
-        <h2 className="text-center font-display text-3xl font-bold text-ink sm:text-4xl">
+    <section id="popular" className="scroll-mt-20 py-20 sm:py-28">
+      <div className="mx-auto max-w-6xl px-6">
+        <h2 className="text-center font-display text-4xl font-bold tracking-[-0.02em] text-ink sm:text-5xl">
           {t.popular.title}
         </h2>
-        <p className="mx-auto mt-3 max-w-xl text-center font-medium text-ink/90">{t.popular.subtitle}</p>
+        <p className="mx-auto mt-4 max-w-xl text-center text-lg font-normal text-ink/70">{t.popular.subtitle}</p>
 
-        {/* Country tabs */}
-        <div role="tablist" aria-label={t.popular.hint} className="mt-8 flex flex-wrap justify-center gap-2">
-          {COUNTRIES.map((c, i) => (
-            <button
-              key={c.key}
-              role="tab"
-              aria-selected={active === i}
-              onClick={() => setActive(i)}
-              className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold transition ${
-                active === i
-                  ? "bg-ink text-white shadow-soft"
-                  : "border-2 border-ink/10 bg-white text-ink hover:border-coral/40"
-              }`}
-            >
-              <Flag code={c.key} className="h-4 w-6 rounded-[3px]" />
-              {t.popular.countries[c.key]}
-            </button>
-          ))}
+        {/* Country segmented control */}
+        <div className="mt-10 flex justify-center">
+          <div
+            role="tablist"
+            aria-label={t.popular.hint}
+            className="flex flex-wrap justify-center gap-1 rounded-full border border-white/50 bg-white/50 p-1.5 backdrop-blur-xl"
+          >
+            {COUNTRIES.map((c, i) => (
+              <button
+                key={c.key}
+                role="tab"
+                aria-selected={active === i}
+                onClick={() => setActive(i)}
+                className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition ${
+                  active === i ? "bg-white text-ink shadow-card" : "text-ink/60 hover:text-ink"
+                }`}
+              >
+                <Flag code={c.key} className="h-4 w-6 rounded-[3px]" />
+                {t.popular.countries[c.key]}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Product cards */}
-        <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="mt-10 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-5">
           {country.products.map((p) => (
             <div
               key={p.name}
-              className="flex flex-col items-center gap-3 rounded-2xl border-2 border-ink/10 bg-white p-5 text-center transition hover:-translate-y-1 hover:shadow-soft"
+              className="flex flex-col items-center gap-4 rounded-3xl border border-ink/5 bg-white p-6 text-center shadow-card transition hover:-translate-y-1 hover:shadow-soft"
             >
-              <span className="grid h-20 w-20 place-items-center overflow-hidden rounded-2xl border border-ink/10 bg-grape-100">
+              <span className="grid h-20 w-20 place-items-center overflow-hidden rounded-2xl bg-ink/[0.04]">
                 <ProductImage product={p} />
               </span>
-              <span className="text-sm font-bold leading-tight text-ink">{p.name}</span>
-              <span className="rounded-full bg-ink/5 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-ink/70">
-                {t.popular.packs[p.pack]}
-              </span>
+              <div>
+                <p className="text-sm font-semibold leading-tight text-ink">{p.name}</p>
+                <p className="mt-1 text-xs font-medium uppercase tracking-wide text-ink/45">
+                  {t.popular.packs[p.pack]}
+                </p>
+              </div>
             </div>
           ))}
         </div>
@@ -208,13 +212,13 @@ function Footer() {
   const { t } = useLocale();
   const year = 2026;
   return (
-    <footer className="border-t-2 border-ink/15">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-5 py-8 text-center sm:flex-row sm:justify-between sm:text-left">
+    <footer className="border-t border-white/30">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-6 py-10 text-center sm:flex-row sm:justify-between sm:text-left">
         <div>
           <Logo className="text-base" />
-          <p className="mt-2 text-sm font-semibold text-ink/80">{t.footer.tagline}</p>
+          <p className="mt-2 text-sm font-medium text-ink/70">{t.footer.tagline}</p>
         </div>
-        <div className="text-sm font-medium text-ink/70">
+        <div className="text-sm font-medium text-ink/60">
           <p>© {year} Mi Gente Latino. {t.footer.rights}</p>
           <p className="mt-1">{t.footer.madeWith} 🌶️</p>
         </div>

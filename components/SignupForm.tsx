@@ -80,10 +80,10 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
   }
 
   const fieldClass =
-    "w-full rounded-xl border-2 border-ink/10 bg-white px-4 py-3 text-base font-medium text-ink outline-none transition placeholder:text-ink-soft/50 focus:border-coral/50";
+    "w-full rounded-xl border border-ink/10 bg-white/80 px-4 py-3 text-[15px] font-normal text-ink outline-none transition placeholder:text-ink/40 focus:border-ink/25 focus:bg-white focus:ring-4 focus:ring-ink/5";
 
   return (
-    <form onSubmit={handleSubmit} className="w-full rounded-3xl border-2 border-ink/10 bg-white p-4 shadow-soft sm:p-5" noValidate>
+    <form onSubmit={handleSubmit} className="w-full rounded-3xl border border-white/60 bg-white/80 p-5 shadow-soft backdrop-blur-xl" noValidate>
       <div className="grid gap-3 sm:grid-cols-2">
         <input
           type="text"
@@ -131,7 +131,7 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
         </select>
       </div>
 
-      <label className="mt-3 block text-sm font-bold text-ink">{t.signup.missedLabel}</label>
+      <label className="mt-3 block text-sm font-semibold text-ink">{t.signup.missedLabel}</label>
       <textarea
         value={form.missed}
         onChange={(e) => update("missed", e.target.value)}
@@ -145,7 +145,7 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
       <button
         type="submit"
         disabled={status === "loading"}
-        className="cta-gradient mt-4 w-full rounded-full border-2 border-ink/10 px-7 py-3.5 text-base font-extrabold text-ink shadow-glow transition hover:brightness-105 active:translate-y-px disabled:opacity-70"
+        className="cta-gradient mt-4 w-full rounded-full px-7 py-3.5 text-base font-semibold text-ink shadow-glow transition hover:brightness-[1.03] active:scale-[0.99] disabled:opacity-70"
       >
         {status === "loading" ? t.signup.sending : cta ?? t.signup.cta}
       </button>

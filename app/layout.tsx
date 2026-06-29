@@ -1,18 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Fredoka } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { LocaleProvider } from "@/components/LocaleProvider";
 
+// Single clean grotesk for everything — SF-Pro-like, Apple feel.
 const inter = Inter({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-sans",
-  display: "swap",
-});
-
-const fredoka = Fredoka({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  variable: "--font-display",
   display: "swap",
 });
 
@@ -41,7 +36,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${fredoka.variable}`}>
+    <html lang="en" className={inter.variable}>
       <body>
         <LocaleProvider>{children}</LocaleProvider>
       </body>

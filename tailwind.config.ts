@@ -59,16 +59,17 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-        display: ["var(--font-display)", "system-ui", "sans-serif"],
+        display: ["var(--font-sans)", "system-ui", "sans-serif"],
       },
       borderRadius: {
         "4xl": "2rem",
       },
       boxShadow: {
-        soft: "0 16px 44px -18px rgba(10, 45, 55, 0.45)",
-        // Golden CTA glow + violet accent glow
-        glow: "0 14px 36px -10px rgba(255, 194, 46, 0.55)",
-        "glow-cool": "0 14px 34px -12px rgba(124, 107, 214, 0.45)",
+        // Soft, diffuse, Apple-like elevation
+        soft: "0 10px 40px -12px rgba(10, 45, 55, 0.22)",
+        card: "0 4px 24px -8px rgba(10, 45, 55, 0.16)",
+        glow: "0 12px 34px -12px rgba(255, 194, 46, 0.5)",
+        "glow-cool": "0 12px 32px -14px rgba(124, 107, 214, 0.4)",
       },
       keyframes: {
         "float-slow": {
