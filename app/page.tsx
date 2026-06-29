@@ -54,15 +54,11 @@ function Nav() {
 /* ───────────────────────── Hero ───────────────────────── */
 function Hero() {
   const { t } = useLocale();
-  const chipDots = ["bg-coral", "bg-sun", "bg-grape"];
   return (
     <section id="top" className="relative">
       <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-6 py-20 md:grid-cols-2 md:py-28">
         <div className="animate-fade-up">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/20 px-4 py-1.5 text-sm font-medium text-white backdrop-blur">
-            {t.hero.badge}
-          </span>
-          <h1 className="mt-6 font-display text-5xl font-bold leading-[1.03] tracking-[-0.03em] text-white sm:text-6xl lg:text-7xl">
+          <h1 className="font-display text-5xl font-bold leading-[1.03] tracking-[-0.03em] text-white sm:text-6xl lg:text-7xl">
             {t.hero.title1}
             <br />
             <span className="bg-gradient-to-r from-sun via-coral to-grape bg-clip-text pb-1 text-transparent">
@@ -70,18 +66,6 @@ function Hero() {
             </span>
           </h1>
           <p className="mt-6 max-w-md text-lg font-normal leading-relaxed text-white/85">{t.hero.subtitle}</p>
-
-          <div className="mt-6 flex flex-wrap gap-2">
-            {t.hero.chips.map((chip, i) => (
-              <span
-                key={chip}
-                className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/20 px-3.5 py-1.5 text-sm font-medium text-white backdrop-blur"
-              >
-                <span className={`h-2 w-2 rounded-full ${chipDots[i % 3]}`} aria-hidden />
-                {chip}
-              </span>
-            ))}
-          </div>
 
           <div className="mt-8 max-w-xl" id="join">
             <SignupForm source="hero" cta={t.hero.cta} />
