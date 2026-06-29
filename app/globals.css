@@ -11,7 +11,10 @@ html {
 }
 
 body {
-  @apply bg-cream text-ink antialiased;
+  @apply text-ink antialiased;
+  min-height: 100vh;
+  background: linear-gradient(165deg, #3AD3E4 0%, #22BFD3 45%, #18AFC4 100%);
+  background-repeat: no-repeat;
 }
 
 /* Marquee animation for the flavor ticker */
@@ -30,15 +33,15 @@ body {
 
 /* Subtle confetti dots background */
 .dotted {
-  background-image: radial-gradient(rgba(154, 140, 190, 0.20) 1.5px, transparent 1.5px);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.35) 1.5px, transparent 1.5px);
   background-size: 24px 24px;
 }
 
-/* Signature CTA gradient (terracotta → orange → golden) */
+/* Signature CTA gradient (golden glow) */
 .cta-gradient {
-  background-image: linear-gradient(100deg, #D9542B 0%, #E8772E 50%, #F2B33C 100%);
+  background-image: linear-gradient(100deg, #FFD23E 0%, #FFB02E 55%, #FF9E2E 100%);
 }
-/* Badge gradient (turquoise → olive) */
+/* Badge gradient (violet → cyan, like the magic glow) */
 .chip-gradient {
-  background-image: linear-gradient(100deg, #2F9FBE 0%, #5FA06E 60%, #8AA63E 100%);
+  background-image: linear-gradient(100deg, #7C6BD6 0%, #5E8FE0 55%, #2BC4D6 100%);
 }

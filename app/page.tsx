@@ -34,14 +34,14 @@ function Nav() {
         <div className="flex items-center gap-3">
           <a
             href="#popular"
-            className="hidden text-sm font-semibold text-ink-soft transition hover:text-ink sm:inline-block"
+            className="hidden text-sm font-bold text-ink/80 transition hover:text-ink sm:inline-block"
           >
             {t.nav.product}
           </a>
           <LanguageSwitcher />
           <a
             href="#join"
-            className="hidden rounded-full bg-mint px-4 py-2 text-sm font-bold text-white shadow-glow-cool transition hover:-translate-y-0.5 hover:bg-mint-600 sm:inline-block"
+            className="hidden rounded-full border-2 border-ink/10 bg-grape px-4 py-2 text-sm font-bold text-white shadow-glow-cool transition hover:-translate-y-0.5 hover:bg-grape-600 sm:inline-block"
           >
             {t.nav.cta}
           </a>
@@ -64,14 +64,14 @@ function Hero() {
           <span className="chip-gradient inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-bold text-white shadow-glow-cool">
             {t.hero.badge}
           </span>
-          <h1 className="mt-5 font-display text-5xl font-bold leading-[0.98] tracking-tight text-ink sm:text-6xl lg:text-7xl">
+          <h1 className="mt-5 font-display text-5xl font-bold leading-[0.98] tracking-tight text-white drop-shadow-[0_2px_0_rgba(19,48,58,0.25)] sm:text-6xl lg:text-7xl">
             {t.hero.title1}
             <br />
-            <span className="bg-gradient-to-r from-coral via-[#E8772E] to-sun bg-clip-text pb-1 text-transparent">
+            <span className="bg-gradient-to-r from-sun via-coral to-grape bg-clip-text pb-1 text-transparent">
               {t.hero.title2}
             </span>
           </h1>
-          <p className="mt-5 max-w-md text-lg font-medium text-ink-soft">{t.hero.subtitle}</p>
+          <p className="mt-5 max-w-md text-lg font-semibold text-ink">{t.hero.subtitle}</p>
 
           <div className="mt-5 flex flex-wrap gap-2">
             {t.hero.chips.map((chip, i) => (
@@ -87,7 +87,7 @@ function Hero() {
 
           <div className="mt-7 max-w-xl" id="join">
             <SignupForm source="hero" cta={t.hero.cta} />
-            <p className="mt-2.5 px-2 text-sm font-medium text-ink-soft/80">🔒 {t.hero.privacy}</p>
+            <p className="mt-2.5 px-2 text-sm font-semibold text-ink/80">🔒 {t.hero.privacy}</p>
           </div>
         </div>
 
@@ -131,7 +131,7 @@ function Marquee() {
   const { t } = useLocale();
   const items = [...COUNTRIES, ...COUNTRIES];
   return (
-    <div className="border-y-2 border-ink bg-ink py-4">
+    <div className="border-y-2 border-ink bg-grape py-4">
       <div className="flex w-max animate-marquee items-center gap-10 whitespace-nowrap px-5">
         {items.map((c, i) => (
           <span key={i} className="flex items-center gap-10 text-lg font-bold uppercase tracking-wide text-sun">
@@ -154,12 +154,12 @@ function PopularByCountry() {
   const country = COUNTRIES[active];
 
   return (
-    <section id="popular" className="scroll-mt-20 border-t border-ink/10 bg-white/60 py-16">
+    <section id="popular" className="scroll-mt-20 border-t-2 border-ink/15 py-16">
       <div className="mx-auto max-w-6xl px-5">
         <h2 className="text-center font-display text-3xl font-bold text-ink sm:text-4xl">
           {t.popular.title}
         </h2>
-        <p className="mx-auto mt-3 max-w-xl text-center text-ink-soft">{t.popular.subtitle}</p>
+        <p className="mx-auto mt-3 max-w-xl text-center font-medium text-ink/90">{t.popular.subtitle}</p>
 
         {/* Country tabs */}
         <div role="tablist" aria-label={t.popular.hint} className="mt-8 flex flex-wrap justify-center gap-2">
@@ -188,11 +188,11 @@ function PopularByCountry() {
               key={p.name}
               className="flex flex-col items-center gap-3 rounded-2xl border-2 border-ink/10 bg-white p-5 text-center transition hover:-translate-y-1 hover:shadow-soft"
             >
-              <span className="grid h-20 w-20 place-items-center overflow-hidden rounded-2xl border border-ink/10 bg-cream">
+              <span className="grid h-20 w-20 place-items-center overflow-hidden rounded-2xl border border-ink/10 bg-grape-100">
                 <ProductImage product={p} />
               </span>
               <span className="text-sm font-bold leading-tight text-ink">{p.name}</span>
-              <span className="rounded-full bg-cream px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-ink-soft">
+              <span className="rounded-full bg-ink/5 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-ink/70">
                 {t.popular.packs[p.pack]}
               </span>
             </div>
@@ -208,13 +208,13 @@ function Footer() {
   const { t } = useLocale();
   const year = 2026;
   return (
-    <footer className="border-t-2 border-ink/10 bg-white">
+    <footer className="border-t-2 border-ink/15">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-5 py-8 text-center sm:flex-row sm:justify-between sm:text-left">
         <div>
           <Logo className="text-base" />
-          <p className="mt-2 text-sm font-medium text-ink-soft">{t.footer.tagline}</p>
+          <p className="mt-2 text-sm font-semibold text-ink/80">{t.footer.tagline}</p>
         </div>
-        <div className="text-sm font-medium text-ink-soft/70">
+        <div className="text-sm font-medium text-ink/70">
           <p>© {year} Mi Gente Latino. {t.footer.rights}</p>
           <p className="mt-1">{t.footer.madeWith} 🌶️</p>
         </div>

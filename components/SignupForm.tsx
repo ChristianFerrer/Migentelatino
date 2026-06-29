@@ -83,7 +83,7 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
     "w-full rounded-xl border-2 border-ink/10 bg-white px-4 py-3 text-base font-medium text-ink outline-none transition placeholder:text-ink-soft/50 focus:border-coral/50";
 
   return (
-    <form onSubmit={handleSubmit} className="w-full rounded-3xl border-2 border-ink/10 bg-white/70 p-4 shadow-soft sm:p-5" noValidate>
+    <form onSubmit={handleSubmit} className="w-full rounded-3xl border-2 border-ink/10 bg-white p-4 shadow-soft sm:p-5" noValidate>
       <div className="grid gap-3 sm:grid-cols-2">
         <input
           type="text"
@@ -145,7 +145,7 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
       <button
         type="submit"
         disabled={status === "loading"}
-        className="cta-gradient mt-4 w-full rounded-full px-7 py-3.5 text-base font-extrabold text-white shadow-glow transition hover:brightness-105 active:translate-y-px disabled:opacity-70"
+        className="cta-gradient mt-4 w-full rounded-full border-2 border-ink/10 px-7 py-3.5 text-base font-extrabold text-ink shadow-glow transition hover:brightness-105 active:translate-y-px disabled:opacity-70"
       >
         {status === "loading" ? t.signup.sending : cta ?? t.signup.cta}
       </button>
