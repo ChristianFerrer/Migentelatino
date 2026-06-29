@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useLocale } from "@/components/LocaleProvider";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { SignupForm } from "@/components/SignupForm";
 import { Logo } from "@/components/Logo";
 import { Flag } from "@/components/Flags";
-import { Icon } from "@/components/Icons";
 import { ProductImage } from "@/components/ProductImage";
 import { COUNTRIES } from "@/lib/products";
 
@@ -52,40 +52,28 @@ function Nav() {
 }
 
 /* ───────────────────────── Hero ───────────────────────── */
-const GARNISH = [
-  { icon: "lime", cls: "left-1 top-8 h-16 w-16 -rotate-12 sm:left-8 sm:h-20 sm:w-20" },
-  { icon: "chili", cls: "right-1 top-6 h-20 w-20 rotate-12 sm:right-8 sm:h-24 sm:w-24" },
-  { icon: "tomato", cls: "left-4 bottom-40 hidden h-16 w-16 rotate-6 sm:block" },
-  { icon: "limeslice", cls: "right-4 bottom-44 hidden h-16 w-16 -rotate-6 sm:block" },
-  { icon: "herb", cls: "left-1/2 top-1 hidden h-12 w-12 -translate-x-1/2 md:block" },
-];
-
 function Hero() {
   const { t } = useLocale();
   return (
     <section id="top" className="relative overflow-hidden bg-coral">
-      <div className="dotted absolute inset-0 opacity-50" aria-hidden />
       <div className="grain pointer-events-none absolute inset-0 opacity-[0.18] mix-blend-multiply" aria-hidden />
 
-      {/* Scattered food garnishes */}
-      <div className="pointer-events-none absolute inset-0" aria-hidden>
-        {GARNISH.map((g, i) => (
-          <Icon key={i} name={g.icon} className={`absolute drop-shadow-[0_4px_6px_rgba(0,0,0,0.15)] ${g.cls}`} />
-        ))}
-      </div>
-
-      <div className="relative z-10 mx-auto max-w-3xl px-6 py-20 text-center md:py-28">
-        <h1 className="font-display text-5xl uppercase leading-[0.95] tracking-tight text-cream drop-shadow-[0_3px_0_rgba(0,0,0,0.12)] sm:text-7xl lg:text-[5.2rem]">
-          {t.hero.title1}{" "}
-          <span className="mt-3 inline-block -rotate-1 rounded-2xl bg-mint px-4 py-1 text-cream shadow-card">
-            {t.hero.title2}
-          </span>
-        </h1>
+      <div className="relative z-10 mx-auto max-w-3xl px-6 pb-16 pt-10 text-center md:pb-20 md:pt-14">
+        {/* Poster: the central question + real products (replaces the text headline) */}
+        <Image
+          src="/hero-poster.png"
+          alt={`${t.hero.title1} ${t.hero.title2}`}
+          width={1536}
+          height={1024}
+          priority
+          sizes="(max-width: 768px) 100vw, 768px"
+          className="mx-auto w-full max-w-2xl rounded-3xl shadow-soft"
+        />
         <p className="mx-auto mt-7 max-w-xl text-lg font-medium leading-relaxed text-cream/90">
           {t.hero.subtitle}
         </p>
 
-        <div id="join" className="mx-auto mt-9 max-w-2xl">
+        <div id="join" className="mx-auto mt-8 max-w-2xl">
           <SignupForm source="hero" cta={t.hero.cta} />
           <p className="mt-3 text-sm font-medium text-cream/80">🔒 {t.hero.privacy}</p>
         </div>
