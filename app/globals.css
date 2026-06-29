@@ -35,15 +35,17 @@ body {
   background-size: 24px 24px;
 }
 
-/* Fine multi-color dot mesh — subtle specks in the splash colors
-   (teal, celeste, golden) layered over the orange background. */
-.dot-mesh {
+/* Hero background: orange→pink gradient with a fine multi-color dot mesh
+   (teal, celeste, golden specks) layered on top. */
+.hero-bg {
   background-image:
     radial-gradient(circle, rgba(43, 174, 160, 0.7) 1.1px, transparent 1.7px),
     radial-gradient(circle, rgba(143, 208, 224, 0.7) 1.1px, transparent 1.7px),
-    radial-gradient(circle, rgba(242, 169, 59, 0.7) 1.1px, transparent 1.7px);
-  background-size: 15px 15px, 15px 15px, 15px 15px;
-  background-position: 0 0, 5px 8px, 10px 3px;
+    radial-gradient(circle, rgba(242, 169, 59, 0.7) 1.1px, transparent 1.7px),
+    linear-gradient(180deg, #D24702 0%, #DD4E4A 55%, #E8567B 100%);
+  background-size: 15px 15px, 15px 15px, 15px 15px, 100% 100%;
+  background-position: 0 0, 5px 8px, 10px 3px, 0 0;
+  background-repeat: repeat, repeat, repeat, no-repeat;
 }
 
 /* Vintage paper grain overlay (procedural, no external asset) */

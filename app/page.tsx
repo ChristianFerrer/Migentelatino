@@ -55,8 +55,8 @@ function Nav() {
 function Hero() {
   const { t } = useLocale();
   return (
-    <section id="top" className="dot-mesh relative overflow-hidden bg-white">
-      <div className="grain pointer-events-none absolute inset-0 z-20 opacity-[0.10] mix-blend-multiply" aria-hidden />
+    <section id="top" className="hero-bg relative overflow-hidden">
+      <div className="grain pointer-events-none absolute inset-0 z-20 opacity-[0.12] mix-blend-multiply" aria-hidden />
 
       {/* Full-bleed product poster + the localized question overlaid on the teal center */}
       <div className="relative w-full [container-type:inline-size]">
@@ -79,16 +79,18 @@ function Hero() {
             </span>
           </h1>
         </div>
+        {/* Soft fade from the image into the gradient background (no hard edge) */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[18%] bg-gradient-to-b from-transparent to-[#D24702]" aria-hidden />
       </div>
 
       <div className="relative z-10 mx-auto max-w-2xl px-6 pb-16 pt-6 text-center md:pb-20">
-        <p className="mx-auto max-w-md text-sm font-light leading-relaxed text-ink/80 sm:text-base">
+        <p className="mx-auto max-w-md text-sm font-light leading-relaxed text-white [text-shadow:0_1px_4px_rgba(45,12,0,0.9)] sm:text-base">
           {t.hero.subtitle}
         </p>
 
         <div id="join" className="mx-auto mt-7 max-w-2xl">
           <SignupForm source="hero" cta={t.hero.cta} />
-          <p className="mt-3 text-sm font-medium text-ink/60">🔒 {t.hero.privacy}</p>
+          <p className="mt-3 text-sm font-medium text-white [text-shadow:0_1px_4px_rgba(45,12,0,0.9)]">🔒 {t.hero.privacy}</p>
         </div>
       </div>
 
