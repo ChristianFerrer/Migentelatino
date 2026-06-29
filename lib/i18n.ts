@@ -60,8 +60,8 @@ export const translations: Record<Locale, Dict> = {
         "We're a Latin American grocery store in Europe. Tell us the packaged brand or treat you miss most from home — and help us bring it to your door.",
       chips: ["Authentic brands", "Non-perishable", "To your door"],
       emailPlaceholder: "your@email.com",
-      cta: "Notify me",
-      privacy: "No spam. Unsubscribe anytime.",
+      cta: "Send",
+      privacy: "We'll reach out on WhatsApp. No spam.",
     },
     marquee: ["Arepas", "Dulce de leche", "Mate", "Tortillas", "Ají", "Plátano", "Café", "Salsa", "Tajín", "Yuca"],
     categories: {
@@ -109,8 +109,8 @@ export const translations: Record<Locale, Dict> = {
         "Somos una tienda de productos latinos en Europa. Cuéntanos qué marca o antojo envasado extrañas más de casa — y ayúdanos a traerlo a tu puerta.",
       chips: ["Marcas auténticas", "No perecibles", "A tu puerta"],
       emailPlaceholder: "tu@correo.com",
-      cta: "Avísenme",
-      privacy: "Cero spam. Cancela cuando quieras.",
+      cta: "Enviar",
+      privacy: "Te contactamos por WhatsApp. Cero spam.",
     },
     marquee: ["Arepas", "Dulce de leche", "Mate", "Tortillas", "Ají", "Plátano", "Café", "Salsa", "Tajín", "Yuca"],
     categories: {
@@ -158,8 +158,8 @@ export const translations: Record<Locale, Dict> = {
         "Wir sind ein Shop für lateinamerikanische Produkte in Europa. Sag uns, welche haltbare Marke oder Leckerei du am meisten von zu Hause vermisst — und hilf uns, sie vor deine Tür zu bringen.",
       chips: ["Echte Marken", "Haltbar", "Vor deine Tür"],
       emailPlaceholder: "deine@email.com",
-      cta: "Benachrichtigen",
-      privacy: "Kein Spam. Jederzeit abbestellbar.",
+      cta: "Senden",
+      privacy: "Wir melden uns per WhatsApp. Kein Spam.",
     },
     marquee: ["Arepas", "Dulce de leche", "Mate", "Tortillas", "Ají", "Plátano", "Kaffee", "Salsa", "Tajín", "Yuca"],
     categories: {

@@ -61,9 +61,7 @@ function Hero() {
           <h1 className="font-display text-5xl font-bold leading-[1.03] tracking-[-0.03em] text-white sm:text-6xl lg:text-7xl">
             {t.hero.title1}
             <br />
-            <span className="bg-gradient-to-r from-sun via-coral to-grape bg-clip-text pb-1 text-transparent">
-              {t.hero.title2}
-            </span>
+            <span className="text-white">{t.hero.title2}</span>
           </h1>
           <p className="mt-6 max-w-md text-lg font-normal leading-relaxed text-white/85">{t.hero.subtitle}</p>
 

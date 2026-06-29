@@ -5,19 +5,11 @@ import { useLocale } from "./LocaleProvider";
 
 type Status = "idle" | "loading" | "success" | "error";
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-// Extra origin countries (names identical enough across locales) appended
-// after the six localized ones.
-const EXTRA_COUNTRIES = ["Chile", "Ecuador", "Bolivia", "Uruguay", "Paraguay"];
-
 export function SignupForm({ source, cta }: { source: string; cta?: string }) {
   const { t, locale } = useLocale();
-  const [form, setForm] = useState({ name: "", email: "", phone: "", country: "", missed: "" });
+  const [form, setForm] = useState({ name: "", phone: "", missed: "" });
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
-
-  const countries = [...Object.values(t.popular.countries), ...EXTRA_COUNTRIES, t.signup.countryOther];
 
   function update(field: keyof typeof form, value: string) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -26,14 +18,9 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!form.name.trim() || !form.phone.trim() || !form.country) {
+    if (!form.name.trim() || form.phone.trim().length < 6 || !form.missed.trim()) {
       setStatus("error");
       setMessage(t.signup.errorRequired);
-      return;
-    }
-    if (!EMAIL_RE.test(form.email.trim())) {
-      setStatus("error");
-      setMessage(t.signup.errorEmail);
       return;
     }
     setStatus("loading");
@@ -44,9 +31,7 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: form.name.trim(),
-          email: form.email.trim(),
           phone: form.phone.trim(),
-          country: form.country,
           missed_product: form.missed.trim(),
           locale,
           source,
@@ -56,10 +41,10 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
       if (res.ok && data.ok) {
         setStatus("success");
         setMessage(t.signup.success);
-        setForm({ name: "", email: "", phone: "", country: "", missed: "" });
+        setForm({ name: "", phone: "", missed: "" });
       } else {
         setStatus("error");
-        setMessage(data.error === "invalid_email" ? t.signup.errorEmail : t.signup.errorGeneric);
+        setMessage(t.signup.errorGeneric);
       }
     } catch {
       setStatus("error");
@@ -70,10 +55,10 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
   if (status === "success") {
     return (
       <div
-        className="flex items-center gap-3 rounded-2xl border border-mint/30 bg-mint-100 px-5 py-4 text-base font-bold text-mint-600 shadow-soft"
+        className="flex items-center gap-3 rounded-2xl border border-mint/30 bg-mint-100 px-5 py-4 text-base font-semibold text-mint-600 shadow-soft"
         role="status"
       >
-        <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-mint font-extrabold text-white">✓</span>
+        <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-mint font-bold text-white">✓</span>
         {message}
       </div>
     );
@@ -95,16 +80,6 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
           className={fieldClass}
         />
         <input
-          type="email"
-          inputMode="email"
-          autoComplete="email"
-          value={form.email}
-          onChange={(e) => update("email", e.target.value)}
-          placeholder={t.signup.emailPlaceholder}
-          aria-label={t.signup.emailPlaceholder}
-          className={fieldClass}
-        />
-        <input
           type="tel"
           inputMode="tel"
           autoComplete="tel"
@@ -114,21 +89,6 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
           aria-label={t.signup.phonePlaceholder}
           className={fieldClass}
         />
-        <select
-          value={form.country}
-          onChange={(e) => update("country", e.target.value)}
-          aria-label={t.signup.countryPlaceholder}
-          className={`${fieldClass} ${form.country ? "" : "text-ink-soft/50"}`}
-        >
-          <option value="" disabled>
-            {t.signup.countryPlaceholder}
-          </option>
-          {countries.map((c) => (
-            <option key={c} value={c} className="text-ink">
-              {c}
-            </option>
-          ))}
-        </select>
       </div>
 
       <label className="mt-3 block text-sm font-semibold text-ink">{t.signup.missedLabel}</label>
@@ -150,7 +110,7 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
         {status === "loading" ? t.signup.sending : cta ?? t.signup.cta}
       </button>
 
-      {status === "error" && <p className="mt-2 px-1 text-sm font-bold text-coral-600">{message}</p>}
+      {status === "error" && <p className="mt-2 px-1 text-sm font-semibold text-coral-600">{message}</p>}
     </form>
   );
 }
