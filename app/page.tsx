@@ -69,9 +69,14 @@ function Hero() {
           sizes="100vw"
           className="block h-auto w-full"
         />
-        <div className="absolute inset-x-[18%] inset-y-[22%] flex items-center justify-center text-center">
-          <h1 className="font-display uppercase leading-[0.9] tracking-tight text-cream [text-shadow:0_2px_10px_rgba(10,40,35,0.45)] text-[clamp(1.1rem,8cqw,4.5rem)]">
-            {t.hero.title1} <span className="text-sun">{t.hero.title2}</span>
+        <div className="absolute inset-x-[12%] inset-y-[16%] flex flex-col items-center justify-center text-center [text-shadow:0_3px_12px_rgba(10,40,35,0.5)]">
+          <h1 className="leading-[0.86] text-cream">
+            <span className="block -rotate-1 font-display uppercase tracking-tight text-[clamp(1.4rem,11cqw,6rem)]">
+              {t.hero.title1}
+            </span>
+            <span className="mt-1 block rotate-2 font-script text-sun text-[clamp(1.5rem,12cqw,6.5rem)] leading-[1.05]">
+              {t.hero.title2}
+            </span>
           </h1>
         </div>
       </div>

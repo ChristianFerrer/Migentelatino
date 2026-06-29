@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Anton } from "next/font/google";
+import { Inter, Anton, Pacifico } from "next/font/google";
 import "./globals.css";
 import { LocaleProvider } from "@/components/LocaleProvider";
 
@@ -16,6 +16,14 @@ const anton = Anton({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-display",
+  display: "swap",
+});
+
+// Script face for mixed-typography movement in the hero.
+const pacifico = Pacifico({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-script",
   display: "swap",
 });
 
@@ -44,7 +52,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${anton.variable}`}>
+    <html lang="en" className={`${inter.variable} ${anton.variable} ${pacifico.variable}`}>
       <body>
         <LocaleProvider>{children}</LocaleProvider>
       </body>
