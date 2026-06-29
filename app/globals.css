@@ -39,9 +39,9 @@ body {
    (teal, celeste, golden) layered over the orange background. */
 .dot-mesh {
   background-image:
-    radial-gradient(circle, rgba(43, 174, 160, 0.22) 1px, transparent 1.6px),
-    radial-gradient(circle, rgba(143, 208, 224, 0.20) 1px, transparent 1.6px),
-    radial-gradient(circle, rgba(242, 169, 59, 0.16) 1px, transparent 1.6px);
+    radial-gradient(circle, rgba(43, 174, 160, 1) 1.1px, transparent 1.7px),
+    radial-gradient(circle, rgba(143, 208, 224, 1) 1.1px, transparent 1.7px),
+    radial-gradient(circle, rgba(242, 169, 59, 1) 1.1px, transparent 1.7px);
   background-size: 15px 15px, 15px 15px, 15px 15px;
   background-position: 0 0, 5px 8px, 10px 3px;
 }
