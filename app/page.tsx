@@ -26,7 +26,7 @@ export default function Page() {
 function Nav() {
   const { t } = useLocale();
   return (
-    <header className="sticky top-0 z-40 border-b border-ink/10 bg-cream/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-ink/10 bg-white">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3.5">
         <a href="#top" aria-label="Mi Gente Latino home">
           <Logo className="text-lg" />
@@ -55,8 +55,7 @@ function Nav() {
 function Hero() {
   const { t } = useLocale();
   return (
-    <section id="top" className="hero-bg relative overflow-hidden">
-      <div className="grain pointer-events-none absolute inset-0 z-20 opacity-[0.12] mix-blend-multiply" aria-hidden />
+    <section id="top" className="relative overflow-hidden bg-white">
 
       {/* Full-bleed product poster + the localized question overlaid on the teal center */}
       <div className="relative w-full [container-type:inline-size]">
@@ -79,23 +78,23 @@ function Hero() {
             </span>
           </h1>
         </div>
-        {/* Soft fade from the image into the gradient background (no hard edge) */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[18%] bg-gradient-to-b from-transparent to-[#D24702]" aria-hidden />
+        {/* Soft fade from the image into the white background (no hard edge) */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[18%] bg-gradient-to-b from-transparent to-white" aria-hidden />
       </div>
 
       <div className="relative z-10 mx-auto max-w-2xl px-6 pb-16 pt-6 text-center md:pb-20">
-        <p className="mx-auto max-w-md text-sm font-light leading-relaxed text-white [text-shadow:0_1px_4px_rgba(45,12,0,0.9)] sm:text-base">
+        <p className="mx-auto max-w-md text-sm font-light leading-relaxed text-ink/80 sm:text-base">
           {t.hero.subtitle}
         </p>
 
         <div id="join" className="mx-auto mt-7 max-w-2xl">
           <SignupForm source="hero" cta={t.hero.cta} />
-          <p className="mt-3 text-sm font-medium text-white [text-shadow:0_1px_4px_rgba(45,12,0,0.9)]">🔒 {t.hero.privacy}</p>
+          <p className="mt-3 text-sm font-medium text-ink/60">🔒 {t.hero.privacy}</p>
         </div>
       </div>
 
-      {/* Torn cream edge into the next section */}
-      <svg className="absolute inset-x-0 bottom-0 z-10 h-6 w-full text-cream sm:h-8" viewBox="0 0 1200 30" preserveAspectRatio="none" fill="currentColor" aria-hidden>
+      {/* Torn edge into the next section */}
+      <svg className="absolute inset-x-0 bottom-0 z-10 h-6 w-full text-white sm:h-8" viewBox="0 0 1200 30" preserveAspectRatio="none" fill="currentColor" aria-hidden>
         <path d="M0,20 C100,6 200,30 300,17 C400,5 500,29 600,16 C700,6 800,30 900,16 C1000,6 1100,27 1200,15 L1200,31 L0,31 Z" />
       </svg>
     </section>
@@ -197,18 +196,13 @@ function Footer() {
   const { t } = useLocale();
   const year = 2026;
   return (
-    <footer className="relative bg-mint pt-10">
-      {/* Torn top edge */}
-      <svg className="absolute inset-x-0 top-0 h-6 w-full -translate-y-[99%] text-mint sm:h-8" viewBox="0 0 1200 30" preserveAspectRatio="none" fill="currentColor" aria-hidden>
-        <path d="M0,16 C100,28 200,4 300,16 C400,28 500,6 600,17 C700,28 800,5 900,16 C1000,28 1100,8 1200,18 L1200,31 L0,31 Z" />
-      </svg>
-      <div className="grain pointer-events-none absolute inset-0 opacity-[0.15] mix-blend-overlay" aria-hidden />
-      <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-3 px-6 pb-10 text-center sm:flex-row sm:justify-between sm:text-left">
+    <footer className="border-t border-ink/10 bg-white">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-6 py-10 text-center sm:flex-row sm:justify-between sm:text-left">
         <div>
-          <Logo className="text-base" light />
-          <p className="mt-2 text-sm font-medium text-cream/80">{t.footer.tagline}</p>
+          <Logo className="text-base" />
+          <p className="mt-2 text-sm font-medium text-ink/70">{t.footer.tagline}</p>
         </div>
-        <div className="text-sm font-medium text-cream/70">
+        <div className="text-sm font-medium text-ink/60">
           <p>© {year} Mi Gente Latino. {t.footer.rights}</p>
           <p className="mt-1">{t.footer.madeWith} 🌶️</p>
         </div>
