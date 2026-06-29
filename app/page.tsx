@@ -118,48 +118,50 @@ function Marquee() {
   );
 }
 
-/* ──────────────────── Most-requested chart ──────────────────── */
+/* ──────────────────── Most-requested chart (Top 10) ──────────────────── */
 function RankingByCountry() {
   const { t } = useLocale();
-  // One bar per country: its single most-requested product.
-  const bars = COUNTRIES.map((c) => {
-    const top = [...c.products].sort((a, b) => b.votes - a.votes)[0];
-    return { country: c.key, name: top.name, votes: top.votes };
-  }).sort((a, b) => b.votes - a.votes);
+  // Top 10 most-requested products across all countries.
+  const bars = COUNTRIES.flatMap((c) =>
+    c.products.map((p) => ({ country: c.key, name: p.name, votes: p.votes }))
+  )
+    .sort((a, b) => b.votes - a.votes)
+    .slice(0, 10);
   const max = bars[0].votes;
-  const colors = ["bg-coral", "bg-grape", "bg-mint", "bg-sun", "bg-olive", "bg-coral-400"];
+  const colors = ["bg-coral", "bg-grape", "bg-mint", "bg-sun", "bg-olive"];
   const ticks = [max, Math.round(max * 0.66), Math.round(max * 0.33), 0];
+  const cols = { gridTemplateColumns: `repeat(${bars.length}, minmax(0, 1fr))` };
 
   return (
     <section id="popular" className="scroll-mt-20 py-20 sm:py-24">
-      <div className="mx-auto max-w-4xl px-6">
+      <div className="mx-auto max-w-5xl px-6">
         <h2 className="text-center font-display text-4xl uppercase tracking-tight text-ink sm:text-5xl">
           {t.popular.title}
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-center text-lg text-ink/70">{t.popular.subtitle}</p>
 
-        <div className="mt-12 rounded-3xl border border-ink/10 bg-white p-4 pt-14 shadow-card sm:p-8 sm:pt-16">
-          <div className="flex gap-2 sm:gap-3">
+        <div className="mt-12 overflow-x-auto rounded-3xl border border-ink/10 bg-white p-4 pt-14 shadow-card sm:p-8 sm:pt-16">
+          <div className="flex min-w-[680px] gap-3">
             {/* Y axis (quantities) */}
-            <div className="flex h-64 flex-col justify-between text-right text-[10px] font-semibold text-ink/40 sm:text-xs">
+            <div className="flex h-64 w-9 shrink-0 flex-col justify-between text-right text-[10px] font-semibold text-ink/40 sm:text-xs">
               {ticks.map((tk, i) => (
                 <span key={i}>{tk.toLocaleString()}</span>
               ))}
             </div>
 
-            {/* Plot */}
+            {/* Plot — bars and labels share identical grids so they line up */}
             <div className="flex-1">
-              <div className="flex h-64 items-end gap-2 border-b border-l border-ink/15 pl-2 sm:gap-5 sm:pl-4">
+              <div className="grid h-64 items-end gap-3 border-b border-l border-ink/15 pl-3" style={cols}>
                 {bars.map((b, i) => (
-                  <div key={b.country} className="flex h-full flex-1 items-end justify-center">
+                  <div key={b.name} className="flex h-full items-end justify-center">
                     <div
-                      className={`relative w-full max-w-[48px] rounded-t-lg ${colors[i % colors.length]}`}
+                      className={`relative w-full max-w-[44px] rounded-t-lg ${colors[i % colors.length]}`}
                       style={{ height: `${(b.votes / max) * 100}%` }}
                     >
                       {/* Flag + number on top of the bar */}
                       <div className="absolute inset-x-0 -top-11 flex flex-col items-center gap-1">
                         <Flag code={b.country} className="h-4 w-6 rounded shadow-sm" />
-                        <span className="text-[11px] font-extrabold leading-none text-ink sm:text-xs">
+                        <span className="text-[11px] font-extrabold leading-none text-ink">
                           {b.votes.toLocaleString()}
                         </span>
                       </div>
@@ -169,11 +171,11 @@ function RankingByCountry() {
               </div>
 
               {/* X axis (product) */}
-              <div className="flex gap-2 pl-2 sm:gap-5 sm:pl-4">
+              <div className="grid gap-3 pl-3" style={cols}>
                 {bars.map((b) => (
                   <span
-                    key={b.country}
-                    className="flex-1 pt-2 text-center text-[10px] font-semibold leading-tight text-ink/70 sm:text-xs"
+                    key={b.name}
+                    className="px-0.5 pt-2 text-center text-[10px] font-semibold leading-tight text-ink/70"
                   >
                     {b.name}
                   </span>
