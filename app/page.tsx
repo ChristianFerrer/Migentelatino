@@ -55,7 +55,7 @@ function Nav() {
 function Hero() {
   const { t } = useLocale();
   return (
-    <section id="top" className="relative overflow-hidden bg-[#D24702]">
+    <section id="top" className="dot-mesh relative overflow-hidden bg-[#D24702]">
       <div className="grain pointer-events-none absolute inset-0 z-20 opacity-[0.18] mix-blend-multiply" aria-hidden />
 
       {/* Full-bleed product poster + the localized question overlaid on the teal center */}

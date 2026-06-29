@@ -35,6 +35,17 @@ body {
   background-size: 24px 24px;
 }
 
+/* Fine multi-color dot mesh — subtle specks in the splash colors
+   (teal, celeste, golden) layered over the orange background. */
+.dot-mesh {
+  background-image:
+    radial-gradient(circle, rgba(43, 174, 160, 0.22) 1px, transparent 1.6px),
+    radial-gradient(circle, rgba(143, 208, 224, 0.20) 1px, transparent 1.6px),
+    radial-gradient(circle, rgba(242, 169, 59, 0.16) 1px, transparent 1.6px);
+  background-size: 15px 15px, 15px 15px, 15px 15px;
+  background-position: 0 0, 5px 8px, 10px 3px;
+}
+
 /* Vintage paper grain overlay (procedural, no external asset) */
 .grain {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
