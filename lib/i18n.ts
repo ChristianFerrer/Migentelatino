@@ -55,8 +55,8 @@ export const translations: Record<Locale, Dict> = {
     nav: { product: "Products", cta: "Get early access" },
     hero: {
       badge: "🌎 Latin American products in Europe",
-      title1: "Tell us what you miss",
-      title2: "most from your country",
+      title1: "What flavor do you miss",
+      title2: "from your country?",
       subtitle:
         "We're a new online store that brings the products you miss straight to your doorstep.",
       chips: ["Authentic brands", "Non-perishable", "To your door"],
@@ -105,8 +105,8 @@ export const translations: Record<Locale, Dict> = {
     nav: { product: "Productos", cta: "Acceso anticipado" },
     hero: {
       badge: "🌎 Productos latinos en Europa",
-      title1: "Cuéntanos qué es lo que más",
-      title2: "extrañas de tu país",
+      title1: "¿Qué sabor extrañas",
+      title2: "de tu país?",
       subtitle:
         "Somos una nueva tienda online que traerá los productos que extrañas a la puerta de tu casa.",
       chips: ["Marcas auténticas", "No perecibles", "A tu puerta"],
@@ -155,8 +155,8 @@ export const translations: Record<Locale, Dict> = {
     nav: { product: "Produkte", cta: "Früher Zugang" },
     hero: {
       badge: "🌎 Lateinamerikanische Produkte in Europa",
-      title1: "Sag uns, was du am meisten",
-      title2: "aus deinem Land vermisst",
+      title1: "Welchen Geschmack vermisst du",
+      title2: "aus deinem Land?",
       subtitle:
         "Wir sind ein neuer Online-Shop, der dir die Produkte, die du vermisst, direkt nach Hause bringt.",
       chips: ["Echte Marken", "Haltbar", "Vor deine Tür"],
