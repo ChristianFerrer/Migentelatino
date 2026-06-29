@@ -1,13 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import { useLocale } from "@/components/LocaleProvider";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { SignupForm } from "@/components/SignupForm";
 import { Logo } from "@/components/Logo";
 import { Flag } from "@/components/Flags";
-import { ProductImage } from "@/components/ProductImage";
 import { COUNTRIES } from "@/lib/products";
 
 export default function Page() {
@@ -120,68 +118,69 @@ function Marquee() {
   );
 }
 
-/* ──────────────────── Ranking by country ──────────────────── */
+/* ──────────────────── Most-requested chart ──────────────────── */
 function RankingByCountry() {
   const { t } = useLocale();
-  const [active, setActive] = useState(0);
-  const country = COUNTRIES[active];
-  const ranked = [...country.products].sort((a, b) => b.votes - a.votes);
-  const maxVotes = ranked[0].votes;
-
-  const badge = (i: number) =>
-    i === 0 ? "bg-sun text-ink" : i === 1 ? "bg-mint text-cream" : i === 2 ? "bg-grape text-cream" : "bg-ink/10 text-ink";
+  // One bar per country: its single most-requested product.
+  const bars = COUNTRIES.map((c) => {
+    const top = [...c.products].sort((a, b) => b.votes - a.votes)[0];
+    return { country: c.key, name: top.name, votes: top.votes };
+  }).sort((a, b) => b.votes - a.votes);
+  const max = bars[0].votes;
+  const colors = ["bg-coral", "bg-grape", "bg-mint", "bg-sun", "bg-olive", "bg-coral-400"];
+  const ticks = [max, Math.round(max * 0.66), Math.round(max * 0.33), 0];
 
   return (
     <section id="popular" className="scroll-mt-20 py-20 sm:py-24">
-      <div className="mx-auto max-w-5xl px-6">
-        <h2 className="text-center font-display text-4xl uppercase tracking-tight text-ink sm:text-6xl">
+      <div className="mx-auto max-w-4xl px-6">
+        <h2 className="text-center font-display text-4xl uppercase tracking-tight text-ink sm:text-5xl">
           {t.popular.title}
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-center text-lg text-ink/70">{t.popular.subtitle}</p>
 
-        {/* Big country flag cards */}
-        <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3">
-          {COUNTRIES.map((c, i) => (
-            <button
-              key={c.key}
-              onClick={() => setActive(i)}
-              aria-pressed={active === i}
-              className={`flex flex-col items-center gap-3 rounded-3xl border-2 bg-surface p-5 transition ${
-                active === i
-                  ? "border-coral shadow-soft -translate-y-0.5"
-                  : "border-ink/5 shadow-card hover:-translate-y-0.5 hover:border-coral/40"
-              }`}
-            >
-              <Flag code={c.key} className="h-14 w-[84px] rounded-lg shadow-card" />
-              <span className="font-display text-xl uppercase tracking-tight text-ink">{t.popular.countries[c.key]}</span>
-            </button>
-          ))}
-        </div>
+        <div className="mt-12 rounded-3xl border border-ink/10 bg-white p-4 pt-14 shadow-card sm:p-8 sm:pt-16">
+          <div className="flex gap-2 sm:gap-3">
+            {/* Y axis (quantities) */}
+            <div className="flex h-64 flex-col justify-between text-right text-[10px] font-semibold text-ink/40 sm:text-xs">
+              {ticks.map((tk, i) => (
+                <span key={i}>{tk.toLocaleString()}</span>
+              ))}
+            </div>
 
-        {/* Live ranking for the selected country */}
-        <div className="mx-auto mt-8 max-w-2xl rounded-3xl border border-ink/5 bg-surface p-3 shadow-card sm:p-4">
-          <ul className="divide-y divide-ink/5">
-            {ranked.map((p, i) => (
-              <li key={p.name} className="flex items-center gap-4 px-2 py-3 sm:px-3">
-                <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-sm font-extrabold ${badge(i)}`}>
-                  {i + 1}
-                </span>
-                <span className="grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-xl bg-cream">
-                  <ProductImage product={p} />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-bold text-ink sm:text-base">{p.name}</p>
-                  <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-ink/5">
-                    <div className="h-full rounded-full bg-coral" style={{ width: `${(p.votes / maxVotes) * 100}%` }} />
+            {/* Plot */}
+            <div className="flex-1">
+              <div className="flex h-64 items-end gap-2 border-b border-l border-ink/15 pl-2 sm:gap-5 sm:pl-4">
+                {bars.map((b, i) => (
+                  <div key={b.country} className="flex h-full flex-1 items-end justify-center">
+                    <div
+                      className={`relative w-full max-w-[48px] rounded-t-lg ${colors[i % colors.length]}`}
+                      style={{ height: `${(b.votes / max) * 100}%` }}
+                    >
+                      {/* Flag + number on top of the bar */}
+                      <div className="absolute inset-x-0 -top-11 flex flex-col items-center gap-1">
+                        <Flag code={b.country} className="h-4 w-6 rounded shadow-sm" />
+                        <span className="text-[11px] font-extrabold leading-none text-ink sm:text-xs">
+                          {b.votes.toLocaleString()}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="shrink-0 text-right">
-                  <p className="text-sm font-extrabold text-coral sm:text-base">{p.votes.toLocaleString()}</p>
-                  <p className="text-[11px] font-medium uppercase tracking-wide text-ink/45">{t.popular.votesLabel}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
+                ))}
+              </div>
+
+              {/* X axis (product) */}
+              <div className="flex gap-2 pl-2 sm:gap-5 sm:pl-4">
+                {bars.map((b) => (
+                  <span
+                    key={b.country}
+                    className="flex-1 pt-2 text-center text-[10px] font-semibold leading-tight text-ink/70 sm:text-xs"
+                  >
+                    {b.name}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
