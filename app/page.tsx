@@ -56,31 +56,32 @@ function Hero() {
   const { t } = useLocale();
   return (
     <section id="top" className="relative overflow-hidden bg-coral">
-      <div className="grain pointer-events-none absolute inset-0 opacity-[0.18] mix-blend-multiply" aria-hidden />
+      <div className="grain pointer-events-none absolute inset-0 z-20 opacity-[0.18] mix-blend-multiply" aria-hidden />
 
-      <div className="relative z-10 mx-auto max-w-3xl px-6 pb-16 pt-10 text-center md:pb-20 md:pt-14">
-        {/* Product poster as background + the localized question overlaid on the teal center */}
-        <div className="relative mx-auto w-full max-w-2xl [container-type:inline-size]">
-          <Image
-            src="/hero-bg.webp"
-            alt=""
-            width={1344}
-            height={896}
-            priority
-            sizes="(max-width: 768px) 100vw, 672px"
-            className="w-full rounded-3xl shadow-soft"
-          />
-          <div className="absolute inset-x-[19%] inset-y-[23%] flex items-center justify-center text-center">
-            <h1 className="font-display uppercase leading-[0.9] tracking-tight text-cream [text-shadow:0_2px_10px_rgba(10,40,35,0.45)] text-[8cqw]">
-              {t.hero.title1} <span className="text-sun">{t.hero.title2}</span>
-            </h1>
-          </div>
+      {/* Full-bleed product poster + the localized question overlaid on the teal center */}
+      <div className="relative w-full [container-type:inline-size]">
+        <Image
+          src="/hero-bg.webp"
+          alt=""
+          width={1344}
+          height={896}
+          priority
+          sizes="100vw"
+          className="block h-auto w-full"
+        />
+        <div className="absolute inset-x-[18%] inset-y-[22%] flex items-center justify-center text-center">
+          <h1 className="font-display uppercase leading-[0.9] tracking-tight text-cream [text-shadow:0_2px_10px_rgba(10,40,35,0.45)] text-[clamp(1.1rem,8cqw,4.5rem)]">
+            {t.hero.title1} <span className="text-sun">{t.hero.title2}</span>
+          </h1>
         </div>
-        <p className="mx-auto mt-7 max-w-xl text-lg font-medium leading-relaxed text-cream/90">
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-2xl px-6 pb-16 pt-8 text-center md:pb-20">
+        <p className="mx-auto max-w-xl text-lg font-medium leading-relaxed text-cream/90">
           {t.hero.subtitle}
         </p>
 
-        <div id="join" className="mx-auto mt-8 max-w-2xl">
+        <div id="join" className="mx-auto mt-7 max-w-2xl">
           <SignupForm source="hero" cta={t.hero.cta} />
           <p className="mt-3 text-sm font-medium text-cream/80">🔒 {t.hero.privacy}</p>
         </div>
