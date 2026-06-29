@@ -27,9 +27,9 @@ function Nav() {
   const { t } = useLocale();
   return (
     <header className="sticky top-0 z-40 border-b border-ink/10 bg-white">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3.5">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-2">
         <a href="#top" aria-label="Mi Gente Latino home">
-          <Logo className="text-lg" />
+          <Logo className="h-[5.5rem]" />
         </a>
         <div className="flex items-center gap-4">
           <a
@@ -55,7 +55,7 @@ function Nav() {
 function Hero() {
   const { t } = useLocale();
   return (
-    <section id="top" className="relative overflow-hidden bg-white">
+    <section id="top" className="relative overflow-hidden">
 
       {/* Full-bleed product poster + the localized question overlaid on the teal center */}
       <div className="relative w-full [container-type:inline-size]">
@@ -68,12 +68,12 @@ function Hero() {
           sizes="100vw"
           className="block h-auto w-full"
         />
-        <div className="absolute inset-x-[12%] inset-y-[16%] flex flex-col items-center justify-center text-center [text-shadow:0_3px_12px_rgba(10,40,35,0.5)]">
-          <h1 className="leading-[0.86] text-cream">
-            <span className="block -rotate-1 font-display uppercase tracking-tight text-[clamp(1.4rem,11cqw,6rem)]">
+        <div className="absolute inset-x-[6%] inset-y-[8%] flex flex-col items-center justify-center text-center [text-shadow:0_3px_14px_rgba(10,40,35,0.5)]">
+          <h1 className="leading-[0.84] text-cream">
+            <span className="block -rotate-1 font-display uppercase tracking-tight text-[clamp(2rem,16cqw,9rem)]">
               {t.hero.title1}
             </span>
-            <span className="mt-1 block rotate-2 font-script text-sun text-[clamp(1.5rem,12cqw,6.5rem)] leading-[1.05]">
+            <span className="mt-1 block rotate-2 font-script text-sun text-[clamp(2.1rem,17cqw,9.5rem)] leading-[1.05]">
               {t.hero.title2}
             </span>
           </h1>
@@ -93,10 +93,6 @@ function Hero() {
         </div>
       </div>
 
-      {/* Torn edge into the next section */}
-      <svg className="absolute inset-x-0 bottom-0 z-10 h-6 w-full text-white sm:h-8" viewBox="0 0 1200 30" preserveAspectRatio="none" fill="currentColor" aria-hidden>
-        <path d="M0,20 C100,6 200,30 300,17 C400,5 500,29 600,16 C700,6 800,30 900,16 C1000,6 1100,27 1200,15 L1200,31 L0,31 Z" />
-      </svg>
     </section>
   );
 }
@@ -199,7 +195,7 @@ function Footer() {
     <footer className="border-t border-ink/10 bg-white">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-6 py-10 text-center sm:flex-row sm:justify-between sm:text-left">
         <div>
-          <Logo className="text-base" />
+          <Logo className="h-12" />
           <p className="mt-2 text-sm font-medium text-ink/70">{t.footer.tagline}</p>
         </div>
         <div className="text-sm font-medium text-ink/60">

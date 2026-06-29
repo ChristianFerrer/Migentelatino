@@ -13,6 +13,12 @@ html {
 body {
   @apply bg-white text-ink antialiased;
   min-height: 100vh;
+  /* Subtle, widely-spaced colored dots over the white page */
+  background-image:
+    radial-gradient(circle, rgba(31, 122, 107, 0.16) 1px, transparent 1.5px),
+    radial-gradient(circle, rgba(226, 97, 30, 0.14) 1px, transparent 1.5px);
+  background-size: 34px 34px, 34px 34px;
+  background-position: 0 0, 17px 17px;
 }
 
 /* Marquee animation for the flavor ticker */
