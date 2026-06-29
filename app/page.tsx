@@ -80,14 +80,17 @@ function Hero() {
         </div>
       </div>
 
-      <div className="relative z-10 mx-auto max-w-2xl px-6 pb-16 pt-6 text-center md:pb-20">
-        <p className="mx-auto max-w-md text-sm font-light leading-relaxed text-ink/80 sm:text-base">
-          {t.hero.subtitle}
-        </p>
+      {/* Image orange continues ~5px, then a soft orange→pink gradient */}
+      <div className="relative z-10 bg-[linear-gradient(180deg,#D24702_0px,#D24702_5px,#E8567B_100%)]">
+        <div className="mx-auto max-w-2xl px-6 pb-16 pt-6 text-center md:pb-20">
+          <p className="mx-auto max-w-md text-sm font-light leading-relaxed text-white [text-shadow:0_1px_4px_rgba(45,12,0,0.85)] sm:text-base">
+            {t.hero.subtitle}
+          </p>
 
-        <div id="join" className="mx-auto mt-7 max-w-2xl">
-          <SignupForm source="hero" cta={t.hero.cta} />
-          <p className="mt-3 text-sm font-medium text-ink/60">🔒 {t.hero.privacy}</p>
+          <div id="join" className="mx-auto mt-7 max-w-2xl">
+            <SignupForm source="hero" cta={t.hero.cta} />
+            <p className="mt-3 text-sm font-medium text-white [text-shadow:0_1px_4px_rgba(45,12,0,0.85)]">🔒 {t.hero.privacy}</p>
+          </div>
         </div>
       </div>
 
