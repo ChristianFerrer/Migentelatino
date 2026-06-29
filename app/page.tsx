@@ -27,9 +27,9 @@ function Nav() {
   const { t } = useLocale();
   return (
     <header className="sticky top-0 z-40 border-b border-ink/10 bg-white">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-2">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between py-[5px] pl-[5%] pr-5">
         <a href="#top" aria-label="Mi Gente Latino home">
-          <Logo className="h-[5.5rem]" />
+          <Logo className="h-16" />
         </a>
         <div className="flex items-center gap-4">
           <a
@@ -78,8 +78,6 @@ function Hero() {
             </span>
           </h1>
         </div>
-        {/* Soft fade from the image into the white background (no hard edge) */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[18%] bg-gradient-to-b from-transparent to-white" aria-hidden />
       </div>
 
       <div className="relative z-10 mx-auto max-w-2xl px-6 pb-16 pt-6 text-center md:pb-20">
