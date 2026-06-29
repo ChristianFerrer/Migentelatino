@@ -1,13 +1,21 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Anton } from "next/font/google";
 import "./globals.css";
 import { LocaleProvider } from "@/components/LocaleProvider";
 
-// Single clean grotesk for everything — SF-Pro-like, Apple feel.
+// Inter for body text…
 const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
   variable: "--font-sans",
+  display: "swap",
+});
+
+// …and Anton — a tall, condensed poster face for headlines (street-food vibe).
+const anton = Anton({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-display",
   display: "swap",
 });
 
@@ -36,7 +44,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={`${inter.variable} ${anton.variable}`}>
       <body>
         <LocaleProvider>{children}</LocaleProvider>
       </body>

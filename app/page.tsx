@@ -6,6 +6,7 @@ import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { SignupForm } from "@/components/SignupForm";
 import { Logo } from "@/components/Logo";
 import { Flag } from "@/components/Flags";
+import { Icon } from "@/components/Icons";
 import { ProductImage } from "@/components/ProductImage";
 import { COUNTRIES } from "@/lib/products";
 
@@ -51,19 +52,36 @@ function Nav() {
 }
 
 /* ───────────────────────── Hero ───────────────────────── */
+const GARNISH = [
+  { icon: "lime", cls: "left-1 top-8 h-16 w-16 -rotate-12 sm:left-8 sm:h-20 sm:w-20" },
+  { icon: "chili", cls: "right-1 top-6 h-20 w-20 rotate-12 sm:right-8 sm:h-24 sm:w-24" },
+  { icon: "tomato", cls: "left-4 bottom-40 hidden h-16 w-16 rotate-6 sm:block" },
+  { icon: "limeslice", cls: "right-4 bottom-44 hidden h-16 w-16 -rotate-6 sm:block" },
+  { icon: "herb", cls: "left-1/2 top-1 hidden h-12 w-12 -translate-x-1/2 md:block" },
+];
+
 function Hero() {
   const { t } = useLocale();
   return (
-    <section id="top" className="relative bg-coral">
-      <div className="dotted absolute inset-0 opacity-60" aria-hidden />
-      <div className="relative mx-auto max-w-3xl px-6 py-20 text-center md:py-28">
-        <h1 className="font-display text-[2.6rem] font-extrabold leading-[1.04] tracking-[-0.03em] text-cream sm:text-6xl lg:text-7xl">
+    <section id="top" className="relative overflow-hidden bg-coral">
+      <div className="dotted absolute inset-0 opacity-50" aria-hidden />
+      <div className="grain pointer-events-none absolute inset-0 opacity-[0.18] mix-blend-multiply" aria-hidden />
+
+      {/* Scattered food garnishes */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        {GARNISH.map((g, i) => (
+          <Icon key={i} name={g.icon} className={`absolute drop-shadow-[0_4px_6px_rgba(0,0,0,0.15)] ${g.cls}`} />
+        ))}
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-3xl px-6 py-20 text-center md:py-28">
+        <h1 className="font-display text-5xl uppercase leading-[0.95] tracking-tight text-cream drop-shadow-[0_3px_0_rgba(0,0,0,0.12)] sm:text-7xl lg:text-[5.2rem]">
           {t.hero.title1}{" "}
-          <span className="mt-3 inline-block rounded-2xl bg-mint px-4 py-1 text-cream shadow-card">
+          <span className="mt-3 inline-block -rotate-1 rounded-2xl bg-mint px-4 py-1 text-cream shadow-card">
             {t.hero.title2}
           </span>
         </h1>
-        <p className="mx-auto mt-6 max-w-xl text-lg font-medium leading-relaxed text-cream/90">
+        <p className="mx-auto mt-7 max-w-xl text-lg font-medium leading-relaxed text-cream/90">
           {t.hero.subtitle}
         </p>
 
@@ -72,6 +90,11 @@ function Hero() {
           <p className="mt-3 text-sm font-medium text-cream/80">🔒 {t.hero.privacy}</p>
         </div>
       </div>
+
+      {/* Torn cream edge into the next section */}
+      <svg className="absolute inset-x-0 bottom-0 z-10 h-6 w-full text-cream sm:h-8" viewBox="0 0 1200 30" preserveAspectRatio="none" fill="currentColor" aria-hidden>
+        <path d="M0,20 C100,6 200,30 300,17 C400,5 500,29 600,16 C700,6 800,30 900,16 C1000,6 1100,27 1200,15 L1200,31 L0,31 Z" />
+      </svg>
     </section>
   );
 }
@@ -81,10 +104,11 @@ function Marquee() {
   const { t } = useLocale();
   const items = [...COUNTRIES, ...COUNTRIES];
   return (
-    <div className="bg-mint py-3.5">
-      <div className="flex w-max animate-marquee items-center gap-10 whitespace-nowrap px-5">
+    <div className="relative bg-mint py-3.5">
+      <div className="grain pointer-events-none absolute inset-0 opacity-[0.15] mix-blend-overlay" aria-hidden />
+      <div className="relative flex w-max animate-marquee items-center gap-10 whitespace-nowrap px-5">
         {items.map((c, i) => (
-          <span key={i} className="flex items-center gap-10 text-base font-semibold tracking-wide text-cream/95">
+          <span key={i} className="flex items-center gap-10 font-display text-lg uppercase tracking-wide text-cream/95">
             <span className="flex items-center gap-2.5">
               <Flag code={c.key} className="h-5 w-[30px] rounded shadow-sm" />
               {t.popular.countries[c.key]}
@@ -109,9 +133,9 @@ function RankingByCountry() {
     i === 0 ? "bg-sun text-ink" : i === 1 ? "bg-mint text-cream" : i === 2 ? "bg-grape text-cream" : "bg-ink/10 text-ink";
 
   return (
-    <section id="popular" className="scroll-mt-20 py-20 sm:py-28">
+    <section id="popular" className="scroll-mt-20 py-20 sm:py-24">
       <div className="mx-auto max-w-5xl px-6">
-        <h2 className="text-center font-display text-4xl font-extrabold tracking-[-0.02em] text-ink sm:text-5xl">
+        <h2 className="text-center font-display text-4xl uppercase tracking-tight text-ink sm:text-6xl">
           {t.popular.title}
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-center text-lg text-ink/70">{t.popular.subtitle}</p>
@@ -130,7 +154,7 @@ function RankingByCountry() {
               }`}
             >
               <Flag code={c.key} className="h-14 w-[84px] rounded-lg shadow-card" />
-              <span className="text-base font-bold text-ink">{t.popular.countries[c.key]}</span>
+              <span className="font-display text-xl uppercase tracking-tight text-ink">{t.popular.countries[c.key]}</span>
             </button>
           ))}
         </div>
@@ -170,8 +194,13 @@ function Footer() {
   const { t } = useLocale();
   const year = 2026;
   return (
-    <footer className="bg-mint">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-6 py-10 text-center sm:flex-row sm:justify-between sm:text-left">
+    <footer className="relative bg-mint pt-10">
+      {/* Torn top edge */}
+      <svg className="absolute inset-x-0 top-0 h-6 w-full -translate-y-[99%] text-mint sm:h-8" viewBox="0 0 1200 30" preserveAspectRatio="none" fill="currentColor" aria-hidden>
+        <path d="M0,16 C100,28 200,4 300,16 C400,28 500,6 600,17 C700,28 800,5 900,16 C1000,28 1100,8 1200,18 L1200,31 L0,31 Z" />
+      </svg>
+      <div className="grain pointer-events-none absolute inset-0 opacity-[0.15] mix-blend-overlay" aria-hidden />
+      <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-3 px-6 pb-10 text-center sm:flex-row sm:justify-between sm:text-left">
         <div>
           <Logo className="text-base" light />
           <p className="mt-2 text-sm font-medium text-cream/80">{t.footer.tagline}</p>

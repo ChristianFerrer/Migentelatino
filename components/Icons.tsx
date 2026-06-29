@@ -23,7 +23,12 @@ type IconKey =
   | "jar"
   | "pouch"
   | "coffee"
-  | "cookies";
+  | "cookies"
+  | "chili"
+  | "lime"
+  | "limeslice"
+  | "tomato"
+  | "herb";
 
 const base = { viewBox: "0 0 48 48", fill: "none", xmlns: "http://www.w3.org/2000/svg" };
 
@@ -157,6 +162,45 @@ const icons: Record<IconKey, ReactElement> = {
       <circle cx="21.5" cy="24.5" r="0.9" fill={K} />
       <circle cx="19.5" cy="26" r="0.9" fill={K} />
       <path d="M28 20h6M28 24h6M28 28h6" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" />
+    </>
+  ),
+  // ── Food garnishes (decorative, vintage-poster accents) ──
+  chili: (
+    <>
+      <path d="M17 17c1-3 4-5 7-4 7 2 11 9 8 17-2 6-8 9-12 6-3-3-2-8 0-12 1-3 3-4 4-6Z" fill="#D8442B" />
+      <path d="M30 22c2 4 1 9-2 12" stroke="#BB3420" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <path d="M22 14l3-5c1-1 4-1 5 1" stroke="#6FA03C" strokeWidth="3" fill="none" strokeLinecap="round" />
+    </>
+  ),
+  lime: (
+    <>
+      <circle cx="24" cy="26" r="13" fill="#6FA03C" />
+      <ellipse cx="19" cy="20" rx="3.5" ry="2.2" fill="#9CC067" opacity="0.7" />
+      <path d="M24 14c0-3 3-6 7-6-1 4-3 6-7 6Z" fill="#577F2D" />
+    </>
+  ),
+  limeslice: (
+    <>
+      <circle cx="24" cy="24" r="13" fill="#9CC067" />
+      <circle cx="24" cy="24" r="10" fill="#D6E7B2" />
+      <g stroke="#6FA03C" strokeWidth="1.4">
+        <path d="M24 14v20M14 24h20M17 17l14 14M31 17 17 31" />
+      </g>
+      <circle cx="24" cy="24" r="2" fill="#9CC067" />
+    </>
+  ),
+  tomato: (
+    <>
+      <circle cx="24" cy="27" r="12" fill="#D8442B" />
+      <ellipse cx="20" cy="23" rx="3" ry="2" fill="#E0654F" opacity="0.7" />
+      <path d="M24 16v-5M24 16l-4-3M24 16l4-3" stroke="#6FA03C" strokeWidth="2.6" strokeLinecap="round" />
+    </>
+  ),
+  herb: (
+    <>
+      <path d="M24 40c-6-4-9-12-5-20 6 3 10 11 7 18" fill="#6FA03C" />
+      <path d="M24 40c4-5 5-13 1-20-5 4-6 13-3 19" fill="#7FAE47" />
+      <path d="M24 40V18" stroke="#577F2D" strokeWidth="1.6" />
     </>
   ),
 };
