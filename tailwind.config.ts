@@ -9,53 +9,52 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Mi Gente Latino — "Aventura" palette, from the vibrant cartoon:
-        // turquoise sky background, golden glow, periwinkle violet, berry red,
-        // leaf green and deep teal, with dark ink outlines.
-        //   coral → Berry red    sun → Golden
-        //   mint  → Leaf green   grape → Violet (periwinkle)
-        //   olive → Deep teal    ink → Ink outline   cream → Turquoise bg
+        // Mi Gente Latino — "Mercado" palette, from the Mexican street-food
+        // reference: vibrant orange, teal, warm cream, golden and chili red.
+        //   coral → Orange (hero / CTA)   sun → Golden
+        //   mint  → Teal                  grape → Chili red
+        //   olive → Lime green   ink → Deep teal text   cream → Warm cream bg
         coral: {
-          DEFAULT: "#F0473D", // Berry red
-          50: "#FCE3E0",
-          100: "#FAD0CB",
-          400: "#F46A60",
-          500: "#F0473D",
-          600: "#D8362C",
+          DEFAULT: "#E2611E", // Orange
+          50: "#FBE7D7",
+          100: "#F8D2B6",
+          400: "#EA7E3F",
+          500: "#E2611E",
+          600: "#C75214",
         },
         sun: {
-          DEFAULT: "#FFC22E", // Golden
-          100: "#FFEFC2",
-          400: "#FFD062",
-          500: "#FFC22E",
-          600: "#F0A800",
+          DEFAULT: "#F2A93B", // Golden
+          100: "#FBE7C2",
+          400: "#F5BC63",
+          500: "#F2A93B",
+          600: "#DC8F1C",
         },
         mint: {
-          DEFAULT: "#2FB86A", // Leaf green
-          100: "#CFEEDD",
-          500: "#2FB86A",
-          600: "#239455",
+          DEFAULT: "#1F7A6B", // Teal
+          100: "#CDE3DE",
+          500: "#1F7A6B",
+          600: "#155C50",
         },
         grape: {
-          DEFAULT: "#7C6BD6", // Violet (periwinkle)
-          100: "#E0DBF7",
-          400: "#9A8CE3",
-          500: "#7C6BD6",
-          600: "#6253C2",
+          DEFAULT: "#D8442B", // Chili red
+          100: "#F6D2CB",
+          400: "#E0654F",
+          500: "#D8442B",
+          600: "#BB3420",
         },
         olive: {
-          DEFAULT: "#0E8FA0", // Deep teal accent
-          100: "#C7E8ED",
-          500: "#0E8FA0",
-          600: "#0A7383",
+          DEFAULT: "#6FA03C", // Lime green
+          100: "#E0EBC8",
+          500: "#6FA03C",
+          600: "#577F2D",
         },
         ink: {
-          DEFAULT: "#13303A", // Deep teal-navy (text / outlines)
-          soft: "#3E5963", // Muted teal
+          DEFAULT: "#1E332E", // Deep teal (text)
+          soft: "#5E6B62", // Muted
         },
-        surface: "#FFFFFF", // Card surface
-        lavender: "#3E5963", // Secondary text fallback
-        cream: "#1FBCD0", // Page background (turquoise)
+        surface: "#FFFDF7", // Warm white card
+        lavender: "#5E6B62", // Secondary text fallback
+        cream: "#F6ECD3", // Warm cream background
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
@@ -65,11 +64,10 @@ const config: Config = {
         "4xl": "2rem",
       },
       boxShadow: {
-        // Soft, diffuse, Apple-like elevation
-        soft: "0 10px 40px -12px rgba(10, 45, 55, 0.22)",
-        card: "0 4px 24px -8px rgba(10, 45, 55, 0.16)",
-        glow: "0 12px 34px -12px rgba(255, 194, 46, 0.5)",
-        "glow-cool": "0 12px 32px -14px rgba(124, 107, 214, 0.4)",
+        soft: "0 12px 40px -14px rgba(60, 35, 10, 0.30)",
+        card: "0 4px 22px -8px rgba(60, 35, 10, 0.20)",
+        glow: "0 14px 34px -12px rgba(226, 97, 30, 0.5)",
+        "glow-cool": "0 12px 32px -14px rgba(31, 122, 107, 0.4)",
       },
       keyframes: {
         "float-slow": {

@@ -28,6 +28,7 @@ type Dict = {
     title: string;
     subtitle: string;
     hint: string;
+    votesLabel: string;
     countries: Record<CountryKey, string>;
     packs: Record<PackType, string>;
   };
@@ -54,10 +55,10 @@ export const translations: Record<Locale, Dict> = {
     nav: { product: "Products", cta: "Get early access" },
     hero: {
       badge: "🌎 Latin American products in Europe",
-      title1: "What does your",
-      title2: "country miss most?",
+      title1: "Tell us what you miss",
+      title2: "most from your country",
       subtitle:
-        "We're a Latin American grocery store in Europe. Tell us the packaged brand or treat you miss most from home — and help us bring it to your door.",
+        "We're a new online store that brings the products you miss straight to your doorstep.",
       chips: ["Authentic brands", "Non-perishable", "To your door"],
       emailPlaceholder: "your@email.com",
       cta: "Send",
@@ -76,9 +77,10 @@ export const translations: Record<Locale, Dict> = {
       ],
     },
     popular: {
-      title: "What each country misses most",
-      subtitle: "A taste of what's coming — the packaged classics each community misses most.",
+      title: "What each country is asking for",
+      subtitle: "Vote for yours in the form above — here's the live ranking by country.",
       hint: "Pick a country",
+      votesLabel: "votes",
       countries: { pe: "Peru", co: "Colombia", br: "Brazil", ar: "Argentina", mx: "Mexico", ve: "Venezuela" },
       packs: { bottle: "Drink", can: "Canned", jar: "Jar", box: "Boxed", pouch: "Packet", coffee: "Coffee", cookies: "Cookies" },
     },
@@ -103,10 +105,10 @@ export const translations: Record<Locale, Dict> = {
     nav: { product: "Productos", cta: "Acceso anticipado" },
     hero: {
       badge: "🌎 Productos latinos en Europa",
-      title1: "¿Qué es lo que más",
-      title2: "extraña tu país?",
+      title1: "Cuéntanos qué es lo que más",
+      title2: "extrañas de tu país",
       subtitle:
-        "Somos una tienda de productos latinos en Europa. Cuéntanos qué marca o antojo envasado extrañas más de casa — y ayúdanos a traerlo a tu puerta.",
+        "Somos una nueva tienda online que traerá los productos que extrañas a la puerta de tu casa.",
       chips: ["Marcas auténticas", "No perecibles", "A tu puerta"],
       emailPlaceholder: "tu@correo.com",
       cta: "Enviar",
@@ -125,9 +127,10 @@ export const translations: Record<Locale, Dict> = {
       ],
     },
     popular: {
-      title: "Lo que más extraña cada país",
-      subtitle: "Un adelanto de lo que viene — los clásicos envasados que cada comunidad más extraña.",
+      title: "Lo que más pide cada país",
+      subtitle: "Vota por el tuyo en el formulario de arriba — este es el ranking en vivo por país.",
       hint: "Elige un país",
+      votesLabel: "votos",
       countries: { pe: "Perú", co: "Colombia", br: "Brasil", ar: "Argentina", mx: "México", ve: "Venezuela" },
       packs: { bottle: "Bebida", can: "Lata", jar: "Tarro", box: "Caja", pouch: "Paquete", coffee: "Café", cookies: "Galletas" },
     },
@@ -152,10 +155,10 @@ export const translations: Record<Locale, Dict> = {
     nav: { product: "Produkte", cta: "Früher Zugang" },
     hero: {
       badge: "🌎 Lateinamerikanische Produkte in Europa",
-      title1: "Was vermisst dein",
-      title2: "Land am meisten?",
+      title1: "Sag uns, was du am meisten",
+      title2: "aus deinem Land vermisst",
       subtitle:
-        "Wir sind ein Shop für lateinamerikanische Produkte in Europa. Sag uns, welche haltbare Marke oder Leckerei du am meisten von zu Hause vermisst — und hilf uns, sie vor deine Tür zu bringen.",
+        "Wir sind ein neuer Online-Shop, der dir die Produkte, die du vermisst, direkt nach Hause bringt.",
       chips: ["Echte Marken", "Haltbar", "Vor deine Tür"],
       emailPlaceholder: "deine@email.com",
       cta: "Senden",
@@ -174,9 +177,10 @@ export const translations: Record<Locale, Dict> = {
       ],
     },
     popular: {
-      title: "Was jedes Land am meisten vermisst",
-      subtitle: "Ein Vorgeschmack — die haltbaren Klassiker, die jede Community am meisten vermisst.",
+      title: "Was jedes Land sich am meisten wünscht",
+      subtitle: "Stimme oben im Formular ab — hier das Live-Ranking nach Land.",
       hint: "Land wählen",
+      votesLabel: "Stimmen",
       countries: { pe: "Peru", co: "Kolumbien", br: "Brasilien", ar: "Argentinien", mx: "Mexiko", ve: "Venezuela" },
       packs: { bottle: "Getränk", can: "Dose", jar: "Glas", box: "Schachtel", pouch: "Packung", coffee: "Kaffee", cookies: "Kekse" },
     },

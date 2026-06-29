@@ -5,6 +5,7 @@ export async function POST(request: Request) {
   let body: {
     name?: string;
     phone?: string;
+    country?: string;
     missed_product?: string;
     locale?: string;
     source?: string;
@@ -17,19 +18,21 @@ export async function POST(request: Request) {
 
   const name = (body.name || "").trim().slice(0, 80);
   const phone = (body.phone || "").trim().slice(0, 30);
+  const country = (body.country || "").trim().slice(0, 40);
   const missedProduct = (body.missed_product || "").trim().slice(0, 280);
   const locale = (body.locale || "en").slice(0, 5);
   const source = (body.source || "landing").slice(0, 60);
 
-  // Phone is the key lead field now (we follow up on WhatsApp).
-  if (phone.replace(/\D/g, "").length < 6 || !name) {
+  // Phone is the key lead field (we follow up on WhatsApp); the missed
+  // product is the "vote" that powers the ranking.
+  if (phone.replace(/\D/g, "").length < 6 || !name || !missedProduct) {
     return NextResponse.json({ ok: false, error: "invalid_lead" }, { status: 400 });
   }
 
   // Demo mode: no database configured yet. We still return success so the
   // landing is fully testable; the lead is simply logged, not stored.
   if (!isSupabaseConfigured) {
-    console.log(`[subscribe:demo] ${name} | ${phone} | "${missedProduct}" (${locale}/${source})`);
+    console.log(`[subscribe:demo] ${name} | ${phone} | ${country} | "${missedProduct}" (${locale}/${source})`);
     return NextResponse.json({ ok: true, demo: true });
   }
 
@@ -40,7 +43,7 @@ export async function POST(request: Request) {
 
   const { error } = await supabase
     .from("signups")
-    .insert({ name, phone, missed_product: missedProduct, locale, source });
+    .insert({ name, phone, country, missed_product: missedProduct, locale, source });
 
   if (error) {
     // 23505 = unique_violation → already on the list. Treat as success.

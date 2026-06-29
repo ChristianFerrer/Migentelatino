@@ -5,11 +5,15 @@ import { useLocale } from "./LocaleProvider";
 
 type Status = "idle" | "loading" | "success" | "error";
 
+const EXTRA_COUNTRIES = ["Chile", "Ecuador", "Bolivia", "Uruguay", "Paraguay"];
+
 export function SignupForm({ source, cta }: { source: string; cta?: string }) {
   const { t, locale } = useLocale();
-  const [form, setForm] = useState({ name: "", phone: "", missed: "" });
+  const [form, setForm] = useState({ missed: "", name: "", phone: "", country: "" });
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
+
+  const countries = [...Object.values(t.popular.countries), ...EXTRA_COUNTRIES, t.signup.countryOther];
 
   function update(field: keyof typeof form, value: string) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -18,7 +22,7 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!form.name.trim() || form.phone.trim().length < 6 || !form.missed.trim()) {
+    if (!form.missed.trim() || !form.name.trim() || form.phone.trim().length < 6 || !form.country) {
       setStatus("error");
       setMessage(t.signup.errorRequired);
       return;
@@ -30,9 +34,10 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          missed_product: form.missed.trim(),
           name: form.name.trim(),
           phone: form.phone.trim(),
-          missed_product: form.missed.trim(),
+          country: form.country,
           locale,
           source,
         }),
@@ -41,7 +46,7 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
       if (res.ok && data.ok) {
         setStatus("success");
         setMessage(t.signup.success);
-        setForm({ name: "", phone: "", missed: "" });
+        setForm({ missed: "", name: "", phone: "", country: "" });
       } else {
         setStatus("error");
         setMessage(t.signup.errorGeneric);
@@ -55,7 +60,7 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
   if (status === "success") {
     return (
       <div
-        className="flex items-center gap-3 rounded-2xl border border-mint/30 bg-mint-100 px-5 py-4 text-base font-semibold text-mint-600 shadow-soft"
+        className="flex items-center gap-3 rounded-2xl border border-mint/30 bg-mint-100 px-5 py-4 text-base font-semibold text-mint-600 shadow-card"
         role="status"
       >
         <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-mint font-bold text-white">✓</span>
@@ -65,11 +70,22 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
   }
 
   const fieldClass =
-    "w-full rounded-xl border border-ink/10 bg-white/80 px-4 py-3 text-[15px] font-normal text-ink outline-none transition placeholder:text-ink/40 focus:border-ink/25 focus:bg-white focus:ring-4 focus:ring-ink/5";
+    "w-full rounded-xl border border-ink/10 bg-white px-4 py-3 text-[15px] font-medium text-ink outline-none transition placeholder:text-ink/40 focus:border-coral/50 focus:ring-4 focus:ring-coral/10";
 
   return (
-    <form onSubmit={handleSubmit} className="w-full rounded-3xl border border-white/60 bg-white/80 p-5 shadow-soft backdrop-blur-xl" noValidate>
-      <div className="grid gap-3 sm:grid-cols-2">
+    <form onSubmit={handleSubmit} className="w-full" noValidate>
+      {/* Big "missed product" field — the headline question's answer */}
+      <input
+        type="text"
+        value={form.missed}
+        onChange={(e) => update("missed", e.target.value)}
+        placeholder={t.signup.missedPlaceholder}
+        maxLength={120}
+        aria-label={t.signup.missedLabel}
+        className="w-full rounded-2xl border-2 border-ink/10 bg-white px-5 py-4 text-lg font-semibold text-ink shadow-card outline-none transition placeholder:font-medium placeholder:text-ink/35 focus:border-coral focus:ring-4 focus:ring-coral/15 sm:text-xl"
+      />
+
+      <div className="mt-3 grid gap-3 sm:grid-cols-3">
         <input
           type="text"
           autoComplete="name"
@@ -89,28 +105,32 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
           aria-label={t.signup.phonePlaceholder}
           className={fieldClass}
         />
+        <select
+          value={form.country}
+          onChange={(e) => update("country", e.target.value)}
+          aria-label={t.signup.countryPlaceholder}
+          className={`${fieldClass} ${form.country ? "" : "text-ink/40"}`}
+        >
+          <option value="" disabled>
+            {t.signup.countryPlaceholder}
+          </option>
+          {countries.map((c) => (
+            <option key={c} value={c} className="text-ink">
+              {c}
+            </option>
+          ))}
+        </select>
       </div>
-
-      <label className="mt-3 block text-sm font-semibold text-ink">{t.signup.missedLabel}</label>
-      <textarea
-        value={form.missed}
-        onChange={(e) => update("missed", e.target.value)}
-        placeholder={t.signup.missedPlaceholder}
-        rows={2}
-        maxLength={280}
-        aria-label={t.signup.missedLabel}
-        className={`${fieldClass} mt-1.5 resize-none`}
-      />
 
       <button
         type="submit"
         disabled={status === "loading"}
-        className="cta-gradient mt-4 w-full rounded-full px-7 py-3.5 text-base font-semibold text-ink shadow-glow transition hover:brightness-[1.03] active:scale-[0.99] disabled:opacity-70"
+        className="cta-gradient mt-4 w-full rounded-full px-7 py-4 text-base font-bold text-white shadow-glow transition hover:brightness-[1.04] active:scale-[0.99] disabled:opacity-70"
       >
         {status === "loading" ? t.signup.sending : cta ?? t.signup.cta}
       </button>
 
-      {status === "error" && <p className="mt-2 px-1 text-sm font-semibold text-coral-600">{message}</p>}
+      {status === "error" && <p className="mt-2 px-1 text-sm font-semibold text-grape-600">{message}</p>}
     </form>
   );
 }

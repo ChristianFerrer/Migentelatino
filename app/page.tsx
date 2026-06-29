@@ -5,7 +5,6 @@ import { useLocale } from "@/components/LocaleProvider";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { SignupForm } from "@/components/SignupForm";
 import { Logo } from "@/components/Logo";
-import { Icon } from "@/components/Icons";
 import { Flag } from "@/components/Flags";
 import { ProductImage } from "@/components/ProductImage";
 import { COUNTRIES } from "@/lib/products";
@@ -16,7 +15,7 @@ export default function Page() {
       <Nav />
       <Hero />
       <Marquee />
-      <PopularByCountry />
+      <RankingByCountry />
       <Footer />
     </main>
   );
@@ -26,7 +25,7 @@ export default function Page() {
 function Nav() {
   const { t } = useLocale();
   return (
-    <header className="sticky top-0 z-40 border-b border-white/30 bg-white/50 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-ink/10 bg-cream/80 backdrop-blur-xl">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3.5">
         <a href="#top" aria-label="Mi Gente Latino home">
           <Logo className="text-lg" />
@@ -41,7 +40,7 @@ function Nav() {
           <LanguageSwitcher />
           <a
             href="#join"
-            className="hidden rounded-full bg-ink px-5 py-2 text-sm font-semibold text-white transition hover:opacity-90 sm:inline-block"
+            className="hidden rounded-full bg-ink px-5 py-2 text-sm font-semibold text-cream transition hover:opacity-90 sm:inline-block"
           >
             {t.nav.cta}
           </a>
@@ -55,54 +54,25 @@ function Nav() {
 function Hero() {
   const { t } = useLocale();
   return (
-    <section id="top" className="relative">
-      <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-6 py-20 md:grid-cols-2 md:py-28">
-        <div className="animate-fade-up">
-          <h1 className="font-display text-5xl font-bold leading-[1.03] tracking-[-0.03em] text-white sm:text-6xl lg:text-7xl">
-            {t.hero.title1}
-            <br />
-            <span className="text-white">{t.hero.title2}</span>
-          </h1>
-          <p className="mt-6 max-w-md text-lg font-normal leading-relaxed text-white/85">{t.hero.subtitle}</p>
+    <section id="top" className="relative bg-coral">
+      <div className="dotted absolute inset-0 opacity-60" aria-hidden />
+      <div className="relative mx-auto max-w-3xl px-6 py-20 text-center md:py-28">
+        <h1 className="font-display text-[2.6rem] font-extrabold leading-[1.04] tracking-[-0.03em] text-cream sm:text-6xl lg:text-7xl">
+          {t.hero.title1}{" "}
+          <span className="mt-3 inline-block rounded-2xl bg-mint px-4 py-1 text-cream shadow-card">
+            {t.hero.title2}
+          </span>
+        </h1>
+        <p className="mx-auto mt-6 max-w-xl text-lg font-medium leading-relaxed text-cream/90">
+          {t.hero.subtitle}
+        </p>
 
-          <div className="mt-8 max-w-xl" id="join">
-            <SignupForm source="hero" cta={t.hero.cta} />
-            <p className="mt-3 px-1 text-sm font-medium text-white/70">🔒 {t.hero.privacy}</p>
-          </div>
-        </div>
-
-        <div className="relative hidden md:block">
-          <HeroArt />
+        <div id="join" className="mx-auto mt-9 max-w-2xl">
+          <SignupForm source="hero" cta={t.hero.cta} />
+          <p className="mt-3 text-sm font-medium text-cream/80">🔒 {t.hero.privacy}</p>
         </div>
       </div>
     </section>
-  );
-}
-
-function HeroArt() {
-  const tiles = [
-    { icon: "grocery", c: "bg-mint", d: "0s" },
-    { icon: "bottle", c: "bg-olive", d: "0.8s" },
-    { icon: "can", c: "bg-coral", d: "1.6s" },
-    { icon: "jar", c: "bg-sun", d: "0.4s" },
-    { icon: "coffee", c: "bg-grape", d: "1.2s" },
-    { icon: "cookies", c: "bg-mint", d: "2s" },
-  ];
-  return (
-    <div className="mx-auto aspect-square w-full max-w-md rounded-[2rem] border border-white/60 bg-white/75 p-4 shadow-soft backdrop-blur-xl">
-      <div className="grid h-full grid-cols-2 gap-4">
-        {tiles.map((tile, i) => (
-          <div key={i} className={`grid place-items-center rounded-3xl ${tile.c}`}>
-            <span
-              className="grid h-16 w-16 place-items-center rounded-2xl bg-white shadow-card animate-float-slow"
-              style={{ animationDelay: tile.d }}
-            >
-              <Icon name={tile.icon} className="h-10 w-10" />
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
   );
 }
 
@@ -111,15 +81,15 @@ function Marquee() {
   const { t } = useLocale();
   const items = [...COUNTRIES, ...COUNTRIES];
   return (
-    <div className="bg-grape/90 py-3.5 backdrop-blur">
+    <div className="bg-mint py-3.5">
       <div className="flex w-max animate-marquee items-center gap-10 whitespace-nowrap px-5">
         {items.map((c, i) => (
-          <span key={i} className="flex items-center gap-10 text-base font-semibold tracking-wide text-white/95">
+          <span key={i} className="flex items-center gap-10 text-base font-semibold tracking-wide text-cream/95">
             <span className="flex items-center gap-2.5">
               <Flag code={c.key} className="h-5 w-[30px] rounded shadow-sm" />
               {t.popular.countries[c.key]}
             </span>
-            <span className="text-white/40" aria-hidden>•</span>
+            <span className="text-cream/40" aria-hidden>•</span>
           </span>
         ))}
       </div>
@@ -127,62 +97,68 @@ function Marquee() {
   );
 }
 
-/* ──────────────────── Popular products by country ──────────────────── */
-function PopularByCountry() {
+/* ──────────────────── Ranking by country ──────────────────── */
+function RankingByCountry() {
   const { t } = useLocale();
   const [active, setActive] = useState(0);
   const country = COUNTRIES[active];
+  const ranked = [...country.products].sort((a, b) => b.votes - a.votes);
+  const maxVotes = ranked[0].votes;
+
+  const badge = (i: number) =>
+    i === 0 ? "bg-sun text-ink" : i === 1 ? "bg-mint text-cream" : i === 2 ? "bg-grape text-cream" : "bg-ink/10 text-ink";
 
   return (
     <section id="popular" className="scroll-mt-20 py-20 sm:py-28">
-      <div className="mx-auto max-w-6xl px-6">
-        <h2 className="text-center font-display text-4xl font-bold tracking-[-0.02em] text-ink sm:text-5xl">
+      <div className="mx-auto max-w-5xl px-6">
+        <h2 className="text-center font-display text-4xl font-extrabold tracking-[-0.02em] text-ink sm:text-5xl">
           {t.popular.title}
         </h2>
-        <p className="mx-auto mt-4 max-w-xl text-center text-lg font-normal text-ink/70">{t.popular.subtitle}</p>
+        <p className="mx-auto mt-4 max-w-xl text-center text-lg text-ink/70">{t.popular.subtitle}</p>
 
-        {/* Country segmented control */}
-        <div className="mt-10 flex justify-center">
-          <div
-            role="tablist"
-            aria-label={t.popular.hint}
-            className="flex flex-wrap justify-center gap-1 rounded-full border border-white/50 bg-white/50 p-1.5 backdrop-blur-xl"
-          >
-            {COUNTRIES.map((c, i) => (
-              <button
-                key={c.key}
-                role="tab"
-                aria-selected={active === i}
-                onClick={() => setActive(i)}
-                className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition ${
-                  active === i ? "bg-white text-ink shadow-card" : "text-ink/60 hover:text-ink"
-                }`}
-              >
-                <Flag code={c.key} className="h-4 w-6 rounded-[3px]" />
-                {t.popular.countries[c.key]}
-              </button>
-            ))}
-          </div>
+        {/* Big country flag cards */}
+        <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          {COUNTRIES.map((c, i) => (
+            <button
+              key={c.key}
+              onClick={() => setActive(i)}
+              aria-pressed={active === i}
+              className={`flex flex-col items-center gap-3 rounded-3xl border-2 bg-surface p-5 transition ${
+                active === i
+                  ? "border-coral shadow-soft -translate-y-0.5"
+                  : "border-ink/5 shadow-card hover:-translate-y-0.5 hover:border-coral/40"
+              }`}
+            >
+              <Flag code={c.key} className="h-14 w-[84px] rounded-lg shadow-card" />
+              <span className="text-base font-bold text-ink">{t.popular.countries[c.key]}</span>
+            </button>
+          ))}
         </div>
 
-        {/* Product cards */}
-        <div className="mt-10 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-5">
-          {country.products.map((p) => (
-            <div
-              key={p.name}
-              className="flex flex-col items-center gap-4 rounded-3xl border border-ink/5 bg-white p-6 text-center shadow-card transition hover:-translate-y-1 hover:shadow-soft"
-            >
-              <span className="grid h-20 w-20 place-items-center overflow-hidden rounded-2xl bg-ink/[0.04]">
-                <ProductImage product={p} />
-              </span>
-              <div>
-                <p className="text-sm font-semibold leading-tight text-ink">{p.name}</p>
-                <p className="mt-1 text-xs font-medium uppercase tracking-wide text-ink/45">
-                  {t.popular.packs[p.pack]}
-                </p>
-              </div>
-            </div>
-          ))}
+        {/* Live ranking for the selected country */}
+        <div className="mx-auto mt-8 max-w-2xl rounded-3xl border border-ink/5 bg-surface p-3 shadow-card sm:p-4">
+          <ul className="divide-y divide-ink/5">
+            {ranked.map((p, i) => (
+              <li key={p.name} className="flex items-center gap-4 px-2 py-3 sm:px-3">
+                <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-sm font-extrabold ${badge(i)}`}>
+                  {i + 1}
+                </span>
+                <span className="grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-xl bg-cream">
+                  <ProductImage product={p} />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-bold text-ink sm:text-base">{p.name}</p>
+                  <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-ink/5">
+                    <div className="h-full rounded-full bg-coral" style={{ width: `${(p.votes / maxVotes) * 100}%` }} />
+                  </div>
+                </div>
+                <div className="shrink-0 text-right">
+                  <p className="text-sm font-extrabold text-coral sm:text-base">{p.votes.toLocaleString()}</p>
+                  <p className="text-[11px] font-medium uppercase tracking-wide text-ink/45">{t.popular.votesLabel}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
@@ -194,13 +170,13 @@ function Footer() {
   const { t } = useLocale();
   const year = 2026;
   return (
-    <footer className="border-t border-white/30">
+    <footer className="bg-mint">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-6 py-10 text-center sm:flex-row sm:justify-between sm:text-left">
         <div>
-          <Logo className="text-base" />
-          <p className="mt-2 text-sm font-medium text-ink/70">{t.footer.tagline}</p>
+          <Logo className="text-base" light />
+          <p className="mt-2 text-sm font-medium text-cream/80">{t.footer.tagline}</p>
         </div>
-        <div className="text-sm font-medium text-ink/60">
+        <div className="text-sm font-medium text-cream/70">
           <p>© {year} Mi Gente Latino. {t.footer.rights}</p>
           <p className="mt-1">{t.footer.madeWith} 🌶️</p>
         </div>
