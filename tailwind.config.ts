@@ -9,46 +9,52 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Mi Gente Latino — "Mercado" palette (light, warm, appetizing).
-        // Fresh-market feel: warm cream base, espresso text, a salsa CTA
-        // (amber→orange→coral) and fresh green/teal for produce vibes.
-        //   coral → Chili/Tomato   sun → Mango/Amber
-        //   mint  → Fresh Green    grape → Teal
-        //   ink   → Espresso text   cream → Warm cream background
+        // Mi Gente Latino — "Acuarela" palette, from the watercolor courtyard:
+        // cream paper, turquoise door, terracotta pots, golden blossoms,
+        // olive foliage, lavender shadows, black ink outlines.
+        //   coral → Terracotta   sun → Golden
+        //   mint  → Turquoise    grape → Lavender   olive → Foliage green
+        //   ink   → Ink outline  cream → Paper background
         coral: {
-          DEFAULT: "#F0473D", // Chili / tomato
-          50: "#FDE7E4",
-          100: "#FBD3CE",
-          400: "#F46A60",
-          500: "#F0473D",
-          600: "#DA3328",
+          DEFAULT: "#D9542B", // Terracotta
+          50: "#F7E2D8",
+          100: "#F1CDBC",
+          400: "#E0764F",
+          500: "#D9542B",
+          600: "#BE4421",
         },
         sun: {
-          DEFAULT: "#F7B733", // Mango / amber
-          100: "#FDEFCB",
-          400: "#F9C75C",
-          500: "#F7B733",
-          600: "#E69E12",
+          DEFAULT: "#F2B33C", // Golden
+          100: "#FBEBC6",
+          400: "#F5C463",
+          500: "#F2B33C",
+          600: "#DD9A1E",
         },
         mint: {
-          DEFAULT: "#15A56A", // Fresh green
-          100: "#D2F1E2",
-          500: "#15A56A",
-          600: "#0E8A57",
+          DEFAULT: "#2F9FBE", // Turquoise (the door)
+          100: "#CDE9F0",
+          500: "#2F9FBE",
+          600: "#237E98",
         },
         grape: {
-          DEFAULT: "#0FB0A4", // Teal
-          100: "#CFF1EE",
-          500: "#0FB0A4",
-          600: "#0A8F86",
+          DEFAULT: "#9A8CBE", // Lavender (shadows)
+          100: "#E4DEF0",
+          500: "#9A8CBE",
+          600: "#7E6FA6",
+        },
+        olive: {
+          DEFAULT: "#8AA63E", // Foliage green
+          100: "#E6EDCB",
+          500: "#8AA63E",
+          600: "#6F8A2C",
         },
         ink: {
-          DEFAULT: "#2B1A12", // Espresso (primary text)
-          soft: "#7C6A5E", // Warm gray (secondary text)
+          DEFAULT: "#221E18", // Ink outline (primary text)
+          soft: "#6E6353", // Warm gray (secondary text)
         },
-        surface: "#FFFFFF", // Card surface
-        lavender: "#7C6A5E", // Secondary text fallback
-        cream: "#FFF6EA", // Page background (warm cream)
+        surface: "#FCF8EF", // Card surface (warm paper)
+        lavender: "#6E6353", // Secondary text fallback
+        cream: "#F4EDDD", // Page background (watercolor paper)
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
@@ -58,10 +64,10 @@ const config: Config = {
         "4xl": "2rem",
       },
       boxShadow: {
-        soft: "0 16px 44px -18px rgba(120, 60, 20, 0.30)",
-        // Warm CTA glow + fresh cool accent glow
-        glow: "0 14px 36px -10px rgba(240, 71, 61, 0.45)",
-        "glow-cool": "0 14px 34px -12px rgba(21, 165, 106, 0.40)",
+        soft: "0 16px 44px -18px rgba(80, 55, 25, 0.32)",
+        // Terracotta CTA glow + turquoise accent glow
+        glow: "0 14px 36px -10px rgba(217, 84, 43, 0.42)",
+        "glow-cool": "0 14px 34px -12px rgba(47, 159, 190, 0.40)",
       },
       keyframes: {
         "float-slow": {

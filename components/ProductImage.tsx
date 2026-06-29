@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Icon } from "./Icons";
 import type { Product } from "@/lib/products";
 
@@ -13,6 +13,14 @@ import type { Product } from "@/lib/products";
  */
 export function ProductImage({ product }: { product: Product }) {
   const [failed, setFailed] = useState(false);
+  const ref = useRef<HTMLImageElement>(null);
+
+  // Images that 404 before React hydrates never fire onError, so also
+  // check for an already-broken image once mounted.
+  useEffect(() => {
+    const img = ref.current;
+    if (img && img.complete && img.naturalWidth === 0) setFailed(true);
+  }, []);
 
   if (failed || !product.image) {
     return <Icon name={product.pack} className="h-12 w-12" />;
@@ -21,6 +29,7 @@ export function ProductImage({ product }: { product: Product }) {
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
+      ref={ref}
       src={product.image}
       alt={product.name}
       loading="lazy"

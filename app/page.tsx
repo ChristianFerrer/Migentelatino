@@ -67,7 +67,7 @@ function Hero() {
           <h1 className="mt-5 font-display text-5xl font-bold leading-[0.98] tracking-tight text-ink sm:text-6xl lg:text-7xl">
             {t.hero.title1}
             <br />
-            <span className="bg-gradient-to-r from-coral via-[#FB7A2E] to-sun bg-clip-text pb-1 text-transparent">
+            <span className="bg-gradient-to-r from-coral via-[#E8772E] to-sun bg-clip-text pb-1 text-transparent">
               {t.hero.title2}
             </span>
           </h1>
@@ -102,7 +102,7 @@ function Hero() {
 function HeroArt() {
   const tiles = [
     { icon: "grocery", c: "bg-mint", d: "0s" },
-    { icon: "bottle", c: "bg-grape", d: "0.8s" },
+    { icon: "bottle", c: "bg-olive", d: "0.8s" },
     { icon: "can", c: "bg-coral", d: "1.6s" },
     { icon: "jar", c: "bg-sun", d: "0.4s" },
     { icon: "coffee", c: "bg-grape", d: "1.2s" },
