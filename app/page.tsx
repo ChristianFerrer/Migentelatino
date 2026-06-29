@@ -27,9 +27,9 @@ function Nav() {
   const { t } = useLocale();
   return (
     <header className="sticky top-0 z-40 border-b border-ink/10 bg-white">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between py-[5px] pl-[5%] pr-5">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between py-2 pl-6 pr-5 sm:pl-8">
         <a href="#top" aria-label="Mi Gente Latino home">
-          <Logo className="h-16" />
+          <Logo className="h-20" />
         </a>
         <div className="flex items-center gap-4">
           <a
