@@ -55,7 +55,7 @@ function Nav() {
 function Hero() {
   const { t } = useLocale();
   return (
-    <section id="top" className="relative overflow-hidden bg-coral">
+    <section id="top" className="relative overflow-hidden bg-[#D24702]">
       <div className="grain pointer-events-none absolute inset-0 z-20 opacity-[0.18] mix-blend-multiply" aria-hidden />
 
       {/* Full-bleed product poster + the localized question overlaid on the teal center */}
@@ -69,6 +69,8 @@ function Hero() {
           sizes="100vw"
           className="block h-auto w-full"
         />
+        {/* Blend the poster's bottom edge into the page orange (no visible seam) */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[16%] bg-gradient-to-b from-transparent to-[#D24702]" aria-hidden />
         <div className="absolute inset-x-[12%] inset-y-[16%] flex flex-col items-center justify-center text-center [text-shadow:0_3px_12px_rgba(10,40,35,0.5)]">
           <h1 className="leading-[0.86] text-cream">
             <span className="block -rotate-1 font-display uppercase tracking-tight text-[clamp(1.4rem,11cqw,6rem)]">
@@ -81,8 +83,8 @@ function Hero() {
         </div>
       </div>
 
-      <div className="relative z-10 mx-auto max-w-2xl px-6 pb-16 pt-8 text-center md:pb-20">
-        <p className="mx-auto max-w-xl text-lg font-medium leading-relaxed text-cream/90">
+      <div className="relative z-10 mx-auto max-w-2xl px-6 pb-16 pt-6 text-center md:pb-20">
+        <p className="mx-auto max-w-md text-sm font-light leading-relaxed text-cream/85 sm:text-base">
           {t.hero.subtitle}
         </p>
 

@@ -58,7 +58,7 @@ export const translations: Record<Locale, Dict> = {
       title1: "What flavor do you miss",
       title2: "from your country?",
       subtitle:
-        "We're a new online store that brings the products you miss straight to your doorstep.",
+        "A new online store bringing your favorite Latin American brands home, across Europe. Tell us which one you miss and we'll let you know when it arrives.",
       chips: ["Authentic brands", "Non-perishable", "To your door"],
       emailPlaceholder: "your@email.com",
       cta: "Send",
@@ -108,7 +108,7 @@ export const translations: Record<Locale, Dict> = {
       title1: "¿Qué sabor extrañas",
       title2: "de tu país?",
       subtitle:
-        "Somos una nueva tienda online que traerá los productos que extrañas a la puerta de tu casa.",
+        "Una nueva tienda online que trae tus marcas latinas favoritas hasta tu casa, en toda Europa. Dinos cuál extrañas y te avisamos cuando llegue.",
       chips: ["Marcas auténticas", "No perecibles", "A tu puerta"],
       emailPlaceholder: "tu@correo.com",
       cta: "Enviar",
@@ -158,7 +158,7 @@ export const translations: Record<Locale, Dict> = {
       title1: "Welchen Geschmack vermisst du",
       title2: "aus deinem Land?",
       subtitle:
-        "Wir sind ein neuer Online-Shop, der dir die Produkte, die du vermisst, direkt nach Hause bringt.",
+        "Ein neuer Online-Shop, der deine liebsten lateinamerikanischen Marken nach Hause bringt – in ganz Europa. Sag uns, welche du vermisst, und wir melden uns, sobald sie da ist.",
       chips: ["Echte Marken", "Haltbar", "Vor deine Tür"],
       emailPlaceholder: "deine@email.com",
       cta: "Senden",
