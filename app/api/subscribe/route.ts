@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
+import { resolveProduct } from "@/lib/catalogStore";
 
 export async function POST(request: Request) {
   let body: {
@@ -29,10 +30,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "invalid_lead" }, { status: 400 });
   }
 
+  // Normalize the free-text "missed product" against the canonical catalog so
+  // different spellings of the same product count together in the ranking.
+  // Raw input is always preserved; this only adds derived fields.
+  const match = await resolveProduct(missedProduct).catch(() => null);
+
   // Demo mode: no database configured yet. We still return success so the
   // landing is fully testable; the lead is simply logged, not stored.
   if (!isSupabaseConfigured) {
-    console.log(`[subscribe:demo] ${name} | ${phone} | ${country} | "${missedProduct}" (${locale}/${source})`);
+    console.log(
+      `[subscribe:demo] ${name} | ${phone} | ${country} | "${missedProduct}" → ${match?.name ?? "?"} (${locale}/${source})`
+    );
     return NextResponse.json({ ok: true, demo: true });
   }
 
@@ -41,9 +49,20 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "server_error" }, { status: 500 });
   }
 
-  const { error } = await supabase
-    .from("signups")
-    .insert({ name, phone, country, missed_product: missedProduct, locale, source });
+  const { error } = await supabase.from("signups").insert({
+    name,
+    phone,
+    country,
+    missed_product: missedProduct,
+    locale,
+    source,
+    missed_product_normalized: match?.normalized ?? null,
+    canonical_slug: match?.slug ?? null,
+    canonical_name: match?.name ?? null,
+    match_method: match?.method ?? null,
+    match_score: match?.score ?? null,
+    match_status: match?.status ?? "pending",
+  });
 
   if (error) {
     // 23505 = unique_violation → already on the list. Treat as success.

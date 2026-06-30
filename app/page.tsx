@@ -147,7 +147,18 @@ const CHART_COLORS = ["bg-coral", "bg-grape", "bg-mint", "bg-sun", "bg-olive"];
 function RankingByCountry() {
   const { t } = useLocale();
   const [votes, setVotes] = useState<number[]>(TOP10.map((b) => b.votes));
+  const [realCounts, setRealCounts] = useState<Record<string, number>>({});
   const [pulse, setPulse] = useState(-1);
+
+  // Overlay real, normalized demand from the database (grouped by canonical
+  // product) on top of the seed baseline. Different spellings already count
+  // together server-side, so each product is a single bar here.
+  useEffect(() => {
+    fetch("/api/ranking")
+      .then((r) => r.json())
+      .then((d) => setRealCounts(d?.counts ?? {}))
+      .catch(() => {});
+  }, []);
 
   // Simulate live voting: every ~1.8s a random product gets a few votes.
   useEffect(() => {
@@ -163,8 +174,10 @@ function RankingByCountry() {
     return () => clearInterval(id);
   }, []);
 
-  const max = Math.max(...votes);
-  const total = votes.reduce((a, b) => a + b, 0);
+  // Displayed value = seed baseline + live simulation + real DB demand.
+  const display = votes.map((v, i) => v + (realCounts[TOP10[i].name] ?? 0));
+  const max = Math.max(...display);
+  const total = display.reduce((a, b) => a + b, 0);
 
   return (
     <section id="popular" className="scroll-mt-20 py-20 sm:py-24">
@@ -205,7 +218,7 @@ function RankingByCountry() {
               <div className="h-7 flex-1 sm:h-8">
                 <div
                   className={`flex h-full items-center justify-end gap-1.5 rounded-r-md pr-2 transition-[width] duration-700 ease-out ${CHART_COLORS[i % CHART_COLORS.length]}`}
-                  style={{ width: `${(votes[i] / max) * 100}%` }}
+                  style={{ width: `${(display[i] / max) * 100}%` }}
                 >
                   <Flag code={b.country} className="h-3.5 w-5 shrink-0 rounded shadow-sm" />
                   <span
@@ -213,7 +226,7 @@ function RankingByCountry() {
                       pulse === i ? "scale-125" : "scale-100"
                     }`}
                   >
-                    {votes[i].toLocaleString()}
+                    {display[i].toLocaleString()}
                   </span>
                 </div>
               </div>

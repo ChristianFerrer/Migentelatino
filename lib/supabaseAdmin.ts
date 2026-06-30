@@ -32,4 +32,11 @@ export type Lead = {
   email: string | null;
   locale: string | null;
   source: string | null;
+  // Normalization layer (derived from missed_product).
+  missed_product_normalized: string | null;
+  canonical_slug: string | null;
+  canonical_name: string | null;
+  match_method: string | null;
+  match_score: number | null;
+  match_status: string | null;
 };
