@@ -154,11 +154,10 @@ function RankingByCountry() {
 
   const max = Math.max(...votes);
   const total = votes.reduce((a, b) => a + b, 0);
-  const cols = { gridTemplateColumns: `repeat(${TOP10.length}, minmax(0, 1fr))` };
 
   return (
     <section id="popular" className="scroll-mt-20 py-20 sm:py-24">
-      <div className="px-4 sm:px-6">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <h2 className="text-center font-display text-4xl uppercase tracking-tight text-ink sm:text-5xl">
           {t.popular.title}
         </h2>
@@ -183,45 +182,35 @@ function RankingByCountry() {
           </div>
         </div>
 
-        {/* Full-width bar chart — vertical bars, no borders */}
-        <div className="mt-8">
-          <div className="grid h-72 items-end gap-1.5 sm:h-80 sm:gap-3" style={cols}>
-            {TOP10.map((b, i) => (
-              <div key={b.name} className="flex h-full items-end justify-center">
-                <div
-                  className={`relative w-full rounded-t-md transition-[height] duration-700 ease-out ${CHART_COLORS[i % CHART_COLORS.length]}`}
-                  style={{ height: `${(votes[i] / max) * 100}%` }}
-                >
-                  {/* Flag + number on top of the bar */}
-                  <div className="absolute inset-x-0 -top-10 flex flex-col items-center gap-1">
-                    <Flag code={b.country} className="h-3.5 w-5 rounded shadow-sm sm:h-4 sm:w-6" />
-                    <span
-                      className={`text-[10px] font-extrabold leading-none text-ink transition-transform sm:text-[11px] ${
-                        pulse === i ? "scale-125" : "scale-100"
-                      }`}
-                    >
-                      {votes[i].toLocaleString()}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* X axis (product) — same grid so each label sits under its bar */}
-          <div className="grid gap-1.5 pt-2 sm:gap-3" style={cols}>
-            {TOP10.map((b) => (
-              <span
-                key={b.name}
-                className="px-0.5 text-center text-[9px] font-semibold leading-tight text-ink/70 sm:text-[10px]"
-              >
+        {/* Full-width horizontal bar chart — no borders */}
+        <div className="mt-8 space-y-2.5 sm:space-y-3">
+          {TOP10.map((b, i) => (
+            <div key={b.name} className="flex items-center gap-3">
+              {/* Product name (y-axis) */}
+              <span className="w-24 shrink-0 text-right text-[11px] font-semibold leading-tight text-ink/70 sm:w-36 sm:text-xs">
                 {b.name}
               </span>
-            ))}
-          </div>
+              {/* Horizontal bar with flag + number at its tip */}
+              <div className="h-7 flex-1 sm:h-8">
+                <div
+                  className={`flex h-full items-center justify-end gap-1.5 rounded-r-md pr-2 transition-[width] duration-700 ease-out ${CHART_COLORS[i % CHART_COLORS.length]}`}
+                  style={{ width: `${(votes[i] / max) * 100}%` }}
+                >
+                  <Flag code={b.country} className="h-3.5 w-5 shrink-0 rounded shadow-sm" />
+                  <span
+                    className={`text-[11px] font-extrabold leading-none text-white transition-transform [text-shadow:0_1px_2px_rgba(0,0,0,0.35)] ${
+                      pulse === i ? "scale-125" : "scale-100"
+                    }`}
+                  >
+                    {votes[i].toLocaleString()}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
 
           {/* Top 10 caption below the chart */}
-          <p className="mt-6 text-center text-xs font-bold uppercase tracking-wide text-ink/55 sm:text-sm">
+          <p className="pt-4 text-center text-xs font-bold uppercase tracking-wide text-ink/55 sm:text-sm">
             {t.popular.top10}
           </p>
         </div>
