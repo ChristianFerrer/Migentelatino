@@ -2,6 +2,7 @@
 
 import { useId, type ReactElement } from "react";
 import type { CountryKey } from "@/lib/products";
+import type { Locale } from "@/lib/i18n";
 
 /**
  * Flat, simplified SVG flags (no emoji) — consistent rounded style.
@@ -72,3 +73,46 @@ const bands: Record<CountryKey, ReactElement> = {
     </>
   ),
 };
+
+/* Flat language flags (EN = UK, ES = Spain, DE label uses Austria) */
+const localeBands: Record<Locale, ReactElement> = {
+  en: (
+    <>
+      <rect width="24" height="16" fill="#00247D" />
+      <path d="M0 0 24 16M24 0 0 16" stroke="#FFFFFF" strokeWidth="3.2" />
+      <path d="M0 0 24 16M24 0 0 16" stroke="#CF142B" strokeWidth="1.4" />
+      <rect x="10" width="4" height="16" fill="#FFFFFF" />
+      <rect y="6" width="24" height="4" fill="#FFFFFF" />
+      <rect x="11" width="2" height="16" fill="#CF142B" />
+      <rect y="7" width="24" height="2" fill="#CF142B" />
+    </>
+  ),
+  es: (
+    <>
+      <rect width="24" height="16" fill="#AA151B" />
+      <rect y="4" width="24" height="8" fill="#F1BF00" />
+    </>
+  ),
+  de: (
+    <>
+      <rect width="24" height="16" fill="#ED2939" />
+      <rect y="5.34" width="24" height="5.34" fill="#FFFFFF" />
+    </>
+  ),
+};
+
+export function LocaleFlag({ code, className = "" }: { code: Locale; className?: string }) {
+  const id = useId().replace(/:/g, "");
+  const clip = `lflag-${code}-${id}`;
+  return (
+    <svg viewBox="0 0 24 16" className={className} role="img" aria-hidden="true">
+      <defs>
+        <clipPath id={clip}>
+          <rect width="24" height="16" rx="2.5" />
+        </clipPath>
+      </defs>
+      <g clipPath={`url(#${clip})`}>{localeBands[code]}</g>
+      <rect x="0.4" y="0.4" width="23.2" height="15.2" rx="2.2" fill="none" stroke="rgba(0,0,0,0.14)" strokeWidth="0.8" />
+    </svg>
+  );
+}

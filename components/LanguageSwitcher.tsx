@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useLocale } from "./LocaleProvider";
 import { LOCALES, LOCALE_LABELS, type Locale } from "@/lib/i18n";
+import { LocaleFlag } from "./Flags";
 
 export function LanguageSwitcher() {
   const { locale, setLocale } = useLocale();
@@ -27,7 +28,7 @@ export function LanguageSwitcher() {
         aria-expanded={open}
         aria-label="Change language"
       >
-        <span aria-hidden>{LOCALE_LABELS[locale].flag}</span>
+        <LocaleFlag code={locale} className="h-3.5 w-5 rounded-[3px]" />
         <span className="uppercase">{locale}</span>
         <svg width="12" height="12" viewBox="0 0 12 12" className={`transition ${open ? "rotate-180" : ""}`}>
           <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" />
@@ -52,7 +53,7 @@ export function LanguageSwitcher() {
                   l === locale ? "bg-ink/[0.06] text-ink" : "text-ink/70 hover:bg-ink/[0.04] hover:text-ink"
                 }`}
               >
-                <span aria-hidden>{LOCALE_LABELS[l].flag}</span>
+                <LocaleFlag code={l} className="h-3.5 w-5 rounded-[3px]" />
                 {LOCALE_LABELS[l].name}
               </button>
             </li>

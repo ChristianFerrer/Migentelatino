@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useLocale } from "@/components/LocaleProvider";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
@@ -25,7 +26,7 @@ function Nav() {
   const { t } = useLocale();
   return (
     <header className="sticky top-0 z-40 border-b border-ink/10 bg-white">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between py-2 pl-6 pr-5 sm:pl-8">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between py-[5px] pl-[5px] pr-4">
         <a href="#top" aria-label="Mi Gente Latino home">
           <Logo className="h-20" />
         </a>
@@ -55,6 +56,9 @@ function Hero() {
   return (
     <section id="top" className="relative overflow-hidden">
 
+      {/* Multicolor line (logo colors) at the start of the image */}
+      <div className="logo-line h-1 w-full" />
+
       {/* Full-bleed product poster + the localized question overlaid on the teal center */}
       <div className="relative w-full [container-type:inline-size]">
         <Image
@@ -78,8 +82,8 @@ function Hero() {
         </div>
       </div>
 
-      {/* 4px white line at the end of the image */}
-      <div className="h-1 w-full bg-white" />
+      {/* Multicolor line (logo colors) at the end of the image */}
+      <div className="logo-line h-1 w-full" />
 
       {/* Orange → pink (#fd79a8) gradient */}
       <div className="relative z-10 bg-[linear-gradient(180deg,#D24702_0px,#D24702_6px,#fd79a8_100%)]">
@@ -90,7 +94,6 @@ function Hero() {
 
           <div id="join" className="mx-auto mt-7 max-w-2xl">
             <SignupForm source="hero" cta={t.hero.cta} />
-            <p className="mt-3 text-sm font-medium text-white [text-shadow:0_1px_4px_rgba(45,12,0,0.85)]">🔒 {t.hero.privacy}</p>
           </div>
         </div>
       </div>
@@ -121,19 +124,37 @@ function Marquee() {
   );
 }
 
-/* ──────────────────── Most-requested chart (Top 10) ──────────────────── */
+/* ──────────────────── Most-requested chart (Top 10, live) ──────────────────── */
+const TOP10 = COUNTRIES.flatMap((c) =>
+  c.products.map((p) => ({ country: c.key, name: p.name, votes: p.votes }))
+)
+  .sort((a, b) => b.votes - a.votes)
+  .slice(0, 10);
+
+const CHART_COLORS = ["bg-coral", "bg-grape", "bg-mint", "bg-sun", "bg-olive"];
+
 function RankingByCountry() {
   const { t } = useLocale();
-  // Top 10 most-requested products across all countries.
-  const bars = COUNTRIES.flatMap((c) =>
-    c.products.map((p) => ({ country: c.key, name: p.name, votes: p.votes }))
-  )
-    .sort((a, b) => b.votes - a.votes)
-    .slice(0, 10);
-  const max = bars[0].votes;
-  const colors = ["bg-coral", "bg-grape", "bg-mint", "bg-sun", "bg-olive"];
+  const [votes, setVotes] = useState<number[]>(TOP10.map((b) => b.votes));
+  const [pulse, setPulse] = useState(-1);
+
+  // Simulate live voting: every ~1.8s a random product gets a few votes.
+  useEffect(() => {
+    const id = setInterval(() => {
+      const i = Math.floor(Math.random() * TOP10.length);
+      setVotes((prev) => {
+        const next = [...prev];
+        next[i] += 1 + Math.floor(Math.random() * 4);
+        return next;
+      });
+      setPulse(i);
+    }, 1800);
+    return () => clearInterval(id);
+  }, []);
+
+  const max = Math.max(...votes);
   const ticks = [max, Math.round(max * 0.66), Math.round(max * 0.33), 0];
-  const cols = { gridTemplateColumns: `repeat(${bars.length}, minmax(0, 1fr))` };
+  const cols = { gridTemplateColumns: `repeat(${TOP10.length}, minmax(0, 1fr))` };
 
   return (
     <section id="popular" className="scroll-mt-20 py-20 sm:py-24">
@@ -143,7 +164,16 @@ function RankingByCountry() {
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-center text-lg text-ink/70">{t.popular.subtitle}</p>
 
-        <div className="mt-12 overflow-x-auto rounded-3xl border border-ink/10 bg-white p-4 pt-14 shadow-card sm:p-8 sm:pt-16">
+        {/* live indicator */}
+        <div className="mt-4 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wide text-mint">
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-mint opacity-75" />
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-mint" />
+          </span>
+          Live
+        </div>
+
+        <div className="mt-8 overflow-x-auto rounded-3xl border border-ink/10 bg-white p-4 pt-14 shadow-card sm:p-8 sm:pt-16">
           <div className="flex min-w-[680px] gap-3">
             {/* Y axis (quantities) */}
             <div className="flex h-64 w-9 shrink-0 flex-col justify-between text-right text-[10px] font-semibold text-ink/40 sm:text-xs">
@@ -155,17 +185,21 @@ function RankingByCountry() {
             {/* Plot — bars and labels share identical grids so they line up */}
             <div className="flex-1">
               <div className="grid h-64 items-end gap-3 border-b border-l border-ink/15 pl-3" style={cols}>
-                {bars.map((b, i) => (
+                {TOP10.map((b, i) => (
                   <div key={b.name} className="flex h-full items-end justify-center">
                     <div
-                      className={`relative w-full max-w-[44px] rounded-t-lg ${colors[i % colors.length]}`}
-                      style={{ height: `${(b.votes / max) * 100}%` }}
+                      className={`relative w-full max-w-[44px] rounded-t-lg transition-[height] duration-700 ease-out ${CHART_COLORS[i % CHART_COLORS.length]}`}
+                      style={{ height: `${(votes[i] / max) * 100}%` }}
                     >
                       {/* Flag + number on top of the bar */}
                       <div className="absolute inset-x-0 -top-11 flex flex-col items-center gap-1">
                         <Flag code={b.country} className="h-4 w-6 rounded shadow-sm" />
-                        <span className="text-[11px] font-extrabold leading-none text-ink">
-                          {b.votes.toLocaleString()}
+                        <span
+                          className={`text-[11px] font-extrabold leading-none text-ink transition-transform ${
+                            pulse === i ? "scale-125" : "scale-100"
+                          }`}
+                        >
+                          {votes[i].toLocaleString()}
                         </span>
                       </div>
                     </div>
@@ -175,7 +209,7 @@ function RankingByCountry() {
 
               {/* X axis (product) */}
               <div className="grid gap-3 pl-3" style={cols}>
-                {bars.map((b) => (
+                {TOP10.map((b) => (
                   <span
                     key={b.name}
                     className="px-0.5 pt-2 text-center text-[10px] font-semibold leading-tight text-ink/70"
