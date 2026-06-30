@@ -177,19 +177,17 @@ export function CrmClient({
 
   return (
     <main className="min-h-screen bg-[#0e1f3d] text-white">
-      <header className="sticky top-0 z-20 border-b border-white/10 bg-[#0a1730]">
+      <header className="sticky top-0 z-20 border-b border-ink/10 bg-white">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
           <div className="flex items-center gap-3">
-            <span className="inline-flex rounded-lg bg-white px-2 py-1">
-              <Logo className="h-8" />
-            </span>
-            <span className="hidden text-sm font-bold uppercase tracking-wide text-white/50 sm:inline">CRM · Leads</span>
+            <Logo className="h-9" />
+            <span className="hidden text-sm font-bold uppercase tracking-wide text-ink/50 sm:inline">CRM · Leads</span>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={exportCsv} className="rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10">
+            <button onClick={exportCsv} className="rounded-full border border-ink/15 px-4 py-2 text-sm font-semibold text-ink transition hover:bg-ink/[0.04]">
               Export CSV
             </button>
-            <button onClick={logout} className="rounded-full bg-[#19b4ae] px-4 py-2 text-sm font-bold text-[#0e1f3d] transition hover:brightness-110">
+            <button onClick={logout} className="rounded-full bg-[#19b4ae] px-4 py-2 text-sm font-bold text-white transition hover:brightness-110">
               Log out
             </button>
           </div>
