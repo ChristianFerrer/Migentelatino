@@ -79,8 +79,9 @@ export const translations: Record<Locale, Dict> = {
       ],
     },
     popular: {
-      title: "What each country is asking for",
-      subtitle: "Vote for yours in the form above — here's the live ranking by country.",
+      title: "What my people are asking for",
+      subtitle:
+        "Add your favorite product to the list with the form above, rally more people to ask for it — if it makes the ranking, we'll bring it to Europe.",
       hint: "Pick a country",
       votesLabel: "votes",
       top10: "Top 10 most-requested products",
@@ -102,7 +103,7 @@ export const translations: Record<Locale, Dict> = {
       errorGeneric: "Something went wrong. Try again.",
       sending: "Joining…",
     },
-    footer: { tagline: "Latin flavors from home, across Europe.", rights: "All rights reserved.", madeWith: "Made with cariño", crm: "Team access" },
+    footer: { tagline: "From Latin America to all of Europe.", rights: "All rights reserved.", madeWith: "Made with cariño", crm: "Team access" },
   },
   es: {
     nav: { product: "Productos", cta: "Acceso anticipado" },
@@ -130,8 +131,9 @@ export const translations: Record<Locale, Dict> = {
       ],
     },
     popular: {
-      title: "Lo que más pide cada país",
-      subtitle: "Vota por el tuyo en el formulario de arriba — este es el ranking en vivo por país.",
+      title: "Lo que más pide mi gente",
+      subtitle:
+        "Agrega tu producto favorito a la lista con el formulario de arriba, anima a más gente a pedirlo y si aparece en el ranking lo traeremos a Europa.",
       hint: "Elige un país",
       votesLabel: "votos",
       top10: "Top 10 productos más pedidos",
@@ -153,7 +155,7 @@ export const translations: Record<Locale, Dict> = {
       errorGeneric: "Algo salió mal. Inténtalo de nuevo.",
       sending: "Uniéndote…",
     },
-    footer: { tagline: "El sabor de casa, en toda Europa.", rights: "Todos los derechos reservados.", madeWith: "Hecho con cariño", crm: "Acceso equipo" },
+    footer: { tagline: "De Latinoamérica para toda Europa.", rights: "Todos los derechos reservados.", madeWith: "Hecho con cariño", crm: "Acceso equipo" },
   },
   de: {
     nav: { product: "Produkte", cta: "Früher Zugang" },
@@ -181,8 +183,9 @@ export const translations: Record<Locale, Dict> = {
       ],
     },
     popular: {
-      title: "Was jedes Land sich am meisten wünscht",
-      subtitle: "Stimme oben im Formular ab — hier das Live-Ranking nach Land.",
+      title: "Was meine Leute sich am meisten wünschen",
+      subtitle:
+        "Füge dein Lieblingsprodukt mit dem Formular oben hinzu, motiviere mehr Leute, danach zu fragen — schafft es ins Ranking, bringen wir es nach Europa.",
       hint: "Land wählen",
       votesLabel: "Stimmen",
       top10: "Top 10 der meistgefragten Produkte",
@@ -204,7 +207,7 @@ export const translations: Record<Locale, Dict> = {
       errorGeneric: "Etwas ist schiefgelaufen. Versuch es erneut.",
       sending: "Wird gesendet…",
     },
-    footer: { tagline: "Heimatgeschmack aus Lateinamerika, in ganz Europa.", rights: "Alle Rechte vorbehalten.", madeWith: "Mit cariño gemacht", crm: "Team-Zugang" },
+    footer: { tagline: "Aus Lateinamerika für ganz Europa.", rights: "Alle Rechte vorbehalten.", madeWith: "Mit cariño gemacht", crm: "Team-Zugang" },
   },
   pt: {
     nav: { product: "Produtos", cta: "Acesso antecipado" },
@@ -232,8 +235,9 @@ export const translations: Record<Locale, Dict> = {
       ],
     },
     popular: {
-      title: "O que cada país mais pede",
-      subtitle: "Vote no seu no formulário acima — este é o ranking ao vivo por país.",
+      title: "O que a minha gente mais pede",
+      subtitle:
+        "Adicione seu produto favorito à lista com o formulário acima, incentive mais gente a pedir — se entrar no ranking, traremos para a Europa.",
       hint: "Escolha um país",
       votesLabel: "votos",
       top10: "Top 10 produtos mais pedidos",
@@ -255,6 +259,6 @@ export const translations: Record<Locale, Dict> = {
       errorGeneric: "Algo deu errado. Tente de novo.",
       sending: "Enviando…",
     },
-    footer: { tagline: "O sabor de casa, em toda a Europa.", rights: "Todos os direitos reservados.", madeWith: "Feito com carinho", crm: "Acesso da equipe" },
+    footer: { tagline: "Da América Latina para toda a Europa.", rights: "Todos os direitos reservados.", madeWith: "Feito com carinho", crm: "Acesso da equipe" },
   },
 };

@@ -36,9 +36,9 @@ function Nav() {
   const { t } = useLocale();
   return (
     <header className="sticky top-0 z-40 border-b border-ink/10 bg-white">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between py-[3px] pl-[3px] pr-4">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-2.5">
         <a href="#top" aria-label="Mi Gente Latino home" className="block leading-none">
-          <Logo className="h-24" />
+          <Logo className="h-11" />
         </a>
         <div className="flex items-center gap-4">
           <a
@@ -96,8 +96,8 @@ function Hero() {
       {/* Multicolor line (logo colors) at the end of the image */}
       <div className="logo-line h-[5px] w-full" />
 
-      {/* Orange → pink (#fd79a8) gradient */}
-      <div className="relative z-10 bg-[linear-gradient(180deg,#D24702_0px,#D24702_6px,#fd79a8_100%)]">
+      {/* #fdcb6e → pink (#fd79a8) gradient */}
+      <div className="relative z-10 bg-[linear-gradient(180deg,#fdcb6e_0%,#fd79a8_100%)]">
         <div className="mx-auto max-w-2xl px-6 pb-16 pt-6 text-center md:pb-20">
           <p className="mx-auto max-w-md text-sm font-light leading-relaxed text-white [text-shadow:0_1px_4px_rgba(45,12,0,0.85)] sm:text-base">
             {t.hero.subtitle}
@@ -238,7 +238,7 @@ function Footer() {
     <footer className="border-t border-ink/10 bg-white">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-6 py-10 text-center sm:flex-row sm:justify-between sm:text-left">
         <div>
-          <Logo className="h-12" />
+          <Logo className="h-9" />
           <p className="mt-2 text-sm font-medium text-ink/70">{t.footer.tagline}</p>
         </div>
         <div className="text-sm font-medium text-ink/60">
