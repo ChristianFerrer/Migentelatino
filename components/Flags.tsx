@@ -74,7 +74,7 @@ const bands: Record<CountryKey, ReactElement> = {
   ),
 };
 
-/* Flat language flags (EN = UK, ES = Spain, DE label uses Austria) */
+/* Flat language flags (EN = UK, ES = Spain, DE = Germany, PT = Portugal) */
 const localeBands: Record<Locale, ReactElement> = {
   en: (
     <>
@@ -95,15 +95,17 @@ const localeBands: Record<Locale, ReactElement> = {
   ),
   de: (
     <>
-      <rect width="24" height="16" fill="#ED2939" />
-      <rect y="5.34" width="24" height="5.34" fill="#FFFFFF" />
+      <rect width="24" height="16" fill="#000000" />
+      <rect y="5.34" width="24" height="5.33" fill="#DD0000" />
+      <rect y="10.67" width="24" height="5.33" fill="#FFCE00" />
     </>
   ),
   pt: (
     <>
-      <rect width="24" height="16" fill="#009C3B" />
-      <polygon points="12,2 22,8 12,14 2,8" fill="#FFDF00" />
-      <circle cx="12" cy="8" r="3.2" fill="#002776" />
+      <rect width="24" height="16" fill="#DA291C" />
+      <rect width="9.6" height="16" fill="#046A38" />
+      <circle cx="9.6" cy="8" r="2.4" fill="#FFE800" />
+      <circle cx="9.6" cy="8" r="1.1" fill="#DA291C" />
     </>
   ),
 };
