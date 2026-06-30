@@ -1,13 +1,14 @@
 import type { CountryKey, PackType } from "./products";
 
-export type Locale = "en" | "es" | "de";
+export type Locale = "en" | "es" | "de" | "pt";
 
-export const LOCALES: Locale[] = ["en", "es", "de"];
+export const LOCALES: Locale[] = ["en", "es", "de", "pt"];
 
 export const LOCALE_LABELS: Record<Locale, { flag: string; name: string }> = {
   en: { flag: "🇬🇧", name: "English" },
   es: { flag: "🇪🇸", name: "Español" },
   de: { flag: "🇦🇹", name: "Deutsch" },
+  pt: { flag: "🇧🇷", name: "Português" },
 };
 
 type Dict = {
@@ -204,5 +205,56 @@ export const translations: Record<Locale, Dict> = {
       sending: "Wird gesendet…",
     },
     footer: { tagline: "Heimatgeschmack aus Lateinamerika, in ganz Europa.", rights: "Alle Rechte vorbehalten.", madeWith: "Mit cariño gemacht", crm: "Team-Zugang" },
+  },
+  pt: {
+    nav: { product: "Produtos", cta: "Acesso antecipado" },
+    hero: {
+      badge: "🌎 Produtos latino-americanos na Europa",
+      title1: "Que sabor do seu país",
+      title2: "você sente falta?",
+      subtitle:
+        "Uma nova loja online que traz suas marcas latino-americanas favoritas até a sua casa, em toda a Europa. Conta pra gente qual você sente falta e avisamos quando chegar.",
+      chips: ["Marcas autênticas", "Não perecíveis", "Na sua porta"],
+      emailPlaceholder: "seu@email.com",
+      cta: "Enviar",
+      privacy: "Falamos com você no WhatsApp. Sem spam.",
+    },
+    marquee: ["Arepas", "Doce de leite", "Mate", "Tortillas", "Ají", "Banana", "Café", "Salsa", "Tajín", "Mandioca"],
+    categories: {
+      title: "O que trazemos",
+      items: [
+        { icon: "grocery", label: "Despensa & Mercearia" },
+        { icon: "drink", label: "Bebidas & Mate" },
+        { icon: "snack", label: "Snacks & Doces" },
+        { icon: "spice", label: "Temperos & Molhos" },
+        { icon: "can", label: "Conservas" },
+        { icon: "coffee", label: "Café & Cacau" },
+      ],
+    },
+    popular: {
+      title: "O que cada país mais pede",
+      subtitle: "Vote no seu no formulário acima — este é o ranking ao vivo por país.",
+      hint: "Escolha um país",
+      votesLabel: "votos",
+      top10: "Top 10 produtos mais pedidos",
+      countries: { pe: "Peru", co: "Colômbia", br: "Brasil", ar: "Argentina", mx: "México", ve: "Venezuela" },
+      packs: { bottle: "Bebida", can: "Lata", jar: "Pote", box: "Caixa", pouch: "Pacote", coffee: "Café", cookies: "Biscoitos" },
+    },
+    signup: {
+      namePlaceholder: "Seu nome",
+      emailPlaceholder: "seu@email.com",
+      phonePlaceholder: "Número de telefone",
+      countryPlaceholder: "País de origem",
+      countryOther: "Outro",
+      missedLabel: "Qual é o produto que você mais sente falta?",
+      missedPlaceholder: "ex. Inca Kola, Harina P.A.N., doce de leite…",
+      cta: "Avise-me",
+      success: "Você entrou! 🎉 Avisamos no lançamento.",
+      errorEmail: "Insira um e-mail válido.",
+      errorRequired: "Por favor preencha os campos obrigatórios.",
+      errorGeneric: "Algo deu errado. Tente de novo.",
+      sending: "Enviando…",
+    },
+    footer: { tagline: "O sabor de casa, em toda a Europa.", rights: "Todos os direitos reservados.", madeWith: "Feito com carinho", crm: "Acesso da equipe" },
   },
 };

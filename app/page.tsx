@@ -8,6 +8,16 @@ import { SignupForm } from "@/components/SignupForm";
 import { Logo } from "@/components/Logo";
 import { Flag } from "@/components/Flags";
 import { COUNTRIES } from "@/lib/products";
+import type { Locale } from "@/lib/i18n";
+
+/* Per-language hero sizing so the overlaid question always fits the box.
+   Longer languages (DE/EN) get a smaller cap than the short ES/PT. */
+const HERO_SIZE: Record<Locale, { t1: string; t2: string }> = {
+  es: { t1: "text-[clamp(1.9rem,15cqw,8.4rem)]", t2: "text-[clamp(2rem,16cqw,9rem)]" },
+  pt: { t1: "text-[clamp(1.55rem,12.2cqw,6.8rem)]", t2: "text-[clamp(1.7rem,13.6cqw,7.6rem)]" },
+  en: { t1: "text-[clamp(1.45rem,11.2cqw,6.2rem)]", t2: "text-[clamp(1.6rem,12.8cqw,7rem)]" },
+  de: { t1: "text-[clamp(1.15rem,8.9cqw,4.9rem)]", t2: "text-[clamp(1.45rem,11.5cqw,6.3rem)]" },
+};
 
 export default function Page() {
   return (
@@ -52,7 +62,8 @@ function Nav() {
 
 /* ───────────────────────── Hero ───────────────────────── */
 function Hero() {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
+  const size = HERO_SIZE[locale];
   return (
     <section id="top" className="relative overflow-hidden">
 
@@ -72,10 +83,10 @@ function Hero() {
         />
         <div className="absolute inset-x-[6%] inset-y-[8%] flex flex-col items-center justify-center text-center [text-shadow:0_3px_14px_rgba(10,40,35,0.5)]">
           <h1 className="leading-[0.84] text-cream">
-            <span className="block -rotate-1 font-display uppercase tracking-tight text-[clamp(2rem,16cqw,9rem)]">
+            <span className={`block -rotate-1 text-balance font-display uppercase tracking-tight ${size.t1}`}>
               {t.hero.title1}
             </span>
-            <span className="mt-1 block rotate-2 font-script text-sun text-[clamp(2.1rem,17cqw,9.5rem)] leading-[1.05]">
+            <span className={`mt-1 block rotate-2 text-balance font-script leading-[1.05] text-sun ${size.t2}`}>
               {t.hero.title2}
             </span>
           </h1>

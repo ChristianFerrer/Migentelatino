@@ -99,6 +99,13 @@ const localeBands: Record<Locale, ReactElement> = {
       <rect y="5.34" width="24" height="5.34" fill="#FFFFFF" />
     </>
   ),
+  pt: (
+    <>
+      <rect width="24" height="16" fill="#009C3B" />
+      <polygon points="12,2 22,8 12,14 2,8" fill="#FFDF00" />
+      <circle cx="12" cy="8" r="3.2" fill="#002776" />
+    </>
+  ),
 };
 
 export function LocaleFlag({ code, className = "" }: { code: Locale; className?: string }) {
