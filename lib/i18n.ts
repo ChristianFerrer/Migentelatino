@@ -29,6 +29,7 @@ type Dict = {
     subtitle: string;
     hint: string;
     votesLabel: string;
+    top10: string;
     countries: Record<CountryKey, string>;
     packs: Record<PackType, string>;
   };
@@ -81,6 +82,7 @@ export const translations: Record<Locale, Dict> = {
       subtitle: "Vote for yours in the form above — here's the live ranking by country.",
       hint: "Pick a country",
       votesLabel: "votes",
+      top10: "Top 10 most-requested products",
       countries: { pe: "Peru", co: "Colombia", br: "Brazil", ar: "Argentina", mx: "Mexico", ve: "Venezuela" },
       packs: { bottle: "Drink", can: "Canned", jar: "Jar", box: "Boxed", pouch: "Packet", coffee: "Coffee", cookies: "Cookies" },
     },
@@ -131,6 +133,7 @@ export const translations: Record<Locale, Dict> = {
       subtitle: "Vota por el tuyo en el formulario de arriba — este es el ranking en vivo por país.",
       hint: "Elige un país",
       votesLabel: "votos",
+      top10: "Top 10 productos más pedidos",
       countries: { pe: "Perú", co: "Colombia", br: "Brasil", ar: "Argentina", mx: "México", ve: "Venezuela" },
       packs: { bottle: "Bebida", can: "Lata", jar: "Tarro", box: "Caja", pouch: "Paquete", coffee: "Café", cookies: "Galletas" },
     },
@@ -181,6 +184,7 @@ export const translations: Record<Locale, Dict> = {
       subtitle: "Stimme oben im Formular ab — hier das Live-Ranking nach Land.",
       hint: "Land wählen",
       votesLabel: "Stimmen",
+      top10: "Top 10 der meistgefragten Produkte",
       countries: { pe: "Peru", co: "Kolumbien", br: "Brasilien", ar: "Argentinien", mx: "Mexiko", ve: "Venezuela" },
       packs: { bottle: "Getränk", can: "Dose", jar: "Glas", box: "Schachtel", pouch: "Packung", coffee: "Kaffee", cookies: "Kekse" },
     },

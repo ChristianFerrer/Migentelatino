@@ -57,7 +57,7 @@ function Hero() {
     <section id="top" className="relative overflow-hidden">
 
       {/* Multicolor line (logo colors) at the start of the image */}
-      <div className="logo-line h-[4px] w-full" />
+      <div className="logo-line h-[5px] w-full" />
 
       {/* Full-bleed product poster + the localized question overlaid on the teal center */}
       <div className="relative w-full [container-type:inline-size]">
@@ -83,7 +83,7 @@ function Hero() {
       </div>
 
       {/* Multicolor line (logo colors) at the end of the image */}
-      <div className="logo-line h-[4px] w-full" />
+      <div className="logo-line h-[5px] w-full" />
 
       {/* Orange → pink (#fd79a8) gradient */}
       <div className="relative z-10 bg-[linear-gradient(180deg,#D24702_0px,#D24702_6px,#fd79a8_100%)]">
@@ -164,21 +164,26 @@ function RankingByCountry() {
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-center text-lg text-ink/70">{t.popular.subtitle}</p>
 
-        {/* Live (red) on the left, live total-votes counter on the top-right */}
-        <div className="mt-6 flex items-end justify-between">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-red-600">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-80" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-500" />
-            </span>
-            Live
-          </div>
-          <div className="text-right">
-            <div className="text-[10px] font-bold uppercase tracking-wide text-ink/45">
-              {t.popular.votesLabel}
+        {/* Top 10 label (left) + Live dot/word beside the total-votes counter (top-right) */}
+        <div className="mt-6 flex items-end justify-between gap-4">
+          <p className="text-xs font-bold uppercase tracking-wide text-ink/55 sm:text-sm">
+            {t.popular.top10}
+          </p>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-red-600">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-80" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-500" />
+              </span>
+              Live
             </div>
-            <div className="font-display text-2xl leading-none tabular-nums text-ink sm:text-3xl">
-              {total.toLocaleString()}
+            <div className="text-right">
+              <div className="text-[10px] font-bold uppercase tracking-wide text-ink/45">
+                {t.popular.votesLabel}
+              </div>
+              <div className="font-display text-2xl leading-none tabular-nums text-ink sm:text-3xl">
+                {total.toLocaleString()}
+              </div>
             </div>
           </div>
         </div>
