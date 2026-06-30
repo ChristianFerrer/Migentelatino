@@ -125,7 +125,7 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
       <button
         type="submit"
         disabled={status === "loading"}
-        className="cta-gradient mt-4 w-full rounded-full px-7 py-4 text-base font-bold text-white shadow-glow transition hover:brightness-[1.04] active:scale-[0.99] disabled:opacity-70"
+        className="mt-4 w-full rounded-full bg-[linear-gradient(180deg,#81ecec,#00cec9)] px-7 py-4 text-base font-bold text-ink shadow-card transition hover:brightness-[1.04] active:scale-[0.99] disabled:opacity-70"
       >
         {status === "loading" ? t.signup.sending : cta ?? t.signup.cta}
       </button>
