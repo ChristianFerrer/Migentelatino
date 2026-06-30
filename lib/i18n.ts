@@ -50,6 +50,7 @@ type Dict = {
     sending: string;
   };
   footer: { tagline: string; rights: string; madeWith: string; crm: string };
+  legal: { privacy: string; imprint: string; formNotice: string };
 };
 
 export const translations: Record<Locale, Dict> = {
@@ -104,6 +105,7 @@ export const translations: Record<Locale, Dict> = {
       sending: "Joining…",
     },
     footer: { tagline: "From Latin America to all of Europe.", rights: "All rights reserved.", madeWith: "Made with cariño", crm: "Team access" },
+    legal: { privacy: "Privacy", imprint: "Imprint", formNotice: "By submitting you agree we may contact you on WhatsApp about the launch. No spam." },
   },
   es: {
     nav: { product: "Productos", cta: "Acceso anticipado" },
@@ -156,6 +158,7 @@ export const translations: Record<Locale, Dict> = {
       sending: "Uniéndote…",
     },
     footer: { tagline: "De Latinoamérica para toda Europa.", rights: "Todos los derechos reservados.", madeWith: "Hecho con cariño", crm: "Acceso equipo" },
+    legal: { privacy: "Privacidad", imprint: "Aviso legal", formNotice: "Al enviar aceptas que te contactemos por WhatsApp sobre el lanzamiento. Cero spam." },
   },
   de: {
     nav: { product: "Produkte", cta: "Früher Zugang" },
@@ -208,6 +211,7 @@ export const translations: Record<Locale, Dict> = {
       sending: "Wird gesendet…",
     },
     footer: { tagline: "Aus Lateinamerika für ganz Europa.", rights: "Alle Rechte vorbehalten.", madeWith: "Mit cariño gemacht", crm: "Team-Zugang" },
+    legal: { privacy: "Datenschutz", imprint: "Impressum", formNotice: "Mit dem Absenden stimmst du zu, dass wir dich per WhatsApp zum Start kontaktieren. Kein Spam." },
   },
   pt: {
     nav: { product: "Produtos", cta: "Acesso antecipado" },
@@ -260,5 +264,6 @@ export const translations: Record<Locale, Dict> = {
       sending: "Enviando…",
     },
     footer: { tagline: "Da América Latina para toda a Europa.", rights: "Todos os direitos reservados.", madeWith: "Feito com carinho", crm: "Acesso da equipe" },
+    legal: { privacy: "Privacidade", imprint: "Aviso legal", formNotice: "Ao enviar, você concorda que entremos em contato pelo WhatsApp sobre o lançamento. Sem spam." },
   },
 };

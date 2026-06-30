@@ -162,6 +162,13 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
       </button>
 
       {status === "error" && <p className="mt-2 px-1 text-sm font-semibold text-grape-600">{message}</p>}
+
+      <p className="mt-3 px-1 text-center text-[11px] leading-snug text-white/90 [text-shadow:0_1px_3px_rgba(45,12,0,0.7)]">
+        {t.legal.formNotice}{" "}
+        <a href="/privacidad" className="font-semibold underline">
+          {t.legal.privacy}
+        </a>
+      </p>
     </form>
   );
 }

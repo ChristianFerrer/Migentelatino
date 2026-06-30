@@ -1,14 +1,14 @@
 "use client";
 
 /**
- * Tiny first-party analytics client. Sends anonymous events to /api/track,
- * which writes them to our own database (visible in the CRM). Cookieless: the
- * session id lives in sessionStorage and a fresh one is created per browser
- * session, so there's no persistent identifier and no consent banner needed.
+ * First-party analytics client — STORAGE-LESS by design.
+ *
+ * It writes nothing to the device (no cookies, no localStorage, no
+ * sessionStorage), so it does not trigger the ePrivacy / TDDDG §25 / TKG §165
+ * consent requirement → no cookie banner needed. The visitor is de-duplicated
+ * server-side via an anonymous daily hash (see /api/track); the IP is never
+ * stored. Attribution is read from the current URL/referrer per event.
  */
-
-const SID_KEY = "mgl_sid";
-const ATTR_KEY = "mgl_attr";
 
 type Attribution = {
   source: string;
@@ -18,21 +18,6 @@ type Attribution = {
   utm_campaign: string | null;
 };
 
-function getSessionId(): string {
-  if (typeof window === "undefined") return "";
-  try {
-    let sid = sessionStorage.getItem(SID_KEY);
-    if (!sid) {
-      sid = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
-      sessionStorage.setItem(SID_KEY, sid);
-    }
-    return sid;
-  } catch {
-    return "anon";
-  }
-}
-
-/** Capture where the visitor came from once per session. */
 function getAttribution(): Attribution {
   const fallback: Attribution = {
     source: "direct",
@@ -43,9 +28,6 @@ function getAttribution(): Attribution {
   };
   if (typeof window === "undefined") return fallback;
   try {
-    const cached = sessionStorage.getItem(ATTR_KEY);
-    if (cached) return JSON.parse(cached) as Attribution;
-
     const params = new URLSearchParams(window.location.search);
     const utm_source = params.get("utm_source");
     const utm_medium = params.get("utm_medium");
@@ -58,16 +40,12 @@ function getAttribution(): Attribution {
     } else if (ref) {
       try {
         const host = new URL(ref).hostname.replace(/^www\./, "");
-        // Same-origin referrers count as direct/internal navigation.
         source = host === window.location.hostname ? "direct" : host;
       } catch {
         source = "other";
       }
     }
-
-    const attr: Attribution = { source, referrer: ref.slice(0, 300), utm_source, utm_medium, utm_campaign };
-    sessionStorage.setItem(ATTR_KEY, JSON.stringify(attr));
-    return attr;
+    return { source, referrer: ref.slice(0, 300), utm_source, utm_medium, utm_campaign };
   } catch {
     return fallback;
   }
@@ -82,7 +60,8 @@ export type EventType =
   | "lang_change"
   | "cta_click";
 
-// Fire each of these at most once per session (avoids double counting).
+// In-memory only (cleared on reload) — not device storage. Avoids double counts
+// within a single page load.
 const ONCE: Partial<Record<EventType, boolean>> = {
   pageview: true,
   form_view: true,
@@ -100,7 +79,6 @@ export function track(type: EventType, extra?: { locale?: string }) {
     const attr = getAttribution();
     const payload = {
       type,
-      session_id: getSessionId(),
       path: window.location.pathname,
       locale: extra?.locale ?? null,
       ...attr,

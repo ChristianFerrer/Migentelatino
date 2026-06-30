@@ -263,9 +263,11 @@ function Footer() {
         <div className="text-sm font-medium text-ink/60">
           <p>© {year} Mi Gente Latino. {t.footer.rights}</p>
           <p className="mt-1">{t.footer.madeWith} 🌶️</p>
-          <a href="/crm" className="mt-2 inline-block text-xs font-semibold text-ink/40 transition hover:text-ink/70">
-            {t.footer.crm} →
-          </a>
+          <div className="mt-2 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs font-semibold text-ink/40 sm:justify-start">
+            <a href="/privacidad" className="transition hover:text-ink/70">{t.legal.privacy}</a>
+            <a href="/aviso-legal" className="transition hover:text-ink/70">{t.legal.imprint}</a>
+            <a href="/crm" className="transition hover:text-ink/70">{t.footer.crm} →</a>
+          </div>
         </div>
       </div>
     </footer>
