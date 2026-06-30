@@ -48,7 +48,7 @@ type Dict = {
     errorGeneric: string;
     sending: string;
   };
-  footer: { tagline: string; rights: string; madeWith: string };
+  footer: { tagline: string; rights: string; madeWith: string; crm: string };
 };
 
 export const translations: Record<Locale, Dict> = {
@@ -101,7 +101,7 @@ export const translations: Record<Locale, Dict> = {
       errorGeneric: "Something went wrong. Try again.",
       sending: "Joining…",
     },
-    footer: { tagline: "Latin flavors from home, across Europe.", rights: "All rights reserved.", madeWith: "Made with cariño" },
+    footer: { tagline: "Latin flavors from home, across Europe.", rights: "All rights reserved.", madeWith: "Made with cariño", crm: "Team access" },
   },
   es: {
     nav: { product: "Productos", cta: "Acceso anticipado" },
@@ -152,7 +152,7 @@ export const translations: Record<Locale, Dict> = {
       errorGeneric: "Algo salió mal. Inténtalo de nuevo.",
       sending: "Uniéndote…",
     },
-    footer: { tagline: "El sabor de casa, en toda Europa.", rights: "Todos los derechos reservados.", madeWith: "Hecho con cariño" },
+    footer: { tagline: "El sabor de casa, en toda Europa.", rights: "Todos los derechos reservados.", madeWith: "Hecho con cariño", crm: "Acceso equipo" },
   },
   de: {
     nav: { product: "Produkte", cta: "Früher Zugang" },
@@ -203,6 +203,6 @@ export const translations: Record<Locale, Dict> = {
       errorGeneric: "Etwas ist schiefgelaufen. Versuch es erneut.",
       sending: "Wird gesendet…",
     },
-    footer: { tagline: "Heimatgeschmack aus Lateinamerika, in ganz Europa.", rights: "Alle Rechte vorbehalten.", madeWith: "Mit cariño gemacht" },
+    footer: { tagline: "Heimatgeschmack aus Lateinamerika, in ganz Europa.", rights: "Alle Rechte vorbehalten.", madeWith: "Mit cariño gemacht", crm: "Team-Zugang" },
   },
 };

@@ -233,6 +233,9 @@ function Footer() {
         <div className="text-sm font-medium text-ink/60">
           <p>© {year} Mi Gente Latino. {t.footer.rights}</p>
           <p className="mt-1">{t.footer.madeWith} 🌶️</p>
+          <a href="/crm" className="mt-2 inline-block text-xs font-semibold text-ink/40 transition hover:text-ink/70">
+            {t.footer.crm} →
+          </a>
         </div>
       </div>
     </footer>
