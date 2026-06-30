@@ -15,10 +15,10 @@ body {
   min-height: 100vh;
   /* Dots in the logo colors (red, yellow, teal, purple), widely spaced */
   background-image:
-    radial-gradient(circle, rgba(233, 75, 59, 0.5) 1px, transparent 1.6px),
-    radial-gradient(circle, rgba(247, 201, 66, 0.5) 1px, transparent 1.6px),
-    radial-gradient(circle, rgba(25, 180, 174, 0.5) 1px, transparent 1.6px),
-    radial-gradient(circle, rgba(162, 45, 147, 0.5) 1px, transparent 1.6px);
+    radial-gradient(circle, rgba(233, 75, 59, 0.3) 1px, transparent 1.6px),
+    radial-gradient(circle, rgba(247, 201, 66, 0.3) 1px, transparent 1.6px),
+    radial-gradient(circle, rgba(25, 180, 174, 0.3) 1px, transparent 1.6px),
+    radial-gradient(circle, rgba(162, 45, 147, 0.3) 1px, transparent 1.6px);
   background-size: 40px 40px, 40px 40px, 40px 40px, 40px 40px;
   background-position: 0 0, 20px 20px, 0 20px, 20px 0;
 }

@@ -164,26 +164,21 @@ function RankingByCountry() {
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-center text-lg text-ink/70">{t.popular.subtitle}</p>
 
-        {/* Top 10 label (left) + Live dot/word beside the total-votes counter (top-right) */}
-        <div className="mt-6 flex items-end justify-between gap-4">
-          <p className="text-xs font-bold uppercase tracking-wide text-ink/55 sm:text-sm">
-            {t.popular.top10}
-          </p>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-red-600">
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-80" />
-                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-500" />
-              </span>
-              Live
+        {/* Live dot/word beside the total-votes counter (top-right) */}
+        <div className="mt-6 flex items-end justify-end gap-3">
+          <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-red-600">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-80" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-500" />
+            </span>
+            Live
+          </div>
+          <div className="text-right">
+            <div className="text-[10px] font-bold uppercase tracking-wide text-ink/45">
+              {t.popular.votesLabel}
             </div>
-            <div className="text-right">
-              <div className="text-[10px] font-bold uppercase tracking-wide text-ink/45">
-                {t.popular.votesLabel}
-              </div>
-              <div className="font-display text-2xl leading-none tabular-nums text-ink sm:text-3xl">
-                {total.toLocaleString()}
-              </div>
+            <div className="font-display text-2xl leading-none tabular-nums text-ink sm:text-3xl">
+              {total.toLocaleString()}
             </div>
           </div>
         </div>
@@ -224,6 +219,11 @@ function RankingByCountry() {
               </span>
             ))}
           </div>
+
+          {/* Top 10 caption below the chart */}
+          <p className="mt-6 text-center text-xs font-bold uppercase tracking-wide text-ink/55 sm:text-sm">
+            {t.popular.top10}
+          </p>
         </div>
       </div>
     </section>
