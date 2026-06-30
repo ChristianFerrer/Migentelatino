@@ -26,9 +26,9 @@ function Nav() {
   const { t } = useLocale();
   return (
     <header className="sticky top-0 z-40 border-b border-ink/10 bg-white">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between py-[5px] pl-[5px] pr-4">
-        <a href="#top" aria-label="Mi Gente Latino home">
-          <Logo className="h-20" />
+      <nav className="mx-auto flex max-w-6xl items-center justify-between py-[3px] pl-[3px] pr-4">
+        <a href="#top" aria-label="Mi Gente Latino home" className="block leading-none">
+          <Logo className="h-24" />
         </a>
         <div className="flex items-center gap-4">
           <a
@@ -57,7 +57,7 @@ function Hero() {
     <section id="top" className="relative overflow-hidden">
 
       {/* Multicolor line (logo colors) at the start of the image */}
-      <div className="logo-line h-1 w-full" />
+      <div className="logo-line h-[4px] w-full" />
 
       {/* Full-bleed product poster + the localized question overlaid on the teal center */}
       <div className="relative w-full [container-type:inline-size]">
@@ -83,7 +83,7 @@ function Hero() {
       </div>
 
       {/* Multicolor line (logo colors) at the end of the image */}
-      <div className="logo-line h-1 w-full" />
+      <div className="logo-line h-[4px] w-full" />
 
       {/* Orange → pink (#fd79a8) gradient */}
       <div className="relative z-10 bg-[linear-gradient(180deg,#D24702_0px,#D24702_6px,#fd79a8_100%)]">
@@ -153,72 +153,71 @@ function RankingByCountry() {
   }, []);
 
   const max = Math.max(...votes);
-  const ticks = [max, Math.round(max * 0.66), Math.round(max * 0.33), 0];
+  const total = votes.reduce((a, b) => a + b, 0);
   const cols = { gridTemplateColumns: `repeat(${TOP10.length}, minmax(0, 1fr))` };
 
   return (
     <section id="popular" className="scroll-mt-20 py-20 sm:py-24">
-      <div className="mx-auto max-w-5xl px-6">
+      <div className="px-4 sm:px-6">
         <h2 className="text-center font-display text-4xl uppercase tracking-tight text-ink sm:text-5xl">
           {t.popular.title}
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-center text-lg text-ink/70">{t.popular.subtitle}</p>
 
-        {/* live indicator */}
-        <div className="mt-4 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wide text-mint">
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-mint opacity-75" />
-            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-mint" />
-          </span>
-          Live
+        {/* Live (red) on the left, live total-votes counter on the top-right */}
+        <div className="mt-6 flex items-end justify-between">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-red-600">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-80" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-500" />
+            </span>
+            Live
+          </div>
+          <div className="text-right">
+            <div className="text-[10px] font-bold uppercase tracking-wide text-ink/45">
+              {t.popular.votesLabel}
+            </div>
+            <div className="font-display text-2xl leading-none tabular-nums text-ink sm:text-3xl">
+              {total.toLocaleString()}
+            </div>
+          </div>
         </div>
 
-        <div className="mt-8 overflow-x-auto rounded-3xl border border-ink/10 bg-white p-4 pt-14 shadow-card sm:p-8 sm:pt-16">
-          <div className="flex min-w-[680px] gap-3">
-            {/* Y axis (quantities) */}
-            <div className="flex h-64 w-9 shrink-0 flex-col justify-between text-right text-[10px] font-semibold text-ink/40 sm:text-xs">
-              {ticks.map((tk, i) => (
-                <span key={i}>{tk.toLocaleString()}</span>
-              ))}
-            </div>
-
-            {/* Plot — bars and labels share identical grids so they line up */}
-            <div className="flex-1">
-              <div className="grid h-64 items-end gap-3 border-b border-l border-ink/15 pl-3" style={cols}>
-                {TOP10.map((b, i) => (
-                  <div key={b.name} className="flex h-full items-end justify-center">
-                    <div
-                      className={`relative w-full max-w-[44px] rounded-t-lg transition-[height] duration-700 ease-out ${CHART_COLORS[i % CHART_COLORS.length]}`}
-                      style={{ height: `${(votes[i] / max) * 100}%` }}
+        {/* Full-width bar chart — vertical bars, no borders */}
+        <div className="mt-8">
+          <div className="grid h-72 items-end gap-1.5 sm:h-80 sm:gap-3" style={cols}>
+            {TOP10.map((b, i) => (
+              <div key={b.name} className="flex h-full items-end justify-center">
+                <div
+                  className={`relative w-full rounded-t-md transition-[height] duration-700 ease-out ${CHART_COLORS[i % CHART_COLORS.length]}`}
+                  style={{ height: `${(votes[i] / max) * 100}%` }}
+                >
+                  {/* Flag + number on top of the bar */}
+                  <div className="absolute inset-x-0 -top-10 flex flex-col items-center gap-1">
+                    <Flag code={b.country} className="h-3.5 w-5 rounded shadow-sm sm:h-4 sm:w-6" />
+                    <span
+                      className={`text-[10px] font-extrabold leading-none text-ink transition-transform sm:text-[11px] ${
+                        pulse === i ? "scale-125" : "scale-100"
+                      }`}
                     >
-                      {/* Flag + number on top of the bar */}
-                      <div className="absolute inset-x-0 -top-11 flex flex-col items-center gap-1">
-                        <Flag code={b.country} className="h-4 w-6 rounded shadow-sm" />
-                        <span
-                          className={`text-[11px] font-extrabold leading-none text-ink transition-transform ${
-                            pulse === i ? "scale-125" : "scale-100"
-                          }`}
-                        >
-                          {votes[i].toLocaleString()}
-                        </span>
-                      </div>
-                    </div>
+                      {votes[i].toLocaleString()}
+                    </span>
                   </div>
-                ))}
+                </div>
               </div>
+            ))}
+          </div>
 
-              {/* X axis (product) */}
-              <div className="grid gap-3 pl-3" style={cols}>
-                {TOP10.map((b) => (
-                  <span
-                    key={b.name}
-                    className="px-0.5 pt-2 text-center text-[10px] font-semibold leading-tight text-ink/70"
-                  >
-                    {b.name}
-                  </span>
-                ))}
-              </div>
-            </div>
+          {/* X axis (product) — same grid so each label sits under its bar */}
+          <div className="grid gap-1.5 pt-2 sm:gap-3" style={cols}>
+            {TOP10.map((b) => (
+              <span
+                key={b.name}
+                className="px-0.5 text-center text-[9px] font-semibold leading-tight text-ink/70 sm:text-[10px]"
+              >
+                {b.name}
+              </span>
+            ))}
           </div>
         </div>
       </div>
