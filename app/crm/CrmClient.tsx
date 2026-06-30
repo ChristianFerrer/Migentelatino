@@ -16,6 +16,9 @@ export type EventRow = {
   created_at: string;
 };
 
+// Brand-aligned dark theme (logo navy + logo accent colors).
+const CARD = "rounded-2xl border border-white/10 bg-white/[0.05] p-5";
+
 function digitsOnly(phone: string | null): string {
   return (phone || "").replace(/\D/g, "");
 }
@@ -49,11 +52,11 @@ function toCsv(leads: Lead[]): string {
 }
 
 const STATUS_STYLES: Record<string, string> = {
-  auto: "bg-mint/15 text-mint-600",
-  confirmed: "bg-grape/15 text-grape-600",
-  ai: "bg-coral/15 text-coral",
-  pending: "bg-sun/20 text-ink/70",
-  not_product: "bg-ink/[0.06] text-ink/40",
+  auto: "bg-[#19b4ae]/20 text-[#7fe7da]",
+  confirmed: "bg-[#a22d93]/25 text-[#e7a6df]",
+  ai: "bg-[#e94b3b]/20 text-[#f6a99f]",
+  pending: "bg-[#f7c942]/20 text-[#f7e08a]",
+  not_product: "bg-white/10 text-white/40",
 };
 
 function MatchBadge({ lead }: { lead: Lead }) {
@@ -95,7 +98,6 @@ export function CrmClient({
     const today = leads.filter((l) => new Date(l.created_at).getTime() >= startOfToday.getTime()).length;
     const week = leads.filter((l) => now - new Date(l.created_at).getTime() <= 7 * 864e5).length;
 
-    // Real demand grouped by canonical product (auto + confirmed only).
     const counts = new Map<string, number>();
     for (const l of leads) {
       const st = l.match_status ?? "pending";
@@ -174,18 +176,20 @@ export function CrmClient({
   }
 
   return (
-    <main className="min-h-screen bg-surface">
-      <header className="sticky top-0 z-20 border-b border-ink/10 bg-white">
+    <main className="min-h-screen bg-[#0e1f3d] text-white">
+      <header className="sticky top-0 z-20 border-b border-white/10 bg-[#0a1730]">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
           <div className="flex items-center gap-3">
-            <Logo className="h-10" />
-            <span className="hidden text-sm font-bold uppercase tracking-wide text-ink/50 sm:inline">CRM · Leads</span>
+            <span className="inline-flex rounded-lg bg-white px-2 py-1">
+              <Logo className="h-8" />
+            </span>
+            <span className="hidden text-sm font-bold uppercase tracking-wide text-white/50 sm:inline">CRM · Leads</span>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={exportCsv} className="rounded-full border border-ink/15 bg-white px-4 py-2 text-sm font-semibold text-ink transition hover:bg-ink/[0.04]">
+            <button onClick={exportCsv} className="rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10">
               Export CSV
             </button>
-            <button onClick={logout} className="rounded-full bg-ink px-4 py-2 text-sm font-semibold text-cream transition hover:opacity-90">
+            <button onClick={logout} className="rounded-full bg-[#19b4ae] px-4 py-2 text-sm font-bold text-[#0e1f3d] transition hover:brightness-110">
               Log out
             </button>
           </div>
@@ -194,9 +198,9 @@ export function CrmClient({
 
       <div className="mx-auto max-w-6xl px-5 py-8">
         {dataError && (
-          <div className="mb-6 rounded-2xl border border-coral/30 bg-coral/10 px-5 py-4 text-sm font-medium text-ink">
+          <div className="mb-6 rounded-2xl border border-[#e94b3b]/40 bg-[#e94b3b]/15 px-5 py-4 text-sm font-medium text-white">
             {dataError === "missing_service_key" ? (
-              <>Add <code className="font-bold">SUPABASE_SERVICE_ROLE_KEY</code> to your environment so the CRM can read the leads.</>
+              <>Add <code className="font-bold text-[#f7c942]">SUPABASE_SERVICE_ROLE_KEY</code> to your environment so the CRM can read the leads.</>
             ) : (
               <>Could not load leads: {dataError}</>
             )}
@@ -204,14 +208,14 @@ export function CrmClient({
         )}
 
         {notice && (
-          <div className="mb-4 rounded-xl bg-ink/[0.05] px-4 py-2 text-sm font-semibold text-ink/70">{notice}</div>
+          <div className="mb-4 rounded-xl bg-white/10 px-4 py-2 text-sm font-semibold text-white/80">{notice}</div>
         )}
 
-        {/* Analytics (first-party traffic funnel) */}
+        {/* Analytics */}
         <AnalyticsPanel events={events} />
 
-        {/* Stat cards */}
-        <h2 className="mt-8 mb-3 text-sm font-bold uppercase tracking-wide text-ink/50">Leads</h2>
+        {/* Leads */}
+        <h2 className="mt-8 mb-3 font-display text-xl uppercase tracking-wide text-[#f7c942]">Leads</h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           <Stat label="Total leads" value={stats.total} />
           <Stat label="Today" value={stats.today} />
@@ -221,21 +225,21 @@ export function CrmClient({
 
         {/* Review queue */}
         {pending.length > 0 && (
-          <section className="mt-6 rounded-2xl border border-sun/40 bg-sun/[0.06] p-5">
+          <section className="mt-6 rounded-2xl border border-[#f7c942]/30 bg-white/[0.04] p-5">
             <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-              <h2 className="text-sm font-bold uppercase tracking-wide text-ink/70">
+              <h2 className="font-display text-lg uppercase tracking-wide text-[#f6a96b]">
                 Por revisar · {pending.length}
               </h2>
               <button
                 onClick={aiResolve}
                 disabled={busy || !aiEnabled}
                 title={aiEnabled ? "" : "Configura ANTHROPIC_API_KEY"}
-                className="rounded-full bg-coral px-4 py-1.5 text-xs font-bold text-white transition hover:brightness-105 disabled:opacity-50"
+                className="rounded-full bg-[#e94b3b] px-4 py-1.5 text-xs font-bold text-white transition hover:brightness-110 disabled:opacity-50"
               >
                 ✨ Resolver con IA
               </button>
             </div>
-            <p className="mb-4 text-xs text-ink/55">
+            <p className="mb-4 text-xs text-white/55">
               Lo que escribió el usuario y el producto sugerido. Confirma, elige otro o márcalo como “no es producto”. Cada confirmación enseña al sistema.
             </p>
             <div className="space-y-2">
@@ -246,15 +250,15 @@ export function CrmClient({
           </section>
         )}
 
-        {/* Top requested (real, grouped) */}
+        {/* Top requested */}
         {stats.top.length > 0 && (
-          <section className="mt-6 rounded-2xl border border-ink/10 bg-white p-5 shadow-card">
-            <h2 className="text-sm font-bold uppercase tracking-wide text-ink/55">Más pedidos (normalizado)</h2>
+          <section className={`mt-6 ${CARD}`}>
+            <h2 className="font-display text-lg uppercase tracking-wide text-[#9fd356]">Más pedidos (normalizado)</h2>
             <ul className="mt-3 flex flex-wrap gap-2">
               {stats.top.map(([label, n]) => (
-                <li key={label} className="flex items-center gap-2 rounded-full bg-surface px-3 py-1.5 text-sm font-semibold text-ink">
+                <li key={label} className="flex items-center gap-2 rounded-full bg-white/[0.07] px-3 py-1.5 text-sm font-semibold text-white">
                   {label}
-                  <span className="rounded-full bg-coral px-2 py-0.5 text-xs font-bold text-white">{n}</span>
+                  <span className="rounded-full bg-[#e94b3b] px-2 py-0.5 text-xs font-bold text-white">{n}</span>
                 </li>
               ))}
             </ul>
@@ -268,18 +272,18 @@ export function CrmClient({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search name, phone, country, product…"
-            className="w-full rounded-xl border border-ink/10 bg-white px-4 py-2.5 text-sm font-medium text-ink outline-none transition placeholder:text-ink/40 focus:border-coral/50 focus:ring-4 focus:ring-coral/10 sm:max-w-md"
+            className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-medium text-white outline-none transition placeholder:text-white/40 focus:border-[#19b4ae]/60 focus:ring-4 focus:ring-[#19b4ae]/15 sm:max-w-md"
           />
-          <span className="text-sm font-medium text-ink/50">
+          <span className="text-sm font-medium text-white/50">
             {filtered.length} {filtered.length === 1 ? "lead" : "leads"}
           </span>
         </div>
 
         {/* Table */}
-        <div className="overflow-x-auto rounded-2xl border border-ink/10 bg-white shadow-card">
+        <div className="overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.03]">
           <table className="w-full min-w-[920px] text-left text-sm">
             <thead>
-              <tr className="border-b border-ink/10 text-xs font-bold uppercase tracking-wide text-ink/50">
+              <tr className="border-b border-white/10 text-xs font-bold uppercase tracking-wide text-white/50">
                 <th className="px-4 py-3">Date</th>
                 <th className="px-4 py-3">Name</th>
                 <th className="px-4 py-3">Phone</th>
@@ -292,7 +296,7 @@ export function CrmClient({
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-10 text-center text-ink/40">
+                  <td colSpan={7} className="px-4 py-10 text-center text-white/40">
                     {leads.length === 0 ? "No leads yet." : "No matches."}
                   </td>
                 </tr>
@@ -300,27 +304,27 @@ export function CrmClient({
                 filtered.map((l) => {
                   const wa = digitsOnly(l.phone);
                   return (
-                    <tr key={l.id} className="border-b border-ink/5 last:border-0 hover:bg-surface/60">
-                      <td className="whitespace-nowrap px-4 py-3 text-ink/60">{fmtDate(l.created_at)}</td>
-                      <td className="px-4 py-3 font-semibold text-ink">{l.name || "—"}</td>
+                    <tr key={l.id} className="border-b border-white/5 last:border-0 hover:bg-white/[0.04]">
+                      <td className="whitespace-nowrap px-4 py-3 text-white/55">{fmtDate(l.created_at)}</td>
+                      <td className="px-4 py-3 font-semibold text-white">{l.name || "—"}</td>
                       <td className="whitespace-nowrap px-4 py-3">
                         {wa ? (
-                          <a href={`https://wa.me/${wa}`} target="_blank" rel="noopener noreferrer" className="font-semibold text-mint-600 hover:underline">
+                          <a href={`https://wa.me/${wa}`} target="_blank" rel="noopener noreferrer" className="font-semibold text-[#2dd4c0] hover:underline">
                             {l.phone}
                           </a>
                         ) : (
-                          <span className="text-ink/40">—</span>
+                          <span className="text-white/40">—</span>
                         )}
                       </td>
-                      <td className="px-4 py-3 text-ink/80">{l.country || "—"}</td>
-                      <td className="px-4 py-3 text-ink/80">{l.missed_product || "—"}</td>
+                      <td className="px-4 py-3 text-white/80">{l.country || "—"}</td>
+                      <td className="px-4 py-3 text-white/80">{l.missed_product || "—"}</td>
                       <td className="px-4 py-3">
                         <div className="flex flex-col gap-1">
-                          <span className="font-semibold text-ink">{l.canonical_name || "—"}</span>
+                          <span className="font-semibold text-white">{l.canonical_name || "—"}</span>
                           <MatchBadge lead={l} />
                         </div>
                       </td>
-                      <td className="px-4 py-3 uppercase text-ink/50">{l.locale || "—"}</td>
+                      <td className="px-4 py-3 uppercase text-white/50">{l.locale || "—"}</td>
                     </tr>
                   );
                 })
@@ -354,15 +358,15 @@ function PendingRow({
   }
 
   return (
-    <div className="flex flex-col gap-2 rounded-xl border border-ink/10 bg-white p-3 sm:flex-row sm:items-center">
+    <div className="flex flex-col gap-2 rounded-xl border border-white/10 bg-white/[0.05] p-3 sm:flex-row sm:items-center">
       <div className="min-w-0 flex-1">
-        <span className="text-[10px] font-bold uppercase tracking-wide text-ink/40">Escribió</span>
-        <p className="truncate font-semibold text-ink">{lead.missed_product || "—"}</p>
+        <span className="text-[10px] font-bold uppercase tracking-wide text-white/40">Escribió</span>
+        <p className="truncate font-semibold text-white">{lead.missed_product || "—"}</p>
       </div>
       <select
         value={slug}
         onChange={(e) => setSlug(e.target.value)}
-        className="rounded-lg border border-ink/15 bg-white px-3 py-2 text-sm font-medium text-ink outline-none focus:border-coral/50 sm:w-56"
+        className="rounded-lg border border-white/15 bg-[#0e1f3d] px-3 py-2 text-sm font-medium text-white outline-none focus:border-[#19b4ae]/60 sm:w-56"
       >
         <option value="">— elegir producto —</option>
         {options.map((o) => (
@@ -373,21 +377,21 @@ function PendingRow({
         <button
           disabled={busy || !slug}
           onClick={() => onResolve({ action: "confirm", signupId: lead.id, slug })}
-          className="rounded-full bg-mint px-3 py-2 text-xs font-bold text-white transition hover:brightness-105 disabled:opacity-50"
+          className="rounded-full bg-[#7fb23a] px-3 py-2 text-xs font-bold text-white transition hover:brightness-110 disabled:opacity-50"
         >
           Confirmar
         </button>
         <button
           disabled={busy}
           onClick={createNew}
-          className="rounded-full border border-ink/15 bg-white px-3 py-2 text-xs font-bold text-ink transition hover:bg-ink/[0.04] disabled:opacity-50"
+          className="rounded-full border border-white/20 px-3 py-2 text-xs font-bold text-white/80 transition hover:bg-white/10 disabled:opacity-50"
         >
           + Nuevo
         </button>
         <button
           disabled={busy}
           onClick={() => onResolve({ action: "not_product", signupId: lead.id })}
-          className="rounded-full border border-ink/15 bg-white px-3 py-2 text-xs font-bold text-ink/50 transition hover:bg-ink/[0.04] disabled:opacity-50"
+          className="rounded-full border border-white/20 px-3 py-2 text-xs font-bold text-white/50 transition hover:bg-white/10 disabled:opacity-50"
         >
           No es producto
         </button>
@@ -398,12 +402,12 @@ function PendingRow({
 
 function Stat({ label, value, sub }: { label: string; value: number | string; sub?: string }) {
   return (
-    <div className="rounded-2xl border border-ink/10 bg-white p-5 shadow-card">
-      <div className="text-xs font-bold uppercase tracking-wide text-ink/50">{label}</div>
-      <div className="mt-1 font-display text-3xl tabular-nums text-ink">
+    <div className={CARD}>
+      <div className="text-xs font-bold uppercase tracking-wide text-white/50">{label}</div>
+      <div className="mt-1 font-display text-3xl tabular-nums text-white">
         {typeof value === "number" ? value.toLocaleString() : value}
       </div>
-      {sub && <div className="mt-0.5 text-xs font-medium text-ink/45">{sub}</div>}
+      {sub && <div className="mt-0.5 text-xs font-medium text-white/40">{sub}</div>}
     </div>
   );
 }
@@ -473,12 +477,12 @@ function AnalyticsPanel({ events }: { events: EventRow[] }) {
 
   return (
     <section>
-      <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-ink/50">
+      <h2 className="mb-3 font-display text-xl uppercase tracking-wide text-[#2dd4c0]">
         Analítica · últimos 30 días
       </h2>
 
       {!a.hasData && (
-        <p className="mb-4 rounded-xl bg-ink/[0.04] px-4 py-3 text-sm text-ink/55">
+        <p className="mb-4 rounded-xl bg-white/[0.05] px-4 py-3 text-sm text-white/55">
           Aún no hay visitas registradas. Los datos aparecen aquí en cuanto la gente entre a la página.
         </p>
       )}
@@ -492,22 +496,22 @@ function AnalyticsPanel({ events }: { events: EventRow[] }) {
 
       <div className="mt-3 grid gap-3 lg:grid-cols-2">
         {/* Funnel */}
-        <div className="rounded-2xl border border-ink/10 bg-white p-5 shadow-card">
-          <h3 className="mb-3 text-xs font-bold uppercase tracking-wide text-ink/50">Embudo</h3>
+        <div className={CARD}>
+          <h3 className="mb-3 text-xs font-bold uppercase tracking-wide text-white/50">Embudo</h3>
           <div className="space-y-2.5">
             {a.funnel.map((f, i) => {
               const pct = a.visitors ? Math.round((f.value / a.visitors) * 100) : 0;
               return (
                 <div key={f.label}>
-                  <div className="mb-1 flex justify-between text-xs font-semibold text-ink/70">
+                  <div className="mb-1 flex justify-between text-xs font-semibold text-white/75">
                     <span>{f.label}</span>
                     <span className="tabular-nums">
                       {f.value.toLocaleString()}{i > 0 && a.visitors ? ` · ${pct}%` : ""}
                     </span>
                   </div>
-                  <div className="h-2.5 w-full rounded-full bg-ink/[0.06]">
+                  <div className="h-2.5 w-full rounded-full bg-white/10">
                     <div
-                      className="h-full rounded-full bg-coral"
+                      className="h-full rounded-full bg-[#e94b3b]"
                       style={{ width: `${(f.value / maxFunnel) * 100}%` }}
                     />
                   </div>
@@ -518,15 +522,15 @@ function AnalyticsPanel({ events }: { events: EventRow[] }) {
         </div>
 
         {/* Per-day views */}
-        <div className="rounded-2xl border border-ink/10 bg-white p-5 shadow-card">
-          <h3 className="mb-3 text-xs font-bold uppercase tracking-wide text-ink/50">Vistas por día (14d)</h3>
+        <div className={CARD}>
+          <h3 className="mb-3 text-xs font-bold uppercase tracking-wide text-white/50">Vistas por día (14d)</h3>
           <div className="flex h-28 items-end gap-1">
             {a.days.map((d) => (
               <div key={d.d} className="flex flex-1 flex-col items-center gap-1" title={`${d.d}: ${d.views} vistas, ${d.subs} envíos`}>
                 <div className="flex w-full flex-1 items-end">
-                  <div className="w-full rounded-t bg-mint" style={{ height: `${(d.views / maxDay) * 100}%` }} />
+                  <div className="w-full rounded-t bg-[#19b4ae]" style={{ height: `${(d.views / maxDay) * 100}%` }} />
                 </div>
-                <span className="text-[8px] text-ink/40">{d.d.slice(8)}</span>
+                <span className="text-[8px] text-white/40">{d.d.slice(8)}</span>
               </div>
             ))}
           </div>
@@ -545,20 +549,20 @@ function AnalyticsPanel({ events }: { events: EventRow[] }) {
 function Breakdown({ title, rows }: { title: string; rows: Array<[string, number]> }) {
   const max = Math.max(1, ...rows.map((r) => r[1]));
   return (
-    <div className="rounded-2xl border border-ink/10 bg-white p-5 shadow-card">
-      <h3 className="mb-3 text-xs font-bold uppercase tracking-wide text-ink/50">{title}</h3>
+    <div className={CARD}>
+      <h3 className="mb-3 text-xs font-bold uppercase tracking-wide text-white/50">{title}</h3>
       {rows.length === 0 ? (
-        <p className="text-sm text-ink/40">—</p>
+        <p className="text-sm text-white/40">—</p>
       ) : (
         <ul className="space-y-2">
           {rows.map(([label, n]) => (
             <li key={label} className="text-sm">
-              <div className="mb-0.5 flex justify-between font-medium text-ink/80">
+              <div className="mb-0.5 flex justify-between font-medium text-white/80">
                 <span className="truncate">{label}</span>
-                <span className="tabular-nums text-ink/50">{n}</span>
+                <span className="tabular-nums text-white/50">{n}</span>
               </div>
-              <div className="h-1.5 w-full rounded-full bg-ink/[0.06]">
-                <div className="h-full rounded-full bg-grape" style={{ width: `${(n / max) * 100}%` }} />
+              <div className="h-1.5 w-full rounded-full bg-white/10">
+                <div className="h-full rounded-full bg-[#f7c942]" style={{ width: `${(n / max) * 100}%` }} />
               </div>
             </li>
           ))}
