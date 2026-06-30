@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocale } from "./LocaleProvider";
+import { track } from "@/lib/track";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -12,10 +13,36 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
   const [form, setForm] = useState({ missed: "", name: "", phone: "", country: "" });
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
+  const formRef = useRef<HTMLFormElement>(null);
+  const started = useRef(false);
 
   const countries = [...Object.values(t.popular.countries), ...EXTRA_COUNTRIES, t.signup.countryOther];
 
+  // Fire form_view once when the form scrolls into view.
+  useEffect(() => {
+    const el = formRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          track("form_view", { locale });
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.4 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [locale]);
+
+  function onFirstInteraction() {
+    if (started.current) return;
+    started.current = true;
+    track("form_start", { locale });
+  }
+
   function update(field: keyof typeof form, value: string) {
+    onFirstInteraction();
     setForm((f) => ({ ...f, [field]: value }));
     if (status === "error") setStatus("idle");
   }
@@ -25,6 +52,7 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
     if (!form.missed.trim() || !form.name.trim() || form.phone.trim().length < 6 || !form.country) {
       setStatus("error");
       setMessage(t.signup.errorRequired);
+      track("form_error", { locale });
       return;
     }
     setStatus("loading");
@@ -47,13 +75,16 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
         setStatus("success");
         setMessage(t.signup.success);
         setForm({ missed: "", name: "", phone: "", country: "" });
+        track("form_submit", { locale });
       } else {
         setStatus("error");
         setMessage(t.signup.errorGeneric);
+        track("form_error", { locale });
       }
     } catch {
       setStatus("error");
       setMessage(t.signup.errorGeneric);
+      track("form_error", { locale });
     }
   }
 
@@ -73,7 +104,7 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
     "w-full rounded-xl border border-ink/10 bg-white px-4 py-3 text-[15px] font-medium text-ink outline-none transition placeholder:text-ink/40 focus:border-coral/50 focus:ring-4 focus:ring-coral/10";
 
   return (
-    <form onSubmit={handleSubmit} className="w-full" noValidate>
+    <form ref={formRef} onSubmit={handleSubmit} onFocusCapture={onFirstInteraction} className="w-full" noValidate>
       {/* Big "missed product" field — the headline question's answer */}
       <input
         type="text"

@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { isAuthed } from "@/lib/crmAuth";
 import { getSupabaseAdmin, isCrmDataConfigured, type Lead } from "@/lib/supabaseAdmin";
 import { loadCatalog } from "@/lib/catalogStore";
-import { CrmClient, type CanonicalOption } from "./CrmClient";
+import { CrmClient, type CanonicalOption, type EventRow } from "./CrmClient";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "CRM · Leads", robots: { index: false, follow: false } };
@@ -39,5 +39,21 @@ export default async function CrmPage() {
 
   const aiEnabled = Boolean(process.env.ANTHROPIC_API_KEY);
 
-  return <CrmClient leads={leads} dataError={dataError} options={options} aiEnabled={aiEnabled} />;
+  // Last 30 days of analytics events (first-party, from /api/track).
+  let events: EventRow[] = [];
+  if (isCrmDataConfigured) {
+    const supabase = getSupabaseAdmin();
+    const since = new Date(Date.now() - 30 * 864e5).toISOString();
+    const { data } = await supabase!
+      .from("events")
+      .select("type, session_id, source, country, device, locale, created_at")
+      .gte("created_at", since)
+      .order("created_at", { ascending: false })
+      .limit(50000);
+    events = (data as EventRow[]) ?? [];
+  }
+
+  return (
+    <CrmClient leads={leads} dataError={dataError} options={options} aiEnabled={aiEnabled} events={events} />
+  );
 }

@@ -6,6 +6,15 @@ import { Logo } from "@/components/Logo";
 import type { Lead } from "@/lib/supabaseAdmin";
 
 export type CanonicalOption = { slug: string; name: string };
+export type EventRow = {
+  type: string;
+  session_id: string | null;
+  source: string | null;
+  country: string | null;
+  device: string | null;
+  locale: string | null;
+  created_at: string;
+};
 
 function digitsOnly(phone: string | null): string {
   return (phone || "").replace(/\D/g, "");
@@ -64,11 +73,13 @@ export function CrmClient({
   dataError,
   options,
   aiEnabled,
+  events,
 }: {
   leads: Lead[];
   dataError: string | null;
   options: CanonicalOption[];
   aiEnabled: boolean;
+  events: EventRow[];
 }) {
   const router = useRouter();
   const [query, setQuery] = useState("");
@@ -196,7 +207,11 @@ export function CrmClient({
           <div className="mb-4 rounded-xl bg-ink/[0.05] px-4 py-2 text-sm font-semibold text-ink/70">{notice}</div>
         )}
 
+        {/* Analytics (first-party traffic funnel) */}
+        <AnalyticsPanel events={events} />
+
         {/* Stat cards */}
+        <h2 className="mt-8 mb-3 text-sm font-bold uppercase tracking-wide text-ink/50">Leads</h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           <Stat label="Total leads" value={stats.total} />
           <Stat label="Today" value={stats.today} />
@@ -381,11 +396,174 @@ function PendingRow({
   );
 }
 
-function Stat({ label, value }: { label: string; value: number }) {
+function Stat({ label, value, sub }: { label: string; value: number | string; sub?: string }) {
   return (
     <div className="rounded-2xl border border-ink/10 bg-white p-5 shadow-card">
       <div className="text-xs font-bold uppercase tracking-wide text-ink/50">{label}</div>
-      <div className="mt-1 font-display text-3xl tabular-nums text-ink">{value.toLocaleString()}</div>
+      <div className="mt-1 font-display text-3xl tabular-nums text-ink">
+        {typeof value === "number" ? value.toLocaleString() : value}
+      </div>
+      {sub && <div className="mt-0.5 text-xs font-medium text-ink/45">{sub}</div>}
+    </div>
+  );
+}
+
+function AnalyticsPanel({ events }: { events: EventRow[] }) {
+  const a = useMemo(() => {
+    const sessionsByType: Record<string, Set<string>> = {};
+    const meta = new Map<string, { source: string; device: string; country: string }>();
+    let pageviews = 0;
+    const dayViews = new Map<string, number>();
+    const daySubs = new Map<string, number>();
+
+    for (const e of events) {
+      const sid = e.session_id || "anon";
+      (sessionsByType[e.type] ??= new Set()).add(sid);
+      if (!meta.has(sid)) {
+        meta.set(sid, { source: e.source || "direct", device: e.device || "—", country: e.country || "—" });
+      }
+      if (e.type === "pageview") {
+        pageviews++;
+        const d = e.created_at.slice(0, 10);
+        dayViews.set(d, (dayViews.get(d) ?? 0) + 1);
+      }
+      if (e.type === "form_submit") {
+        const d = e.created_at.slice(0, 10);
+        daySubs.set(d, (daySubs.get(d) ?? 0) + 1);
+      }
+    }
+
+    const n = (t: string) => sessionsByType[t]?.size ?? 0;
+    const visitors = n("pageview");
+    const submits = n("form_submit");
+    const conv = visitors ? (submits / visitors) * 100 : 0;
+
+    const funnel = [
+      { label: "Visitas", value: visitors },
+      { label: "Vieron el formulario", value: n("form_view") },
+      { label: "Interactuaron", value: n("form_start") },
+      { label: "Enviaron", value: submits },
+    ];
+
+    const tally = (pick: (m: { source: string; device: string; country: string }) => string) => {
+      const counts = new Map<string, number>();
+      for (const m of meta.values()) counts.set(pick(m), (counts.get(pick(m)) ?? 0) + 1);
+      return [...counts.entries()].sort((x, y) => y[1] - x[1]).slice(0, 6);
+    };
+
+    const days: Array<{ d: string; views: number; subs: number }> = [];
+    for (let i = 13; i >= 0; i--) {
+      const d = new Date(Date.now() - i * 864e5).toISOString().slice(0, 10);
+      days.push({ d, views: dayViews.get(d) ?? 0, subs: daySubs.get(d) ?? 0 });
+    }
+
+    return {
+      pageviews, visitors, submits, conv,
+      funnel,
+      sources: tally((m) => m.source),
+      devices: tally((m) => m.device),
+      countries: tally((m) => m.country),
+      days,
+      hasData: events.length > 0,
+    };
+  }, [events]);
+
+  const maxFunnel = Math.max(1, ...a.funnel.map((f) => f.value));
+  const maxDay = Math.max(1, ...a.days.map((d) => d.views));
+
+  return (
+    <section>
+      <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-ink/50">
+        Analítica · últimos 30 días
+      </h2>
+
+      {!a.hasData && (
+        <p className="mb-4 rounded-xl bg-ink/[0.04] px-4 py-3 text-sm text-ink/55">
+          Aún no hay visitas registradas. Los datos aparecen aquí en cuanto la gente entre a la página.
+        </p>
+      )}
+
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <Stat label="Vistas de página" value={a.pageviews} />
+        <Stat label="Visitantes" value={a.visitors} sub="sesiones únicas" />
+        <Stat label="Envíos" value={a.submits} />
+        <Stat label="Conversión" value={`${a.conv.toFixed(1)}%`} sub="envíos ÷ visitas" />
+      </div>
+
+      <div className="mt-3 grid gap-3 lg:grid-cols-2">
+        {/* Funnel */}
+        <div className="rounded-2xl border border-ink/10 bg-white p-5 shadow-card">
+          <h3 className="mb-3 text-xs font-bold uppercase tracking-wide text-ink/50">Embudo</h3>
+          <div className="space-y-2.5">
+            {a.funnel.map((f, i) => {
+              const pct = a.visitors ? Math.round((f.value / a.visitors) * 100) : 0;
+              return (
+                <div key={f.label}>
+                  <div className="mb-1 flex justify-between text-xs font-semibold text-ink/70">
+                    <span>{f.label}</span>
+                    <span className="tabular-nums">
+                      {f.value.toLocaleString()}{i > 0 && a.visitors ? ` · ${pct}%` : ""}
+                    </span>
+                  </div>
+                  <div className="h-2.5 w-full rounded-full bg-ink/[0.06]">
+                    <div
+                      className="h-full rounded-full bg-coral"
+                      style={{ width: `${(f.value / maxFunnel) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Per-day views */}
+        <div className="rounded-2xl border border-ink/10 bg-white p-5 shadow-card">
+          <h3 className="mb-3 text-xs font-bold uppercase tracking-wide text-ink/50">Vistas por día (14d)</h3>
+          <div className="flex h-28 items-end gap-1">
+            {a.days.map((d) => (
+              <div key={d.d} className="flex flex-1 flex-col items-center gap-1" title={`${d.d}: ${d.views} vistas, ${d.subs} envíos`}>
+                <div className="flex w-full flex-1 items-end">
+                  <div className="w-full rounded-t bg-mint" style={{ height: `${(d.views / maxDay) * 100}%` }} />
+                </div>
+                <span className="text-[8px] text-ink/40">{d.d.slice(8)}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-3 grid gap-3 sm:grid-cols-3">
+        <Breakdown title="Fuentes" rows={a.sources} />
+        <Breakdown title="Dispositivos" rows={a.devices} />
+        <Breakdown title="Países" rows={a.countries} />
+      </div>
+    </section>
+  );
+}
+
+function Breakdown({ title, rows }: { title: string; rows: Array<[string, number]> }) {
+  const max = Math.max(1, ...rows.map((r) => r[1]));
+  return (
+    <div className="rounded-2xl border border-ink/10 bg-white p-5 shadow-card">
+      <h3 className="mb-3 text-xs font-bold uppercase tracking-wide text-ink/50">{title}</h3>
+      {rows.length === 0 ? (
+        <p className="text-sm text-ink/40">—</p>
+      ) : (
+        <ul className="space-y-2">
+          {rows.map(([label, n]) => (
+            <li key={label} className="text-sm">
+              <div className="mb-0.5 flex justify-between font-medium text-ink/80">
+                <span className="truncate">{label}</span>
+                <span className="tabular-nums text-ink/50">{n}</span>
+              </div>
+              <div className="h-1.5 w-full rounded-full bg-ink/[0.06]">
+                <div className="h-full rounded-full bg-grape" style={{ width: `${(n / max) * 100}%` }} />
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

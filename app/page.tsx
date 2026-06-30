@@ -9,6 +9,7 @@ import { Logo } from "@/components/Logo";
 import { Flag } from "@/components/Flags";
 import { COUNTRIES } from "@/lib/products";
 import type { Locale } from "@/lib/i18n";
+import { track } from "@/lib/track";
 
 /* Per-language hero sizing so the overlaid question always fits the box.
    Longer languages (DE/EN) get a smaller cap than the short ES/PT. */
@@ -20,6 +21,11 @@ const HERO_SIZE: Record<Locale, { t1: string; t2: string }> = {
 };
 
 export default function Page() {
+  const { locale } = useLocale();
+  useEffect(() => {
+    track("pageview", { locale });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <main className="overflow-x-hidden">
       <Nav />
