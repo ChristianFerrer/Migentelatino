@@ -88,7 +88,7 @@ function Hero() {
           className="block h-auto w-full"
         />
         <div className="absolute inset-x-[6%] inset-y-[8%] flex flex-col items-center justify-center text-center">
-          <h1 className="leading-[0.84] text-cream">
+          <h1 className="leading-[0.84] text-cream [text-shadow:0_2px_14px_rgba(0,0,0,0.55)]">
             <span className={`block -rotate-1 text-balance font-display uppercase tracking-tight ${size.t1}`}>
               {t.hero.title1}
             </span>
