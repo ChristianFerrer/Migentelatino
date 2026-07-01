@@ -87,7 +87,7 @@ function Hero() {
           sizes="100vw"
           className="block h-auto w-full"
         />
-        <div className="absolute inset-x-[6%] inset-y-[8%] flex flex-col items-center justify-center text-center [text-shadow:0_3px_14px_rgba(10,40,35,0.5)]">
+        <div className="absolute inset-x-[6%] inset-y-[8%] flex flex-col items-center justify-center text-center">
           <h1 className="leading-[0.84] text-cream">
             <span className={`block -rotate-1 text-balance font-display uppercase tracking-tight ${size.t1}`}>
               {t.hero.title1}
@@ -105,7 +105,7 @@ function Hero() {
       {/* #e17055 → pink (#fd79a8) gradient */}
       <div className="relative z-10 bg-[linear-gradient(180deg,#e17055_0%,#fd79a8_100%)]">
         <div className="mx-auto max-w-2xl px-6 pb-16 pt-6 text-center md:pb-20">
-          <p className="mx-auto max-w-md text-sm font-light leading-relaxed text-white [text-shadow:0_1px_4px_rgba(45,12,0,0.85)] sm:text-base">
+          <p className="mx-auto max-w-md text-sm font-light leading-relaxed text-white sm:text-base">
             {t.hero.subtitle}
           </p>
 
@@ -228,7 +228,7 @@ function RankingByCountry() {
                 >
                   <Flag code={b.country} className="h-3.5 w-5 shrink-0 rounded shadow-sm" />
                   <span
-                    className={`text-[11px] font-extrabold leading-none text-white transition-transform [text-shadow:0_1px_2px_rgba(0,0,0,0.35)] ${
+                    className={`text-[11px] font-extrabold leading-none text-white transition-transform ${
                       pulse === i ? "scale-125" : "scale-100"
                     }`}
                   >
