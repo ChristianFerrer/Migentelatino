@@ -102,62 +102,81 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
 
   const fieldClass =
     "w-full rounded-xl border border-ink/10 bg-white px-4 py-3 text-[15px] font-medium text-ink outline-none transition placeholder:text-ink/40 focus:border-coral/50 focus:ring-4 focus:ring-coral/10";
+  const labelClass =
+    "mb-1.5 block text-left text-xs font-bold uppercase tracking-wide text-white/90 [text-shadow:0_1px_3px_rgba(45,12,0,0.6)]";
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} onFocusCapture={onFirstInteraction} className="w-full" noValidate>
+    <form ref={formRef} onSubmit={handleSubmit} onFocusCapture={onFirstInteraction} className="w-full text-left" noValidate>
       {/* Big "missed product" field — the headline question's answer */}
-      <input
-        type="text"
-        value={form.missed}
-        onChange={(e) => update("missed", e.target.value)}
-        placeholder={t.signup.missedPlaceholder}
-        maxLength={120}
-        aria-label={t.signup.missedLabel}
-        className="w-full rounded-2xl border-2 border-ink/10 bg-white px-5 py-4 text-lg font-semibold text-ink shadow-card outline-none transition placeholder:font-medium placeholder:text-ink/35 focus:border-coral focus:ring-4 focus:ring-coral/15 sm:text-xl"
-      />
-
-      <div className="mt-3 grid gap-3 sm:grid-cols-3">
+      <div>
+        <label className={labelClass}>{t.signup.missedLabel}</label>
         <input
           type="text"
-          autoComplete="name"
-          value={form.name}
-          onChange={(e) => update("name", e.target.value)}
-          placeholder={t.signup.namePlaceholder}
-          aria-label={t.signup.namePlaceholder}
-          className={fieldClass}
+          value={form.missed}
+          onChange={(e) => update("missed", e.target.value)}
+          placeholder={t.signup.missedPlaceholder}
+          maxLength={120}
+          aria-label={t.signup.missedLabel}
+          className="w-full rounded-2xl border-2 border-ink/10 bg-white px-5 py-4 text-lg font-semibold text-ink shadow-card outline-none transition placeholder:font-medium placeholder:text-ink/35 focus:border-coral focus:ring-4 focus:ring-coral/15 sm:text-xl"
         />
-        <input
-          type="tel"
-          inputMode="tel"
-          autoComplete="tel"
-          value={form.phone}
-          onChange={(e) => update("phone", e.target.value)}
-          placeholder={t.signup.phonePlaceholder}
-          aria-label={t.signup.phonePlaceholder}
-          className={fieldClass}
-        />
-        <select
-          value={form.country}
-          onChange={(e) => update("country", e.target.value)}
-          aria-label={t.signup.countryPlaceholder}
-          className={`${fieldClass} ${form.country ? "" : "text-ink/40"}`}
-        >
-          <option value="" disabled>
-            {t.signup.countryPlaceholder}
-          </option>
-          {countries.map((c) => (
-            <option key={c} value={c} className="text-ink">
-              {c}
+      </div>
+
+      <div className="mt-4 grid gap-3 sm:grid-cols-3">
+        <div>
+          <label className={labelClass}>{t.signup.namePlaceholder}</label>
+          <input
+            type="text"
+            autoComplete="name"
+            value={form.name}
+            onChange={(e) => update("name", e.target.value)}
+            placeholder={t.signup.namePlaceholder}
+            aria-label={t.signup.namePlaceholder}
+            className={fieldClass}
+          />
+        </div>
+        <div>
+          <label className={labelClass}>{t.signup.phonePlaceholder}</label>
+          <input
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            value={form.phone}
+            onChange={(e) => update("phone", e.target.value)}
+            placeholder={t.signup.phonePlaceholder}
+            aria-label={t.signup.phonePlaceholder}
+            className={fieldClass}
+          />
+        </div>
+        <div>
+          <label className={labelClass}>{t.signup.countryPlaceholder}</label>
+          <select
+            value={form.country}
+            onChange={(e) => update("country", e.target.value)}
+            aria-label={t.signup.countryPlaceholder}
+            className={`${fieldClass} ${form.country ? "" : "text-ink/40"}`}
+          >
+            <option value="" disabled>
+              {t.signup.countryPlaceholder}
             </option>
-          ))}
-        </select>
+            {countries.map((c) => (
+              <option key={c} value={c} className="text-ink">
+                {c}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <button
         type="submit"
         disabled={status === "loading"}
-        className="mt-4 w-full rounded-full bg-[linear-gradient(180deg,#81ecec,#00cec9)] px-7 py-4 text-base font-bold text-ink shadow-card transition hover:brightness-[1.04] active:scale-[0.99] disabled:opacity-70"
+        className="mt-5 flex w-full items-center justify-center gap-2.5 rounded-full bg-[#0e1f3d] px-7 py-4 text-base font-bold text-white shadow-card transition hover:brightness-125 active:scale-[0.99] disabled:opacity-70"
       >
+        <span className="grid h-7 w-7 place-items-center rounded-full bg-white/15">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </span>
         {status === "loading" ? t.signup.sending : cta ?? t.signup.cta}
       </button>
 

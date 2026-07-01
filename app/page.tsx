@@ -102,8 +102,8 @@ function Hero() {
       {/* Multicolor line (logo colors) at the end of the image */}
       <div className="logo-line h-[5px] w-full" />
 
-      {/* #fdcb6e → pink (#fd79a8) gradient */}
-      <div className="relative z-10 bg-[linear-gradient(180deg,#fdcb6e_0%,#fd79a8_100%)]">
+      {/* #e17055 → pink (#fd79a8) gradient */}
+      <div className="relative z-10 bg-[linear-gradient(180deg,#e17055_0%,#fd79a8_100%)]">
         <div className="mx-auto max-w-2xl px-6 pb-16 pt-6 text-center md:pb-20">
           <p className="mx-auto max-w-md text-sm font-light leading-relaxed text-white [text-shadow:0_1px_4px_rgba(45,12,0,0.85)] sm:text-base">
             {t.hero.subtitle}
