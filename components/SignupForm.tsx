@@ -181,19 +181,17 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
       <button
         type="submit"
         disabled={status === "loading"}
-        className="mt-4 flex w-full items-center justify-center gap-2.5 rounded-full bg-[linear-gradient(180deg,#81ecec,#00cec9)] px-7 py-4 text-base font-bold text-ink shadow-card transition hover:brightness-[1.04] active:scale-[0.99] disabled:opacity-70"
+        className="mt-4 flex w-full items-center justify-center gap-2.5 rounded-full bg-[linear-gradient(180deg,#81ecec,#00cec9)] px-7 py-4 text-base font-bold text-white shadow-card transition hover:brightness-[1.04] active:scale-[0.99] disabled:opacity-70"
       >
-        <span className="grid h-7 w-7 place-items-center rounded-full bg-ink/10">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
         {status === "loading" ? t.signup.sending : cta ?? t.signup.cta}
       </button>
 
       {status === "error" && <p className="mt-2 px-1 text-sm font-semibold text-grape-600">{message}</p>}
 
-      <p className="mt-4 px-1 text-center text-lg text-white">
+      <p className="mt-3 px-1 text-center text-[11px] leading-snug text-white/90">
         {t.legal.formNotice}{" "}
         <a href="/privacidad" className="font-semibold underline">
           {t.legal.privacy}

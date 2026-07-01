@@ -61,6 +61,23 @@ const config: Config = {
         display: ["var(--font-display)", "var(--font-sans)", "sans-serif"],
         script: ["var(--font-script)", "cursive"],
       },
+      // Named text sizes reduced to 90% of Tailwind's defaults (text only —
+      // spacing, widths and layout are unaffected).
+      fontSize: {
+        xs: ["0.675rem", "0.9rem"],
+        sm: ["0.7875rem", "1.125rem"],
+        base: ["0.9rem", "1.35rem"],
+        lg: ["1.0125rem", "1.575rem"],
+        xl: ["1.125rem", "1.575rem"],
+        "2xl": ["1.35rem", "1.8rem"],
+        "3xl": ["1.6875rem", "2.025rem"],
+        "4xl": ["2.025rem", "2.25rem"],
+        "5xl": ["2.7rem", "1"],
+        "6xl": ["3.375rem", "1"],
+        "7xl": ["4.05rem", "1"],
+        "8xl": ["5.4rem", "1"],
+        "9xl": ["7.2rem", "1"],
+      },
       borderRadius: {
         "4xl": "2rem",
       },
