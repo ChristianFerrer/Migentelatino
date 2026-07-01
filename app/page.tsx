@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useLocale } from "@/components/LocaleProvider";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
-import { SignupForm } from "@/components/SignupForm";
+import { SignupForm, type ResolvedProduct } from "@/components/SignupForm";
 import { Logo } from "@/components/Logo";
-import { Flag } from "@/components/Flags";
-import { COUNTRIES } from "@/lib/products";
+import { Flag, OriginFlag } from "@/components/Flags";
+import { COUNTRIES, type CountryKey } from "@/lib/products";
+import { CATALOG } from "@/lib/catalog";
 import type { Locale } from "@/lib/i18n";
 import { track } from "@/lib/track";
 
@@ -22,6 +23,9 @@ const HERO_SIZE: Record<Locale, { t1: string; t2: string }> = {
 
 export default function Page() {
   const { locale } = useLocale();
+  // The product the visitor just submitted — used to point them to their
+  // spot in the ranking (or tell them it's under review).
+  const [mine, setMine] = useState<ResolvedProduct | null>(null);
   useEffect(() => {
     track("pageview", { locale });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -29,9 +33,9 @@ export default function Page() {
   return (
     <main className="overflow-x-hidden">
       <Nav />
-      <Hero />
+      <Hero onResolved={setMine} />
       <Marquee />
-      <RankingByCountry />
+      <RankingByCountry mine={mine} />
       <Footer />
     </main>
   );
@@ -67,7 +71,7 @@ function Nav() {
 }
 
 /* ───────────────────────── Hero ───────────────────────── */
-function Hero() {
+function Hero({ onResolved }: { onResolved: (r: ResolvedProduct) => void }) {
   const { t, locale } = useLocale();
   const size = HERO_SIZE[locale];
   return (
@@ -110,7 +114,7 @@ function Hero() {
           </p>
 
           <div id="join" className="mx-auto mt-7 max-w-2xl">
-            <SignupForm source="hero" cta={t.hero.cta} />
+            <SignupForm source="hero" cta={t.hero.cta} onResolved={onResolved} />
           </div>
         </div>
       </div>
@@ -141,110 +145,235 @@ function Marquee() {
   );
 }
 
-/* ──────────────────── Most-requested chart (Top 10, live) ──────────────────── */
-const TOP10 = COUNTRIES.flatMap((c) =>
-  c.products.map((p) => ({ country: c.key, name: p.name, votes: p.votes }))
-)
-  .sort((a, b) => b.votes - a.votes)
-  .slice(0, 10);
+/* ──────────────────── Most-requested ranking (full universe, live) ──────────────────── */
+
+/* Seed baseline: the demo votes from products.ts, keyed by product name. */
+const SEED_BY_NAME: Record<string, number> = {};
+COUNTRIES.forEach((c) => c.products.forEach((p) => (SEED_BY_NAME[p.name] = p.votes)));
+
+/* Modest, deterministic baseline for catalog products without an explicit seed
+   (keeps the chart from looking lopsided; no Math.random → SSR-safe). */
+function baselineFor(slug: string): number {
+  let h = 0;
+  for (let i = 0; i < slug.length; i++) h = (h * 31 + slug.charCodeAt(i)) >>> 0;
+  return 24 + (h % 30); // ~24–53
+}
+
+/* The whole universe the ranking can show: the canonical catalog (what real
+   demand is grouped by) plus its seed baseline. */
+const UNIVERSE = CATALOG.map((p) => ({
+  slug: p.slug,
+  name: p.name,
+  country: p.country as CountryKey,
+  seed: SEED_BY_NAME[p.name] ?? baselineFor(p.slug),
+}));
 
 /* Logo palette (red, orange, teal, green, purple) for the chart bars. */
 const CHART_COLORS = ["bg-[#e94b3b]", "bg-[#f39b2d]", "bg-[#19b4ae]", "bg-[#7fb23a]", "bg-[#a22d93]"];
 
-function RankingByCountry() {
-  const { t } = useLocale();
-  const [votes, setVotes] = useState<number[]>(TOP10.map((b) => b.votes));
-  const [realCounts, setRealCounts] = useState<Record<string, number>>({});
-  const [pulse, setPulse] = useState(-1);
+const fold = (s: string) => s.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "").trim();
 
-  // Overlay real, normalized demand from the database (grouped by canonical
-  // product) on top of the seed baseline. Different spellings already count
-  // together server-side, so each product is a single bar here.
-  useEffect(() => {
+function RankingByCountry({ mine }: { mine: ResolvedProduct | null }) {
+  const { t } = useLocale();
+  const [sim, setSim] = useState<Record<string, number>>({});
+  const [realCounts, setRealCounts] = useState<Record<string, number>>({});
+  const [pulse, setPulse] = useState<string>("");
+  const [query, setQuery] = useState("");
+  const sectionRef = useRef<HTMLElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  const rowRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+  const loadReal = () =>
     fetch("/api/ranking")
       .then((r) => r.json())
       .then((d) => setRealCounts(d?.counts ?? {}))
       .catch(() => {});
+
+  // Real, normalized demand from the DB (different spellings already grouped).
+  useEffect(() => {
+    loadReal();
   }, []);
 
-  // Simulate live voting: every ~1.8s a random product gets a few votes.
+  // Live voting, kept plausible: every ~2s one product ticks up by 1, picked
+  // weighted by current standing (popular ones move more — like real demand).
   useEffect(() => {
     const id = setInterval(() => {
-      const i = Math.floor(Math.random() * TOP10.length);
-      setVotes((prev) => {
-        const next = [...prev];
-        next[i] += 1 + Math.floor(Math.random() * 4);
-        return next;
+      setSim((prev) => {
+        const totals = UNIVERSE.map((u) => u.seed + (prev[u.slug] ?? 0) + (realCounts[u.name] ?? 0));
+        const sum = totals.reduce((a, b) => a + b, 0);
+        let r = Math.random() * sum;
+        let idx = 0;
+        for (let i = 0; i < totals.length; i++) {
+          r -= totals[i];
+          if (r <= 0) {
+            idx = i;
+            break;
+          }
+        }
+        const slug = UNIVERSE[idx].slug;
+        setPulse(slug);
+        return { ...prev, [slug]: (prev[slug] ?? 0) + 1 };
       });
-      setPulse(i);
-    }, 1800);
+    }, 2000);
     return () => clearInterval(id);
-  }, []);
+  }, [realCounts]);
 
-  // Displayed value = seed baseline + live simulation + real DB demand.
-  const display = votes.map((v, i) => v + (realCounts[TOP10[i].name] ?? 0));
-  const max = Math.max(...display);
-  const total = display.reduce((a, b) => a + b, 0);
+  // When the visitor submits, reflect their vote and bring them to their spot.
+  const matched = !!mine && (mine.status === "auto" || mine.status === "confirmed") && !!mine.slug;
+  useEffect(() => {
+    if (!mine) return;
+    if (matched && mine.name) {
+      setRealCounts((c) => ({ ...c, [mine.name!]: (c[mine.name!] ?? 0) + 1 }));
+    }
+    loadReal();
+    const to = setTimeout(() => {
+      const target = matched && mine.slug ? rowRefs.current[mine.slug] : sectionRef.current;
+      target?.scrollIntoView({ block: "center", behavior: "smooth" });
+    }, 350);
+    return () => clearTimeout(to);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mine]);
+
+  // Live-ranked universe (seed + simulation + real demand), plus any real
+  // canonical that isn't in the static catalog.
+  const known = new Set(UNIVERSE.map((u) => u.name));
+  const rows: { slug: string; name: string; country: CountryKey | null; votes: number }[] = UNIVERSE.map(
+    (u) => ({
+      slug: u.slug,
+      name: u.name,
+      country: u.country,
+      votes: u.seed + (sim[u.slug] ?? 0) + (realCounts[u.name] ?? 0),
+    })
+  );
+  Object.keys(realCounts).forEach((n) => {
+    if (!known.has(n)) rows.push({ slug: `x-${n}`, name: n, country: null, votes: realCounts[n] });
+  });
+  rows.sort((a, b) => b.votes - a.votes);
+  const ranked = rows.map((r, i) => ({ ...r, rank: i + 1 }));
+  const max = ranked[0]?.votes || 1;
+  const total = ranked.reduce((a, b) => a + b.votes, 0);
+
+  const q = fold(query);
+  const visible = q ? ranked.filter((r) => fold(r.name).includes(q)) : ranked;
+  const myRank = matched ? ranked.find((r) => r.slug === mine!.slug)?.rank : undefined;
 
   return (
-    <section id="popular" className="scroll-mt-20 py-20 sm:py-24">
+    <section ref={sectionRef} id="popular" className="scroll-mt-20 py-20 sm:py-24">
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         <h2 className="text-center font-display text-4xl uppercase tracking-tight text-ink sm:text-5xl">
           {t.popular.title}
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-center text-lg text-ink/70">{t.popular.subtitle}</p>
 
-        {/* Live dot/word beside the total-votes counter (top-right) */}
-        <div className="mt-6 flex items-end justify-end gap-3">
-          <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-red-600">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-80" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-500" />
-            </span>
-            Live
-          </div>
-          <div className="text-right">
-            <div className="text-[10px] font-bold uppercase tracking-wide text-ink/45">
-              {t.popular.votesLabel}
-            </div>
-            <div className="font-display text-2xl leading-none tabular-nums text-ink sm:text-3xl">
-              {total.toLocaleString()}
-            </div>
-          </div>
-        </div>
-
-        {/* Full-width horizontal bar chart — no borders */}
-        <div className="mt-8 space-y-2.5 sm:space-y-3">
-          {TOP10.map((b, i) => (
-            <div key={b.name} className="flex items-center gap-3">
-              {/* Product name (y-axis) */}
-              <span className="w-24 shrink-0 text-right text-[11px] font-semibold leading-tight text-ink/70 sm:w-36 sm:text-xs">
-                {b.name}
+        {/* Post-submit banner: your rank, or "under review" if it didn't match */}
+        {mine &&
+          (myRank ? (
+            <div className="mx-auto mt-6 flex max-w-xl items-center justify-center gap-2 rounded-2xl bg-mint/10 px-4 py-3 text-center text-sm font-semibold text-mint-600">
+              <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-mint text-white">✓</span>
+              <span>
+                {t.popular.yourProduct}: <span className="text-ink">{mine.name}</span> — {t.popular.rankWord} #{myRank} 🎉
               </span>
-              {/* Horizontal bar with flag + number at its tip */}
-              <div className="h-7 flex-1 sm:h-8">
-                <div
-                  className={`flex h-full items-center justify-end gap-1.5 rounded-r-md pr-2 transition-[width] duration-700 ease-out ${CHART_COLORS[i % CHART_COLORS.length]}`}
-                  style={{ width: `${(display[i] / max) * 100}%` }}
-                >
-                  <Flag code={b.country} className="h-3.5 w-5 shrink-0 rounded shadow-sm" />
-                  <span
-                    className={`text-[11px] font-extrabold leading-none text-white transition-transform ${
-                      pulse === i ? "scale-125" : "scale-100"
-                    }`}
-                  >
-                    {display[i].toLocaleString()}
-                  </span>
-                </div>
-              </div>
+            </div>
+          ) : (
+            <div className="mx-auto mt-6 max-w-xl rounded-2xl bg-sun/15 px-4 py-3 text-center text-sm font-medium text-ink/75">
+              {t.popular.pendingReview.replace("{product}", mine.raw)}
             </div>
           ))}
 
-          {/* Top 10 caption below the chart */}
-          <p className="pt-4 text-center text-xs font-bold uppercase tracking-wide text-ink/55 sm:text-sm">
-            {t.popular.top10}
-          </p>
+        {/* Search + live total-votes counter */}
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <label className="relative block w-full sm:max-w-xs">
+            <svg
+              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink/40"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
+              <path d="m20 20-3-3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={t.popular.searchPlaceholder}
+              className="w-full rounded-full border border-ink/10 bg-white py-2.5 pl-9 pr-4 text-sm text-ink outline-none transition placeholder:text-ink/40 focus:border-[#19b4ae]/60 focus:ring-4 focus:ring-[#19b4ae]/15"
+            />
+          </label>
+          <div className="flex items-end justify-end gap-3">
+            <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-red-600">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-80" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-500" />
+              </span>
+              Live
+            </div>
+            <div className="text-right">
+              <div className="text-[10px] font-bold uppercase tracking-wide text-ink/45">{t.popular.votesLabel}</div>
+              <div className="font-display text-2xl leading-none tabular-nums text-ink sm:text-3xl">
+                {total.toLocaleString()}
+              </div>
+            </div>
+          </div>
         </div>
+
+        {/* Scrollable full-universe ranking */}
+        <div
+          ref={listRef}
+          className="mt-6 max-h-[420px] space-y-2.5 overflow-y-auto pr-1 sm:max-h-[460px] sm:space-y-3"
+        >
+          {visible.length === 0 && <p className="py-10 text-center text-sm text-ink/50">{t.popular.noResults}</p>}
+          {visible.map((b) => {
+            const isMine = matched && b.slug === mine!.slug;
+            return (
+              <div
+                key={b.slug}
+                ref={(el) => {
+                  rowRefs.current[b.slug] = el;
+                }}
+                className={`flex items-center gap-2 rounded-lg sm:gap-3 ${
+                  isMine ? "bg-mint/10 ring-2 ring-mint/50" : ""
+                }`}
+              >
+                {/* Rank */}
+                <span className="w-7 shrink-0 text-right text-xs font-bold tabular-nums text-ink/45 sm:w-9 sm:text-sm">
+                  #{b.rank}
+                </span>
+                {/* Product name (y-axis) */}
+                <span className="w-24 shrink-0 text-right text-[11px] font-semibold leading-tight text-ink/70 sm:w-36 sm:text-xs">
+                  {b.name}
+                </span>
+                {/* Horizontal bar with flag + number at its tip */}
+                <div className="h-7 flex-1 sm:h-8">
+                  <div
+                    className={`flex h-full items-center justify-end gap-1.5 rounded-r-md pr-2 transition-[width] duration-700 ease-out ${CHART_COLORS[(b.rank - 1) % CHART_COLORS.length]}`}
+                    style={{ width: `${Math.max((b.votes / max) * 100, 6)}%` }}
+                  >
+                    {b.country ? (
+                      <Flag code={b.country} className="h-3.5 w-5 shrink-0 rounded shadow-sm" />
+                    ) : (
+                      <OriginFlag code="other" className="h-3.5 w-5 shrink-0 rounded shadow-sm" />
+                    )}
+                    <span
+                      className={`text-[11px] font-extrabold leading-none text-white transition-transform ${
+                        pulse === b.slug ? "scale-125" : "scale-100"
+                      }`}
+                    >
+                      {b.votes.toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Caption below the chart */}
+        <p className="pt-4 text-center text-xs font-bold uppercase tracking-wide text-ink/55 sm:text-sm">
+          {ranked.length} {t.popular.productsWord} · {t.popular.rankingCaption}
+        </p>
       </div>
     </section>
   );

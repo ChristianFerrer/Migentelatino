@@ -35,13 +35,21 @@ export async function POST(request: Request) {
   // Raw input is always preserved; this only adds derived fields.
   const match = await resolveProduct(missedProduct).catch(() => null);
 
+  // What the client needs to point the user to their spot in the ranking.
+  const product = {
+    raw: missedProduct,
+    name: match?.name ?? null,
+    slug: match?.slug ?? null,
+    status: match?.status ?? "pending",
+  };
+
   // Demo mode: no database configured yet. We still return success so the
   // landing is fully testable; the lead is simply logged, not stored.
   if (!isSupabaseConfigured) {
     console.log(
       `[subscribe:demo] ${name} | ${phone} | ${country} | "${missedProduct}" → ${match?.name ?? "?"} (${locale}/${source})`
     );
-    return NextResponse.json({ ok: true, demo: true });
+    return NextResponse.json({ ok: true, demo: true, product });
   }
 
   const supabase = getSupabase();
@@ -67,11 +75,11 @@ export async function POST(request: Request) {
   if (error) {
     // 23505 = unique_violation → already on the list. Treat as success.
     if (error.code === "23505") {
-      return NextResponse.json({ ok: true, duplicate: true });
+      return NextResponse.json({ ok: true, duplicate: true, product });
     }
     console.error("[subscribe] insert error:", error.message);
     return NextResponse.json({ ok: false, error: "server_error" }, { status: 500 });
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, product });
 }

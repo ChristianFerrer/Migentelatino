@@ -7,6 +7,14 @@ import { track } from "@/lib/track";
 
 type Status = "idle" | "loading" | "success" | "error";
 
+/** What the API resolves the user's free-text product to, for the ranking. */
+export type ResolvedProduct = {
+  raw: string;
+  name: string | null;
+  slug: string | null;
+  status: string;
+};
+
 const EXTRA_COUNTRIES = ["Chile", "Ecuador", "Bolivia", "Uruguay", "Paraguay"];
 
 /* Flag code per extra country (the six main ones use their CountryKey directly). */
@@ -20,7 +28,15 @@ const EXTRA_CODES: Record<string, string> = {
 
 type CountryOption = { value: string; label: string; code: string };
 
-export function SignupForm({ source, cta }: { source: string; cta?: string }) {
+export function SignupForm({
+  source,
+  cta,
+  onResolved,
+}: {
+  source: string;
+  cta?: string;
+  onResolved?: (r: ResolvedProduct) => void;
+}) {
   const { t, locale } = useLocale();
   const [form, setForm] = useState({ missed: "", name: "", phone: "", country: "" });
   const [status, setStatus] = useState<Status>("idle");
@@ -95,8 +111,15 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
       if (res.ok && data.ok) {
         setStatus("success");
         setMessage(t.signup.success);
+        const resolved: ResolvedProduct = data.product ?? {
+          raw: form.missed.trim(),
+          name: null,
+          slug: null,
+          status: "pending",
+        };
         setForm({ missed: "", name: "", phone: "", country: "" });
         track("form_submit", { locale });
+        onResolved?.(resolved);
       } else {
         setStatus("error");
         setMessage(t.signup.errorGeneric);

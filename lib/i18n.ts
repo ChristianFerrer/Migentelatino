@@ -31,6 +31,13 @@ type Dict = {
     hint: string;
     votesLabel: string;
     top10: string;
+    searchPlaceholder: string;
+    yourProduct: string;
+    rankWord: string;
+    pendingReview: string;
+    productsWord: string;
+    noResults: string;
+    rankingCaption: string;
     countries: Record<CountryKey, string>;
     packs: Record<PackType, string>;
   };
@@ -86,6 +93,13 @@ export const translations: Record<Locale, Dict> = {
       hint: "Pick a country",
       votesLabel: "votes",
       top10: "Top 10 most-requested products",
+      searchPlaceholder: "Search your product…",
+      yourProduct: "Your product",
+      rankWord: "rank",
+      pendingReview: "“{product}” is under review and will appear in the ranking soon.",
+      productsWord: "products",
+      noResults: "No product matches that search.",
+      rankingCaption: "Full ranking · scroll to see them all",
       countries: { pe: "Peru", co: "Colombia", br: "Brazil", ar: "Argentina", mx: "Mexico", ve: "Venezuela" },
       packs: { bottle: "Drink", can: "Canned", jar: "Jar", box: "Boxed", pouch: "Packet", coffee: "Coffee", cookies: "Cookies" },
     },
@@ -139,6 +153,13 @@ export const translations: Record<Locale, Dict> = {
       hint: "Elige un país",
       votesLabel: "votos",
       top10: "Top 10 productos más pedidos",
+      searchPlaceholder: "Busca tu producto…",
+      yourProduct: "Tu producto",
+      rankWord: "puesto",
+      pendingReview: "«{product}» está en revisión y aparecerá en el ranking pronto.",
+      productsWord: "productos",
+      noResults: "No encontramos ese producto.",
+      rankingCaption: "Ranking completo · desliza para verlos todos",
       countries: { pe: "Perú", co: "Colombia", br: "Brasil", ar: "Argentina", mx: "México", ve: "Venezuela" },
       packs: { bottle: "Bebida", can: "Lata", jar: "Tarro", box: "Caja", pouch: "Paquete", coffee: "Café", cookies: "Galletas" },
     },
@@ -192,6 +213,13 @@ export const translations: Record<Locale, Dict> = {
       hint: "Land wählen",
       votesLabel: "Stimmen",
       top10: "Top 10 der meistgefragten Produkte",
+      searchPlaceholder: "Suche dein Produkt…",
+      yourProduct: "Dein Produkt",
+      rankWord: "Platz",
+      pendingReview: "„{product}“ wird geprüft und erscheint bald im Ranking.",
+      productsWord: "Produkte",
+      noResults: "Kein Produkt passt zu dieser Suche.",
+      rankingCaption: "Komplettes Ranking · scrollen, um alle zu sehen",
       countries: { pe: "Peru", co: "Kolumbien", br: "Brasilien", ar: "Argentinien", mx: "Mexiko", ve: "Venezuela" },
       packs: { bottle: "Getränk", can: "Dose", jar: "Glas", box: "Schachtel", pouch: "Packung", coffee: "Kaffee", cookies: "Kekse" },
     },
@@ -245,6 +273,13 @@ export const translations: Record<Locale, Dict> = {
       hint: "Escolha um país",
       votesLabel: "votos",
       top10: "Top 10 produtos mais pedidos",
+      searchPlaceholder: "Busque seu produto…",
+      yourProduct: "Seu produto",
+      rankWord: "posição",
+      pendingReview: "«{product}» está em análise e aparecerá no ranking em breve.",
+      productsWord: "produtos",
+      noResults: "Nenhum produto corresponde a essa busca.",
+      rankingCaption: "Ranking completo · deslize para ver todos",
       countries: { pe: "Peru", co: "Colômbia", br: "Brasil", ar: "Argentina", mx: "México", ve: "Venezuela" },
       packs: { bottle: "Bebida", can: "Lata", jar: "Pote", box: "Caixa", pouch: "Pacote", coffee: "Café", cookies: "Biscoitos" },
     },
