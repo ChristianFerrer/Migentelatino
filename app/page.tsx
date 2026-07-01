@@ -179,9 +179,29 @@ function RankingByCountry({ mine }: { mine: ResolvedProduct | null }) {
   const [realCounts, setRealCounts] = useState<Record<string, number>>({});
   const [pulse, setPulse] = useState<string>("");
   const [query, setQuery] = useState("");
+  const [areaW, setAreaW] = useState(0); // px width available for the bars
   const sectionRef = useRef<HTMLElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const rowRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+  // Measure the bar track so we can tell when a bar is too small to hold the
+  // number + flag inside (then they pop just outside its right edge).
+  useEffect(() => {
+    const measure = () => {
+      const el = listRef.current;
+      if (!el) return;
+      const offset = window.innerWidth >= 640 ? 208 : 144; // rank + name cols + gaps
+      setAreaW(Math.max(el.clientWidth - offset, 0));
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    if (listRef.current) ro.observe(listRef.current);
+    window.addEventListener("resize", measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, []);
 
   const loadReal = () =>
     fetch("/api/ranking")
@@ -327,6 +347,14 @@ function RankingByCountry({ mine }: { mine: ResolvedProduct | null }) {
           {visible.length === 0 && <p className="py-10 text-center text-sm text-ink/50">{t.popular.noResults}</p>}
           {visible.map((b) => {
             const isMine = matched && b.slug === mine!.slug;
+            // Is the bar wide enough to hold the number + flag inside it?
+            const barPx = (b.votes / max) * areaW;
+            const inside = areaW ? barPx >= 68 : b.votes / max >= 0.18;
+            const flag = b.country ? (
+              <Flag code={b.country} className="h-3.5 w-5 shrink-0 rounded shadow-sm" />
+            ) : (
+              <OriginFlag code="other" className="h-3.5 w-5 shrink-0 rounded shadow-sm" />
+            );
             return (
               <div
                 key={b.slug}
@@ -345,25 +373,38 @@ function RankingByCountry({ mine }: { mine: ResolvedProduct | null }) {
                 <span className="w-24 shrink-0 text-right text-[11px] font-semibold leading-tight text-ink/70 sm:w-36 sm:text-xs">
                   {b.name}
                 </span>
-                {/* Horizontal bar with flag + number at its tip */}
-                <div className="h-7 flex-1 sm:h-8">
+                {/* Bar: number then flag (flag on the right). Both sit inside the
+                    bar, or pop just outside its right edge when it's too small. */}
+                <div className="flex h-7 flex-1 items-center sm:h-8">
                   <div
-                    className={`flex h-full items-center justify-end gap-1.5 rounded-r-md pr-2 transition-[width] duration-700 ease-out ${CHART_COLORS[(b.rank - 1) % CHART_COLORS.length]}`}
-                    style={{ width: `${Math.max((b.votes / max) * 100, 6)}%` }}
+                    className={`flex h-full min-w-0 items-center justify-end gap-1.5 rounded-r-md pr-2 transition-[width] duration-700 ease-out ${CHART_COLORS[(b.rank - 1) % CHART_COLORS.length]}`}
+                    style={{ width: `${Math.max((b.votes / max) * 100, 4)}%` }}
                   >
-                    {b.country ? (
-                      <Flag code={b.country} className="h-3.5 w-5 shrink-0 rounded shadow-sm" />
-                    ) : (
-                      <OriginFlag code="other" className="h-3.5 w-5 shrink-0 rounded shadow-sm" />
+                    {inside && (
+                      <>
+                        <span
+                          className={`text-[11px] font-extrabold leading-none text-white transition-transform ${
+                            pulse === b.slug ? "scale-125" : "scale-100"
+                          }`}
+                        >
+                          {b.votes.toLocaleString()}
+                        </span>
+                        {flag}
+                      </>
                     )}
-                    <span
-                      className={`text-[11px] font-extrabold leading-none text-white transition-transform ${
-                        pulse === b.slug ? "scale-125" : "scale-100"
-                      }`}
-                    >
-                      {b.votes.toLocaleString()}
-                    </span>
                   </div>
+                  {!inside && (
+                    <div className="flex shrink-0 items-center gap-1.5 pl-1.5">
+                      <span
+                        className={`text-[11px] font-extrabold leading-none text-ink transition-transform ${
+                          pulse === b.slug ? "scale-125" : "scale-100"
+                        }`}
+                      >
+                        {b.votes.toLocaleString()}
+                      </span>
+                      {flag}
+                    </div>
+                  )}
                 </div>
               </div>
             );
