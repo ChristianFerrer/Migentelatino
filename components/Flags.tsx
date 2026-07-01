@@ -110,6 +110,88 @@ const localeBands: Record<Locale, ReactElement> = {
   ),
 };
 
+/* Extra country flags (same flat style) for the "País de origen" picker,
+   beyond the six that already exist in `bands`. */
+const originExtraBands: Record<string, ReactElement> = {
+  cl: (
+    <>
+      <rect width="24" height="16" fill="#FFFFFF" />
+      <rect y="8" width="24" height="8" fill="#D52B1E" />
+      <rect width="8" height="8" fill="#0039A6" />
+      <polygon
+        points="4,2 4.47,3.353 5.902,3.382 4.761,4.247 5.176,5.618 4,4.8 2.824,5.618 3.239,4.247 2.098,3.382 3.53,3.353"
+        fill="#FFFFFF"
+      />
+    </>
+  ),
+  ec: (
+    <>
+      <rect width="24" height="16" fill="#FFDD00" />
+      <rect y="8" width="24" height="4" fill="#034EA2" />
+      <rect y="12" width="24" height="4" fill="#ED1C24" />
+    </>
+  ),
+  bo: (
+    <>
+      <rect width="24" height="5.34" fill="#D52B1E" />
+      <rect y="5.34" width="24" height="5.33" fill="#F9E300" />
+      <rect y="10.67" width="24" height="5.33" fill="#007934" />
+    </>
+  ),
+  uy: (
+    <>
+      <rect width="24" height="16" fill="#FFFFFF" />
+      <rect y="1.78" width="24" height="1.78" fill="#0038A8" />
+      <rect y="5.34" width="24" height="1.78" fill="#0038A8" />
+      <rect y="8.9" width="24" height="1.78" fill="#0038A8" />
+      <rect y="12.46" width="24" height="1.78" fill="#0038A8" />
+      <rect width="8" height="7.12" fill="#FFFFFF" />
+      <circle cx="4" cy="3.56" r="1.6" fill="#FCD116" />
+    </>
+  ),
+  py: (
+    <>
+      <rect width="24" height="5.34" fill="#D52B1E" />
+      <rect y="5.34" width="24" height="5.33" fill="#FFFFFF" />
+      <rect y="10.67" width="24" height="5.33" fill="#0038A8" />
+      <polygon
+        points="12,6.6 12.329,7.547 13.331,7.567 12.533,8.173 12.823,9.133 12,8.56 11.177,9.133 11.467,8.173 10.669,7.567 11.671,7.547"
+        fill="#F5C518"
+        stroke="rgba(0,0,0,0.25)"
+        strokeWidth="0.25"
+      />
+    </>
+  ),
+  other: (
+    <>
+      <rect width="24" height="16" fill="#8FA3B8" />
+      <circle cx="12" cy="8" r="4.4" fill="none" stroke="#FFFFFF" strokeWidth="0.9" />
+      <ellipse cx="12" cy="8" rx="1.9" ry="4.4" fill="none" stroke="#FFFFFF" strokeWidth="0.9" />
+      <line x1="7.6" y1="8" x2="16.4" y2="8" stroke="#FFFFFF" strokeWidth="0.9" />
+    </>
+  ),
+};
+
+/* Flag for a country-of-origin option: reuses the six main country flags and
+   adds the extras above; falls back to the globe for anything unknown. */
+export function OriginFlag({ code, className = "" }: { code: string; className?: string }) {
+  const id = useId().replace(/:/g, "");
+  const clip = `oflag-${code}-${id}`;
+  const content =
+    (bands as Record<string, ReactElement>)[code] ?? originExtraBands[code] ?? originExtraBands.other;
+  return (
+    <svg viewBox="0 0 24 16" className={className} role="img" aria-hidden="true">
+      <defs>
+        <clipPath id={clip}>
+          <rect width="24" height="16" rx="2.5" />
+        </clipPath>
+      </defs>
+      <g clipPath={`url(#${clip})`}>{content}</g>
+      <rect x="0.4" y="0.4" width="23.2" height="15.2" rx="2.2" fill="none" stroke="rgba(0,0,0,0.14)" strokeWidth="0.8" />
+    </svg>
+  );
+}
+
 export function LocaleFlag({ code, className = "" }: { code: Locale; className?: string }) {
   const id = useId().replace(/:/g, "");
   const clip = `lflag-${code}-${id}`;

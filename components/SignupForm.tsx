@@ -2,26 +2,23 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useLocale } from "./LocaleProvider";
+import { OriginFlag } from "./Flags";
 import { track } from "@/lib/track";
 
 type Status = "idle" | "loading" | "success" | "error";
 
 const EXTRA_COUNTRIES = ["Chile", "Ecuador", "Bolivia", "Uruguay", "Paraguay"];
 
-/* Flag emoji per country so the "País de origen" select shows a flag for each option. */
-const FLAG_EMOJI: Record<string, string> = {
-  pe: "🇵🇪",
-  co: "🇨🇴",
-  br: "🇧🇷",
-  ar: "🇦🇷",
-  mx: "🇲🇽",
-  ve: "🇻🇪",
-  Chile: "🇨🇱",
-  Ecuador: "🇪🇨",
-  Bolivia: "🇧🇴",
-  Uruguay: "🇺🇾",
-  Paraguay: "🇵🇾",
+/* Flag code per extra country (the six main ones use their CountryKey directly). */
+const EXTRA_CODES: Record<string, string> = {
+  Chile: "cl",
+  Ecuador: "ec",
+  Bolivia: "bo",
+  Uruguay: "uy",
+  Paraguay: "py",
 };
+
+type CountryOption = { value: string; label: string; code: string };
 
 export function SignupForm({ source, cta }: { source: string; cta?: string }) {
   const { t, locale } = useLocale();
@@ -31,15 +28,15 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
   const formRef = useRef<HTMLFormElement>(null);
   const started = useRef(false);
 
-  // Country options with a flag on each. Value = the country name we store;
-  // label = flag + name shown in the select (works for the selected value too).
-  const countryOptions = [
+  // Country options, each carrying a flag code for the custom picker.
+  const countryOptions: CountryOption[] = [
     ...(Object.keys(t.popular.countries) as (keyof typeof t.popular.countries)[]).map((k) => ({
       value: t.popular.countries[k],
-      label: `${FLAG_EMOJI[k as string] ?? ""} ${t.popular.countries[k]}`.trim(),
+      label: t.popular.countries[k],
+      code: k as string,
     })),
-    ...EXTRA_COUNTRIES.map((c) => ({ value: c, label: `${FLAG_EMOJI[c] ?? ""} ${c}`.trim() })),
-    { value: t.signup.countryOther, label: `🌎 ${t.signup.countryOther}` },
+    ...EXTRA_COUNTRIES.map((c) => ({ value: c, label: c, code: EXTRA_CODES[c] })),
+    { value: t.signup.countryOther, label: t.signup.countryOther, code: "other" },
   ];
 
   // Fire form_view once when the form scrolls into view.
@@ -161,21 +158,12 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
           aria-label={t.signup.phonePlaceholder}
           className={fieldClass}
         />
-        <select
+        <CountrySelect
           value={form.country}
-          onChange={(e) => update("country", e.target.value)}
-          aria-label={t.signup.countryPlaceholder}
-          className={`${fieldClass} ${form.country ? "" : "text-white/70"}`}
-        >
-          <option value="" disabled>
-            {t.signup.countryPlaceholder}
-          </option>
-          {countryOptions.map((c) => (
-            <option key={c.value} value={c.value} className="text-ink">
-              {c.label}
-            </option>
-          ))}
-        </select>
+          options={countryOptions}
+          placeholder={t.signup.countryPlaceholder}
+          onChange={(v) => update("country", v)}
+        />
       </div>
 
       <button
@@ -198,5 +186,88 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
         </a>
       </p>
     </form>
+  );
+}
+
+/* Country-of-origin picker with SVG flag icons (native <select> can't render SVG),
+   styled to match the translucent form fields. */
+function CountrySelect({
+  value,
+  options,
+  placeholder,
+  onChange,
+}: {
+  value: string;
+  options: CountryOption[];
+  placeholder: string;
+  onChange: (value: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const selected = options.find((o) => o.value === value);
+
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, []);
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-label={placeholder}
+        className="flex w-full items-center gap-2 rounded-xl bg-white/20 px-4 py-3.5 text-base font-medium text-white outline-none transition focus:bg-white/30 focus:ring-4 focus:ring-white/25"
+      >
+        {selected ? (
+          <>
+            <OriginFlag code={selected.code} className="h-3.5 w-5 shrink-0 rounded-[3px]" />
+            <span className="truncate">{selected.label}</span>
+          </>
+        ) : (
+          <span className="truncate font-light text-white/70">{placeholder}</span>
+        )}
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 12 12"
+          className={`ml-auto shrink-0 transition ${open ? "rotate-180" : ""}`}
+          aria-hidden="true"
+        >
+          <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+        </svg>
+      </button>
+      {open && (
+        <ul
+          role="listbox"
+          className="absolute left-0 right-0 z-50 mb-2 bottom-full max-h-60 overflow-auto rounded-2xl border border-ink/10 bg-white p-1 shadow-soft"
+        >
+          {options.map((o) => (
+            <li key={o.value}>
+              <button
+                type="button"
+                role="option"
+                aria-selected={o.value === value}
+                onClick={() => {
+                  onChange(o.value);
+                  setOpen(false);
+                }}
+                className={`flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition ${
+                  o.value === value ? "bg-ink/[0.06] text-ink" : "text-ink/70 hover:bg-ink/[0.04] hover:text-ink"
+                }`}
+              >
+                <OriginFlag code={o.code} className="h-3.5 w-5 shrink-0 rounded-[3px]" />
+                {o.label}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }
