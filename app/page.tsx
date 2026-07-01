@@ -105,7 +105,7 @@ function Hero() {
       {/* #e17055 → pink (#fd79a8) gradient */}
       <div className="relative z-10 bg-[linear-gradient(180deg,#e17055_0%,#fd79a8_100%)]">
         <div className="mx-auto max-w-2xl px-6 pb-16 pt-6 text-center md:pb-20">
-          <p className="mx-auto max-w-md text-sm font-light leading-relaxed text-white sm:text-base">
+          <p className="mx-auto max-w-xl text-lg text-white">
             {t.hero.subtitle}
           </p>
 
@@ -148,7 +148,8 @@ const TOP10 = COUNTRIES.flatMap((c) =>
   .sort((a, b) => b.votes - a.votes)
   .slice(0, 10);
 
-const CHART_COLORS = ["bg-coral", "bg-grape", "bg-mint", "bg-sun", "bg-olive"];
+/* Logo palette (red, orange, teal, green, purple) for the chart bars. */
+const CHART_COLORS = ["bg-[#e94b3b]", "bg-[#f39b2d]", "bg-[#19b4ae]", "bg-[#7fb23a]", "bg-[#a22d93]"];
 
 function RankingByCountry() {
   const { t } = useLocale();
@@ -255,19 +256,19 @@ function Footer() {
   const year = 2026;
   return (
     <footer className="border-t border-ink/10 bg-white">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 px-6 py-10 text-center sm:flex-row sm:justify-between sm:text-left">
-        <div>
+      <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-8 sm:flex-row sm:items-center sm:justify-between">
+        {/* Logo flush left with its tagline beside it */}
+        <div className="flex items-center gap-3">
           <Logo className="h-9" />
-          <p className="mt-2 text-sm font-medium text-ink/70">{t.footer.tagline}</p>
+          <p className="text-sm font-medium text-ink/70">{t.footer.tagline}</p>
         </div>
-        <div className="text-sm font-medium text-ink/60">
-          <p>© {year} Mi Gente Latino. {t.footer.rights}</p>
-          <p className="mt-1">{t.footer.madeWith} 🌶️</p>
-          <div className="mt-2 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs font-semibold text-ink/40 sm:justify-start">
-            <a href="/privacidad" className="transition hover:text-ink/70">{t.legal.privacy}</a>
-            <a href="/aviso-legal" className="transition hover:text-ink/70">{t.legal.imprint}</a>
-            <a href="/crm" className="transition hover:text-ink/70">{t.footer.crm} →</a>
-          </div>
+        {/* All the extra text on one horizontal row */}
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 text-xs font-semibold text-ink/50">
+          <a href="/privacidad" className="transition hover:text-ink/80">{t.legal.privacy}</a>
+          <a href="/aviso-legal" className="transition hover:text-ink/80">{t.legal.imprint}</a>
+          <a href="/crm" className="transition hover:text-ink/80">{t.footer.crm} →</a>
+          <span className="text-ink/40">© {year} Mi Gente Latino. {t.footer.rights}</span>
+          <span className="text-ink/40">{t.footer.madeWith} 🌶️</span>
         </div>
       </div>
     </footer>

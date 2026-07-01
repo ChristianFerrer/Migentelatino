@@ -8,6 +8,21 @@ type Status = "idle" | "loading" | "success" | "error";
 
 const EXTRA_COUNTRIES = ["Chile", "Ecuador", "Bolivia", "Uruguay", "Paraguay"];
 
+/* Flag emoji per country so the "País de origen" select shows a flag for each option. */
+const FLAG_EMOJI: Record<string, string> = {
+  pe: "🇵🇪",
+  co: "🇨🇴",
+  br: "🇧🇷",
+  ar: "🇦🇷",
+  mx: "🇲🇽",
+  ve: "🇻🇪",
+  Chile: "🇨🇱",
+  Ecuador: "🇪🇨",
+  Bolivia: "🇧🇴",
+  Uruguay: "🇺🇾",
+  Paraguay: "🇵🇾",
+};
+
 export function SignupForm({ source, cta }: { source: string; cta?: string }) {
   const { t, locale } = useLocale();
   const [form, setForm] = useState({ missed: "", name: "", phone: "", country: "" });
@@ -16,7 +31,16 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
   const formRef = useRef<HTMLFormElement>(null);
   const started = useRef(false);
 
-  const countries = [...Object.values(t.popular.countries), ...EXTRA_COUNTRIES, t.signup.countryOther];
+  // Country options with a flag on each. Value = the country name we store;
+  // label = flag + name shown in the select (works for the selected value too).
+  const countryOptions = [
+    ...(Object.keys(t.popular.countries) as (keyof typeof t.popular.countries)[]).map((k) => ({
+      value: t.popular.countries[k],
+      label: `${FLAG_EMOJI[k as string] ?? ""} ${t.popular.countries[k]}`.trim(),
+    })),
+    ...EXTRA_COUNTRIES.map((c) => ({ value: c, label: `${FLAG_EMOJI[c] ?? ""} ${c}`.trim() })),
+    { value: t.signup.countryOther, label: `🌎 ${t.signup.countryOther}` },
+  ];
 
   // Fire form_view once when the form scrolls into view.
   useEffect(() => {
@@ -100,8 +124,9 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
     );
   }
 
+  // One shared style so every field has the same font family, size and weight.
   const fieldClass =
-    "w-full rounded-xl bg-white/20 px-4 py-3 text-[15px] font-medium text-white outline-none transition placeholder:font-light placeholder:text-white/70 focus:bg-white/30 focus:ring-4 focus:ring-white/25";
+    "w-full rounded-xl bg-white/20 px-4 py-3.5 text-base font-medium text-white outline-none transition placeholder:font-light placeholder:text-white/70 focus:bg-white/30 focus:ring-4 focus:ring-white/25";
 
   return (
     <form ref={formRef} onSubmit={handleSubmit} onFocusCapture={onFirstInteraction} className="w-full" noValidate>
@@ -113,7 +138,7 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
         placeholder={t.signup.missedPlaceholder}
         maxLength={120}
         aria-label={t.signup.missedLabel}
-        className="w-full rounded-2xl bg-white/20 px-5 py-4 text-lg font-semibold text-white outline-none transition placeholder:font-light placeholder:text-white/60 focus:bg-white/30 focus:ring-4 focus:ring-white/25 sm:text-xl"
+        className={fieldClass}
       />
 
       <div className="mt-3 grid gap-3 sm:grid-cols-3">
@@ -145,9 +170,9 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
           <option value="" disabled>
             {t.signup.countryPlaceholder}
           </option>
-          {countries.map((c) => (
-            <option key={c} value={c} className="text-ink">
-              {c}
+          {countryOptions.map((c) => (
+            <option key={c.value} value={c.value} className="text-ink">
+              {c.label}
             </option>
           ))}
         </select>
@@ -168,7 +193,7 @@ export function SignupForm({ source, cta }: { source: string; cta?: string }) {
 
       {status === "error" && <p className="mt-2 px-1 text-sm font-semibold text-grape-600">{message}</p>}
 
-      <p className="mt-3 px-1 text-center text-[11px] leading-snug text-white/90">
+      <p className="mt-4 px-1 text-center text-lg text-white">
         {t.legal.formNotice}{" "}
         <a href="/privacidad" className="font-semibold underline">
           {t.legal.privacy}
