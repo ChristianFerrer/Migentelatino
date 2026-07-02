@@ -177,6 +177,7 @@ function RankingByCountry({ mine }: { mine: ResolvedProduct | null }) {
   const { t } = useLocale();
   const [sim, setSim] = useState<Record<string, number>>({});
   const [realCounts, setRealCounts] = useState<Record<string, number>>({});
+  const [realCountry, setRealCountry] = useState<Record<string, string>>({});
   const [pulse, setPulse] = useState<string>("");
   const [query, setQuery] = useState("");
   const [areaW, setAreaW] = useState(0); // px width available for the bars
@@ -206,7 +207,10 @@ function RankingByCountry({ mine }: { mine: ResolvedProduct | null }) {
   const loadReal = () =>
     fetch("/api/ranking")
       .then((r) => r.json())
-      .then((d) => setRealCounts(d?.counts ?? {}))
+      .then((d) => {
+        setRealCounts(d?.counts ?? {});
+        setRealCountry(d?.countries ?? {});
+      })
       .catch(() => {});
 
   // Real, normalized demand from the DB (different spellings already grouped).
@@ -257,7 +261,7 @@ function RankingByCountry({ mine }: { mine: ResolvedProduct | null }) {
   // Live-ranked universe (seed + simulation + real demand), plus any real
   // canonical that isn't in the static catalog.
   const known = new Set(UNIVERSE.map((u) => u.name));
-  const rows: { slug: string; name: string; country: CountryKey | null; votes: number }[] = UNIVERSE.map(
+  const rows: { slug: string; name: string; country: string | null; votes: number }[] = UNIVERSE.map(
     (u) => ({
       slug: u.slug,
       name: u.name,
@@ -266,7 +270,9 @@ function RankingByCountry({ mine }: { mine: ResolvedProduct | null }) {
     })
   );
   Object.keys(realCounts).forEach((n) => {
-    if (!known.has(n)) rows.push({ slug: `x-${n}`, name: n, country: null, votes: realCounts[n] });
+    // Products created in the CRM (not in the static catalog) carry their own
+    // country from the DB → real flag instead of the neutral globe.
+    if (!known.has(n)) rows.push({ slug: `x-${n}`, name: n, country: realCountry[n] ?? null, votes: realCounts[n] });
   });
   rows.sort((a, b) => b.votes - a.votes);
   const ranked = rows.map((r, i) => ({ ...r, rank: i + 1 }));
@@ -350,11 +356,7 @@ function RankingByCountry({ mine }: { mine: ResolvedProduct | null }) {
             // Is the bar wide enough to hold the number + flag inside it?
             const barPx = (b.votes / max) * areaW;
             const inside = areaW ? barPx >= 68 : b.votes / max >= 0.18;
-            const flag = b.country ? (
-              <Flag code={b.country} className="h-3.5 w-5 shrink-0 rounded shadow-sm" />
-            ) : (
-              <OriginFlag code="other" className="h-3.5 w-5 shrink-0 rounded shadow-sm" />
-            );
+            const flag = <OriginFlag code={b.country ?? "other"} className="h-3.5 w-5 shrink-0 rounded shadow-sm" />;
             return (
               <div
                 key={b.slug}
